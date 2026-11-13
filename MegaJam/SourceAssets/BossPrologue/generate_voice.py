@@ -31,7 +31,7 @@ FFMPEG = shutil.which("ffmpeg") or Path(r"D:\ffmpeg-8.0.1-full_build\bin\ffmpeg.
 LINES = [
     ("01_Hero_Challenge", "Prepare yourself, dragon!", "en-US-GuyNeural", "+6%", "+0Hz"),
     ("02_Dragon_Threat", "Ha ha ha! I'll roast you alive!", "en-US-ChristopherNeural", "-8%", "-18Hz"),
-    ("03_Dragon_MissingLegs", "...Where did my legs go?", "en-US-ChristopherNeural", "-10%", "-18Hz"),
+    ("03_Dragon_MissingLegs", "Wait... Where did my legs go?", "en-US-ChristopherNeural", "-10%", "-18Hz"),
     ("04_Dragon_Protest", "You took my legs because they were off camera?", "en-US-ChristopherNeural", "-8%", "-18Hz"),
 ]
 
