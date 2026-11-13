@@ -1,0 +1,87 @@
+{
+  "source": "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\tripo_convert_d5780a3a-1d2e-4f65-993d-11e07520e1d0.fbx",
+  "source_texture": "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\tripo_convert_d5780a3a-1d2e-4f65-993d-11e07520e1d0.fbm\\heroic_knight_3d_model_basecolor.PNG",
+  "vertices": 2524,
+  "triangles": 5100,
+  "source_uv": {
+    "islands": 980,
+    "uv_area_sum": 0.5923625528812408,
+    "zero_area_faces": 0,
+    "stretch_p50": 1.0555276529530773,
+    "stretch_p95": 1.162541596798258,
+    "stretch_max": 1.2831948160219329,
+    "stretch_over_3_faces": 0,
+    "bounds": [
+      [
+        0.001220703125,
+        0.998779296875
+      ],
+      [
+        0.001220703125,
+        0.998779296875
+      ]
+    ]
+  },
+  "clean_uv": {
+    "islands": 238,
+    "uv_area_sum": 0.4689447886516973,
+    "zero_area_faces": 0,
+    "stretch_p50": 1.020051781301853,
+    "stretch_p95": 1.1125305050940775,
+    "stretch_max": 1.7098089508892025,
+    "stretch_over_3_faces": 0,
+    "bounds": [
+      [
+        9.541984763927758e-05,
+        0.9999045729637146
+      ],
+      [
+        9.567546658217907e-05,
+        0.9999043345451355
+      ]
+    ]
+  },
+  "uv_overlap_test": {
+    "sample_resolution": 1024,
+    "occupied_pixels": 491595,
+    "overlap_pixels": 0,
+    "max_triangle_hits": 1
+  },
+  "world_bounds_m": [
+    [
+      -0.9980469942092896,
+      0.998046875
+    ],
+    [
+      -0.32226473093032837,
+      0.32226547598838806
+    ],
+    [
+      -2.2743918748346914e-07,
+      1.7382808923721313
+    ]
+  ],
+  "atlas_pixels": 4096,
+  "bake_margin_pixels": 8,
+  "xatlas_charts": 235,
+  "xatlas_atlas_size": [
+    5240,
+    5226
+  ],
+  "xatlas_padding": 18,
+  "xatlas_version": "0.0.11",
+  "palette_texels": {
+    "gold": 1088392,
+    "pale_armor": 635742,
+    "skin": 524673,
+    "burgundy_cloth": 2114805,
+    "green_cloth": 746619,
+    "used": 9520161
+  },
+  "outputs": [
+    "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\CleanUV_BaseColor.png",
+    "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\CleanUV_ORM.png",
+    "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\CleanUV_Knight.blend",
+    "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\CleanUV_Preview.png"
+  ]
+}

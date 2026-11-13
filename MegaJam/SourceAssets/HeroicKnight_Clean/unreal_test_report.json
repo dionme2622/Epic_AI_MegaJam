@@ -1,0 +1,12 @@
+{
+  "level": "/Game/Assets/HeroicKnight_Clean/L_HeroicKnight_Clean_Test",
+  "mesh": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged.HeroicKnight_Clean_Rigged",
+  "animation": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_Anim.HeroicKnight_Clean_Rigged_Anim",
+  "actors": [
+    "HeroicKnight_Clean_Idle_Test",
+    "Preview_Floor",
+    "Preview_Key_Light",
+    "Preview_Sky_Light",
+    "Preview_Camera"
+  ]
+}

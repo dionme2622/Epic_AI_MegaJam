@@ -1,0 +1,15 @@
+{
+  "mesh": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged.HeroicKnight_Clean_Rigged",
+  "height_cm": 173.82811235783083,
+  "animation": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_Anim.HeroicKnight_Clean_Rigged_Anim",
+  "animation_length_s": 2.0,
+  "material": "/Game/Assets/HeroicKnight_Clean/M_HeroicKnight_Clean.M_HeroicKnight_Clean",
+  "material_textures": [
+    "/Game/Assets/HeroicKnight_Clean/CleanUV_BaseColor.CleanUV_BaseColor",
+    "/Game/Assets/HeroicKnight_Clean/CleanUV_ORM.CleanUV_ORM"
+  ],
+  "physics_asset": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_PhysicsAsset.HeroicKnight_Clean_Rigged_PhysicsAsset",
+  "physics_asset_compatible": true,
+  "test_level": "/Game/Assets/HeroicKnight_Clean/L_HeroicKnight_Clean_Test",
+  "test_actor": "HeroicKnight_Clean_Idle_Test"
+}
