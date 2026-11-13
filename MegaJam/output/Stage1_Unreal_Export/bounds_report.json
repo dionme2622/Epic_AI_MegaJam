@@ -1,0 +1,129 @@
+{
+  "Stage1_Ground": {
+    "min": [
+      -1200.0,
+      -150.00010681152344,
+      -215.0
+    ],
+    "max": [
+      10200.0,
+      150.00010681152344,
+      260.0
+    ],
+    "materials": [
+      "/Game/Stage1Generated/Meshes/M_Stone_Mauve.M_Stone_Mauve",
+      "/Game/Stage1Generated/Meshes/M_Stone_Plum.M_Stone_Plum",
+      "/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone",
+      "/Game/Stage1Generated/Meshes/M_Stone_Light.M_Stone_Light",
+      "/Game/Stage1Generated/Meshes/M_Stone_Dark.M_Stone_Dark",
+      "/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim"
+    ]
+  },
+  "Stage1_Backdrop": {
+    "min": [
+      -1200.0,
+      -377.50006103515625,
+      -119.99996948242188
+    ],
+    "max": [
+      10200.0,
+      134.0,
+      980.0
+    ],
+    "materials": [
+      "/Game/Stage1Generated/Meshes/M_Stone_Mauve.M_Stone_Mauve",
+      "/Game/Stage1Generated/Meshes/M_Stone_Light.M_Stone_Light",
+      "/Game/Stage1Generated/Meshes/M_Stone_Plum.M_Stone_Plum",
+      "/Game/Stage1Generated/Meshes/M_Wireframe_Cyan.M_Wireframe_Cyan",
+      "/Game/Stage1Generated/Meshes/M_Painted_Backdrop.M_Painted_Backdrop",
+      "/Game/Stage1Generated/Meshes/M_Stone_Dark.M_Stone_Dark",
+      "/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim",
+      "/Game/Stage1Generated/Meshes/M_Backstage_Wood.M_Backstage_Wood",
+      "/Game/Stage1Generated/Meshes/M_Lantern_Glow.M_Lantern_Glow",
+      "/Game/Stage1Generated/Meshes/M_Theatre_Curtain.M_Theatre_Curtain",
+      "/Game/Stage1Generated/Meshes/M_Dev_Paper.M_Dev_Paper",
+      "/Game/Stage1Generated/Meshes/M_Door_Wood.M_Door_Wood"
+    ]
+  },
+  "Wheel_High": {
+    "min": [
+      -100.0,
+      -31.000001907348633,
+      -100.0
+    ],
+    "max": [
+      100.0,
+      31.000001907348633,
+      100.0
+    ],
+    "materials": [
+      "/Game/Stage1Generated/PivotReady/Wheel_Stone.Wheel_Stone",
+      "/Game/Stage1Generated/PivotReady/Wheel_Face.Wheel_Face",
+      "/Game/Stage1Generated/PivotReady/Wheel_Gold.Wheel_Gold"
+    ]
+  },
+  "Wheel_Low": {
+    "min": [
+      -100.0,
+      -31.000001907348633,
+      -100.0
+    ],
+    "max": [
+      100.0,
+      31.000001907348633,
+      100.0
+    ],
+    "materials": [
+      "/Game/Stage1Generated/PivotReady/Wheel_Stone.Wheel_Stone",
+      "/Game/Stage1Generated/PivotReady/Wheel_Face.Wheel_Face",
+      "/Game/Stage1Generated/PivotReady/Wheel_Gold.Wheel_Gold"
+    ]
+  },
+  "Gear_High": {
+    "min": [
+      -109.47032165527344,
+      -20.000009536743164,
+      -109.47032165527344
+    ],
+    "max": [
+      109.47032165527344,
+      20.000009536743164,
+      109.47032165527344
+    ],
+    "materials": [
+      "/Game/Stage1Generated/PivotReady/M_Brass_Trim.M_Brass_Trim"
+    ]
+  },
+  "Gear_Low": {
+    "min": [
+      -103.0,
+      -20.000009536743164,
+      -103.0
+    ],
+    "max": [
+      103.0,
+      20.000009536743164,
+      103.0
+    ],
+    "materials": [
+      "/Game/Stage1Generated/PivotReady/M_Brass_Trim.M_Brass_Trim"
+    ]
+  },
+  "LiftPlatform": {
+    "min": [
+      -150.00001525878906,
+      -110.00001525878906,
+      -15.000000953674316
+    ],
+    "max": [
+      150.00001525878906,
+      110.50000762939453,
+      111.26986694335938
+    ],
+    "materials": [
+      "/Game/Stage1Generated/PivotReady/M_Backstage_Wood.M_Backstage_Wood",
+      "/Game/Stage1Generated/PivotReady/M_Brass_Trim.M_Brass_Trim",
+      "/Game/Stage1Generated/PivotReady/M_Stone_Mauve.M_Stone_Mauve"
+    ]
+  }
+}

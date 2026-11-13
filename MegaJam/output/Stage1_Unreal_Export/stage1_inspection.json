@@ -1,0 +1,44 @@
+{
+  "loaded_stage1": true,
+  "actors": [
+    {
+      "label": "DirectionalLight",
+      "class": "DirectionalLight"
+    },
+    {
+      "label": "SkyAtmosphere",
+      "class": "SkyAtmosphere"
+    },
+    {
+      "label": "SkyLight",
+      "class": "SkyLight"
+    },
+    {
+      "label": "ExponentialHeightFog",
+      "class": "ExponentialHeightFog"
+    },
+    {
+      "label": "VolumetricCloud",
+      "class": "VolumetricCloud"
+    },
+    {
+      "label": "PlayerStart",
+      "class": "PlayerStart"
+    },
+    {
+      "label": "SM_SkySphere",
+      "class": "StaticMeshActor"
+    }
+  ],
+  "dragon_assets": [
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_Upper",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Combat_Idle",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Death",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Idle",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Jump",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Land",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Run",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Walk",
+    "/Game/DirectorCut/Dragon/Upper/SK_Dragon_Upper_Skeleton"
+  ]
+}

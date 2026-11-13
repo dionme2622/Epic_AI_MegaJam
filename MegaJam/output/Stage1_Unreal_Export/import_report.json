@@ -1,0 +1,23 @@
+{
+  "Wheel_High": [
+    "/Game/Stage1Generated/PivotReady/Wheel_Stone.Wheel_Stone",
+    "/Game/Stage1Generated/PivotReady/Wheel_Face.Wheel_Face",
+    "/Game/Stage1Generated/PivotReady/Wheel_Gold.Wheel_Gold",
+    "/Game/Stage1Generated/PivotReady/Wheel_High.Wheel_High"
+  ],
+  "Wheel_Low": [
+    "/Game/Stage1Generated/PivotReady/Wheel_Low.Wheel_Low"
+  ],
+  "Gear_High": [
+    "/Game/Stage1Generated/PivotReady/M_Brass_Trim.M_Brass_Trim",
+    "/Game/Stage1Generated/PivotReady/Gear_High.Gear_High"
+  ],
+  "Gear_Low": [
+    "/Game/Stage1Generated/PivotReady/Gear_Low.Gear_Low"
+  ],
+  "LiftPlatform": [
+    "/Game/Stage1Generated/PivotReady/M_Backstage_Wood.M_Backstage_Wood",
+    "/Game/Stage1Generated/PivotReady/M_Stone_Mauve.M_Stone_Mauve",
+    "/Game/Stage1Generated/PivotReady/LiftPlatform.LiftPlatform"
+  ]
+}

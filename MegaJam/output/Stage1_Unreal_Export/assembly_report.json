@@ -1,0 +1,13 @@
+{
+  "level": "/Game/Stage1Generated/L_Stage1_Assembly",
+  "actors": {
+    "Ground": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_1",
+    "Backdrop": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_2",
+    "WheelHigh": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_3",
+    "WheelLow": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_4",
+    "GearHigh": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_5",
+    "GearLow": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_6",
+    "Lift": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.StaticMeshActor_7"
+  },
+  "dragon": "/Game/Stage1Generated/L_Stage1_Assembly.L_Stage1_Assembly:PersistentLevel.SkeletalMeshActor_0"
+}
