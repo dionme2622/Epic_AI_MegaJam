@@ -1,0 +1,85 @@
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/GameModeBase.h"
+#include "DirectorCutMeshVariants.h"
+#include "DirectorCutTest.generated.h"
+
+class UAnimSequence;
+class UCameraComponent;
+
+UCLASS()
+class ADirectorCutDragon : public ACharacter
+{
+    GENERATED_BODY()
+
+public:
+    ADirectorCutDragon();
+    virtual void Tick(float DeltaSeconds) override;
+    virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+    virtual void Landed(const FHitResult& Hit) override;
+
+protected:
+    virtual void BeginPlay() override;
+
+private:
+    void Move(float Amount);
+    void StartJump();
+    void PlayMotion(UAnimSequence* Motion, bool bLoop);
+    void UpdateAirPose(float DeltaSeconds);
+    void UpdateSideCamera(float FollowX);
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Side Camera", meta=(AllowPrivateAccess="true"))
+    TObjectPtr<UCameraComponent> SideCamera;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", ClampMin="100", Units="cm"))
+    float CameraDistance = 810.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", Units="cm"))
+    float CameraElevation = 266.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", ClampMin="-80", ClampMax="0", Units="deg"))
+    float CameraPitch = -17.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", ClampMin="10", ClampMax="120", Units="deg"))
+    float CameraFieldOfView = 49.f;
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> IdleMotion;
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> RunMotion;
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> JumpMotion;
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> LandMotion;
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> CurrentMotion;
+
+    FVector SpawnPoint;
+    float CameraZ = 0.f;
+    float LandUntil = 0.f;
+    float AirPhase = 0.f;
+};
+
+UCLASS()
+class ADirectorCutTestMode : public AGameModeBase
+{
+    GENERATED_BODY()
+
+public:
+    ADirectorCutTestMode();
+    virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) override;
+
+    UFUNCTION(BlueprintCallable, Category="Director Cut|Model Detail")
+    void RegisterMeshVariants(const TArray<FDirectorCutMeshVariant>& Entries);
+
+    void ApplyModelDetail(bool bHigh) const;
+
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Director Cut|Model Detail")
+    TArray<FDirectorCutMeshVariant> MeshVariants;
+};
+
+
+
+
+
