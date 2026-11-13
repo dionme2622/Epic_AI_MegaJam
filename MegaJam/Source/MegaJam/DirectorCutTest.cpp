@@ -1,5 +1,6 @@
 #include "DirectorCutTest.h"
 #include "DirectorCutGraphics.h"
+#include "DirectorCutDragonAnimInstance.h"
 
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimSingleNodeInstance.h"
@@ -19,7 +20,9 @@ namespace
     constexpr float MeshHeightOffset = 53.f;
     // Frames 1–8 are anticipation. Frames 9–28 are takeoff through contact.
     constexpr float TakeoffFraction = 8.f / 27.f;
-    constexpr float LandingPlayRate = 1.75f;
+    constexpr float LandingPlayRate = 2.1f;
+    constexpr float LandingDuration = .13f;
+    constexpr double JumpBufferDuration = .13;
 }
 
 ADirectorCutDragon::ADirectorCutDragon()
@@ -28,7 +31,7 @@ ADirectorCutDragon::ADirectorCutDragon()
     bUseControllerRotationYaw = false;
     GetCapsuleComponent()->InitCapsuleSize(25.f, MeshHeightOffset);
     GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
-    GetMesh()->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+    GetMesh()->PrimaryComponentTick.AddPrerequisite(this, PrimaryActorTick);
 
     static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(
         TEXT("/Game/DirectorCut/Dragon/Origin/SK_Dragon_Origin.SK_Dragon_Origin"));
@@ -73,7 +76,8 @@ void ADirectorCutDragon::BeginPlay()
     Super::BeginPlay();
     SpawnPoint = GetActorLocation();
     UpdateSideCamera(SpawnPoint.X);
-    PlayMotion(IdleMotion, true);
+    GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
+    PlayMotion(IdleMotion, 0.f, 0.f);
     if (IsLocallyControlled() && GEngine)
     {
         GEngine->AddOnScreenDebugMessage(-1, 9.f, FColor::White,
@@ -91,6 +95,7 @@ void ADirectorCutDragon::SetupPlayerInputComponent(UInputComponent* Input)
 
 void ADirectorCutDragon::Move(float Amount)
 {
+    MoveInput = Controller && Controller->IsMoveInputIgnored() ? 0.f : Amount;
     if (!FMath::IsNearlyZero(Amount))
     {
         AddMovementInput(FVector::XAxisVector, FMath::Clamp(Amount, -1.f, 1.f));
@@ -100,34 +105,55 @@ void ADirectorCutDragon::Move(float Amount)
 
 void ADirectorCutDragon::StartJump()
 {
-    if ((!Controller || !Controller->IsMoveInputIgnored()) && CanJump())
+    if (Controller && Controller->IsMoveInputIgnored())
     {
-        Jump();
-        AirPhase = 0.f;
+        return;
     }
+
+    if (CanJump())
+    {
+        BufferedJumpUntil = -1.0;
+        Jump();
+    }
+    else if (GetCharacterMovement()->IsFalling())
+    {
+        BufferedJumpUntil = GetWorld()->GetTimeSeconds() + JumpBufferDuration;
+    }
+}
+
+void ADirectorCutDragon::CheckJumpInput(float DeltaTime)
+{
+    if (BufferedJumpUntil >= 0.0)
+    {
+        if (GetWorld()->GetTimeSeconds() > BufferedJumpUntil || (Controller && Controller->IsMoveInputIgnored()))
+        {
+            BufferedJumpUntil = -1.0;
+        }
+        else if (CanJump())
+        {
+            BufferedJumpUntil = -1.0;
+            Jump();
+        }
+    }
+    Super::CheckJumpInput(DeltaTime);
 }
 
 void ADirectorCutDragon::Landed(const FHitResult& Hit)
 {
     Super::Landed(Hit);
-    GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
+    LandingElapsed = 0.f;
     AirPhase = 0.f;
-    PlayMotion(LandMotion, false);
-    if (LandMotion)
-    {
-        auto* Player = GetMesh()->GetSingleNodeInstance();
-        Player->SetPlayRate(LandingPlayRate);
-        LandUntil = GetWorld()->GetTimeSeconds() + LandMotion->GetPlayLength() / LandingPlayRate;
-    }
 }
 
-void ADirectorCutDragon::PlayMotion(UAnimSequence* Motion, bool bLoop)
+void ADirectorCutDragon::PlayMotion(UAnimSequence* Motion, float Time, float BlendDuration, float RootHeightOffset)
 {
-    if (Motion && Motion != CurrentMotion)
+    if (Motion)
     {
-        GetMesh()->PlayAnimation(Motion, bLoop);
-        GetMesh()->GetSingleNodeInstance()->SetPlayRate(1.f);
-        CurrentMotion = Motion;
+        if (auto* Instance = Cast<UDirectorCutDragonAnimInstance>(GetMesh()->GetAnimInstance()))
+        {
+            Instance->SetMotion(Motion, Time, BlendDuration, RootHeightOffset);
+            CurrentMotion = Motion;
+        }
     }
 }
 
@@ -164,20 +190,16 @@ void ADirectorCutDragon::UpdateAirPose(float DeltaSeconds)
     }
 
     const bool bEnteringAir = CurrentMotion != JumpMotion;
-    PlayMotion(JumpMotion, false);
-    auto* Player = GetMesh()->GetSingleNodeInstance();
-    Player->SetPlaying(false);
     AirPhase = bEnteringAir && VerticalSpeed <= 0.f ? TargetPhase :
         FMath::Max(AirPhase, FMath::FInterpTo(AirPhase, TargetPhase, DeltaSeconds, 28.f));
 
     const float Time = JumpMotion->GetPlayLength() * FMath::Lerp(TakeoffFraction, 1.f, AirPhase);
-    Player->SetPosition(Time, false);
 
     // The clip has its own vertical root arc. The capsule already supplies
     // world height, so cancel that translation while preserving the leg pose.
     const FTransform Root = JumpMotion->ExtractRootTrackTransform(FAnimExtractContext(static_cast<double>(Time)), nullptr);
     const FTransform Reference = JumpMotion->ExtractRootTrackTransform(FAnimExtractContext(0.0), nullptr);
-    GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset - (Root.GetTranslation().Z - Reference.GetTranslation().Z)));
+    PlayMotion(JumpMotion, Time, .065f, Reference.GetTranslation().Z - Root.GetTranslation().Z);
 }
 
 void ADirectorCutDragon::Tick(float DeltaSeconds)
@@ -188,7 +210,8 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
         GetCharacterMovement()->StopMovementImmediately();
         SetActorLocation(SpawnPoint, false, nullptr, ETeleportType::TeleportPhysics);
         GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-        LandUntil = 0.f;
+        BufferedJumpUntil = -1.0;
+        LandingElapsed = LandingDuration;
         AirPhase = 0.f;
         GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
     }
@@ -197,9 +220,31 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
     {
         UpdateAirPose(DeltaSeconds);
     }
-    else if (GetWorld()->GetTimeSeconds() >= LandUntil)
+    else
     {
-        PlayMotion(FMath::Abs(GetVelocity().X) > 12.f ? RunMotion : IdleMotion, true);
+        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
+        const float Speed = FMath::Abs(GetVelocity().X);
+        const bool bMoving = Speed > 12.f || !FMath::IsNearlyZero(MoveInput);
+        if (!bMoving && LandMotion && LandingElapsed < LandingDuration)
+        {
+            PlayMotion(LandMotion, FMath::Min(LandingElapsed * LandingPlayRate, LandMotion->GetPlayLength()), .045f);
+            LandingElapsed += DeltaSeconds;
+        }
+        else
+        {
+            LandingElapsed = LandingDuration;
+            UAnimSequence* GroundMotion = bMoving ? RunMotion.Get() : IdleMotion.Get();
+            if (GroundMotion && GroundMotion->GetPlayLength() > 0.f)
+            {
+                if (GroundMotion != CurrentMotion)
+                {
+                    GroundMotionTime = 0.f;
+                }
+                const float PlayRate = bMoving ? Speed / GetCharacterMovement()->MaxWalkSpeed : 1.f;
+                GroundMotionTime = FMath::Fmod(GroundMotionTime + DeltaSeconds * PlayRate, GroundMotion->GetPlayLength());
+                PlayMotion(GroundMotion, GroundMotionTime, .095f);
+            }
+        }
     }
 
     const FVector Position = GetActorLocation();
@@ -230,4 +275,6 @@ APawn* ADirectorCutTestMode::SpawnDefaultPawnAtTransform_Implementation(AControl
     }
     return Super::SpawnDefaultPawnAtTransform_Implementation(NewPlayer, SpawnTransform);
 }
+
+
 

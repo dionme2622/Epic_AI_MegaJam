@@ -19,6 +19,7 @@ public:
     virtual void Tick(float DeltaSeconds) override;
     virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
     virtual void Landed(const FHitResult& Hit) override;
+    virtual void CheckJumpInput(float DeltaTime) override;
 
 protected:
     virtual void BeginPlay() override;
@@ -26,7 +27,7 @@ protected:
 private:
     void Move(float Amount);
     void StartJump();
-    void PlayMotion(UAnimSequence* Motion, bool bLoop);
+    void PlayMotion(UAnimSequence* Motion, float Time, float BlendDuration, float RootHeightOffset = 0.f);
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
 
@@ -57,7 +58,10 @@ private:
 
     FVector SpawnPoint;
     float CameraZ = 0.f;
-    float LandUntil = 0.f;
+    double BufferedJumpUntil = -1.0;
+    float LandingElapsed = 1.f;
+    float GroundMotionTime = 0.f;
+    float MoveInput = 0.f;
     float AirPhase = 0.f;
 };
 
@@ -78,6 +82,8 @@ public:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Director Cut|Model Detail")
     TArray<FDirectorCutMeshVariant> MeshVariants;
 };
+
+
 
 
 
