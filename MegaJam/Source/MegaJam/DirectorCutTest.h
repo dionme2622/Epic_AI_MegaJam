@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/GameModeBase.h"
+#include "DirectorCutMeshVariants.h"
 #include "DirectorCutTest.generated.h"
 
 class UAnimSequence;
@@ -54,5 +55,14 @@ class ADirectorCutTestMode : public AGameModeBase
 
 public:
     ADirectorCutTestMode();
+
+    UFUNCTION(BlueprintCallable, Category="Director Cut|Model Detail")
+    void RegisterMeshVariants(const TArray<FDirectorCutMeshVariant>& Entries);
+
+    void ApplyModelDetail(bool bHigh) const;
+
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Director Cut|Model Detail")
+    TArray<FDirectorCutMeshVariant> MeshVariants;
 };
+
 

@@ -1,4 +1,5 @@
 #include "DirectorCutTest.h"
+#include "DirectorCutGraphics.h"
 
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimSingleNodeInstance.h"
@@ -101,7 +102,7 @@ void ADirectorCutDragon::Move(float Amount)
 
 void ADirectorCutDragon::StartJump()
 {
-    if (CanJump())
+    if ((!Controller || !Controller->IsMoveInputIgnored()) && CanJump())
     {
         Jump();
         AirPhase = 0.f;
@@ -211,7 +212,10 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
 ADirectorCutTestMode::ADirectorCutTestMode()
 {
     DefaultPawnClass = ADirectorCutDragon::StaticClass();
+    PlayerControllerClass = ADirectorCutPlayerController::StaticClass();
 }
+
+
 
 
 
