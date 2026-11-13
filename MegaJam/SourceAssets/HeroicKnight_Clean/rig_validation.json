@@ -1,0 +1,122 @@
+{
+  "mesh_vertices": 2524,
+  "triangles": 5100,
+  "bone_count": 24,
+  "bones": [
+    "root",
+    "pelvis",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "clavicle_L",
+    "upperarm_L",
+    "forearm_L",
+    "hand_L",
+    "clavicle_R",
+    "upperarm_R",
+    "forearm_R",
+    "hand_R",
+    "cape_upper",
+    "cape_lower",
+    "thigh_L",
+    "shin_L",
+    "foot_L",
+    "toe_L",
+    "thigh_R",
+    "shin_R",
+    "foot_R",
+    "toe_R"
+  ],
+  "weight_sum_min": 0.9999999552965164,
+  "weight_sum_max": 1.0000000409781933,
+  "max_influences": 4,
+  "unweighted_vertices": 0,
+  "animation": "HeroicKnight_Clean_Idle",
+  "frames": [
+    1,
+    61
+  ],
+  "fps": 30,
+  "sampled_frames": {
+    "1": {
+      "min_z_m": -2.4125787945195043e-07,
+      "max_z_m": 1.7386025190353394,
+      "bbox_x_m": [
+        -0.5723950862884521,
+        0.569709062576294
+      ],
+      "all_finite": true
+    },
+    "16": {
+      "min_z_m": -2.4125787945195043e-07,
+      "max_z_m": 1.7355619668960571,
+      "bbox_x_m": [
+        -0.5322428941726685,
+        0.5295365452766418
+      ],
+      "all_finite": true
+    },
+    "31": {
+      "min_z_m": -2.4125787945195043e-07,
+      "max_z_m": 1.7379103899002075,
+      "bbox_x_m": [
+        -0.5823084115982056,
+        0.5795170664787292
+      ],
+      "all_finite": true
+    },
+    "46": {
+      "min_z_m": -2.4125787945195043e-07,
+      "max_z_m": 1.7403564453125,
+      "bbox_x_m": [
+        -0.6212728023529053,
+        0.6185272932052612
+      ],
+      "all_finite": true
+    },
+    "61": {
+      "min_z_m": -2.4125787945195043e-07,
+      "max_z_m": 1.7386025190353394,
+      "bbox_x_m": [
+        -0.5723950862884521,
+        0.569709062576294
+      ],
+      "all_finite": true
+    }
+  },
+  "max_loop_vertex_drift_m": 0.0,
+  "fbx_roundtrip": {
+    "armatures": 1,
+    "meshes": 1,
+    "bone_count": 24,
+    "skin_modifier_count": 1,
+    "uv_layers": [
+      "UV_Clean"
+    ],
+    "actions": [
+      {
+        "name": "HeroicKnight_Rig|Scene",
+        "range": [
+          2.0,
+          62.0
+        ]
+      }
+    ],
+    "images": [
+      [
+        "CleanUV_BaseColor",
+        true,
+        true,
+        "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\HeroicKnight_Clean_Rigged.fbm\\CleanUV_BaseColor.png"
+      ],
+      [
+        "CleanUV_BaseColor.001",
+        true,
+        true,
+        "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\HeroicKnight_Clean_Rigged.fbm\\CleanUV_BaseColor.png"
+      ]
+    ],
+    "missing_images": []
+  }
+}

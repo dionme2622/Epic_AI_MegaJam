@@ -1,0 +1,30 @@
+{
+  "fbx": "D:\\UnrealProject\\Epic_AI_MegaJam\\MegaJam\\SourceAssets\\HeroicKnight_Clean\\HeroicKnight_Clean_Rigged.fbx",
+  "mesh": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged.HeroicKnight_Clean_Rigged",
+  "skeleton": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_Skeleton.HeroicKnight_Clean_Rigged_Skeleton",
+  "animations": [
+    "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_Anim.HeroicKnight_Clean_Rigged_Anim"
+  ],
+  "material": "/Game/Assets/HeroicKnight_Clean/M_HeroicKnight_Clean.M_HeroicKnight_Clean",
+  "textures": [
+    "/Game/Assets/HeroicKnight_Clean/CleanUV_BaseColor.CleanUV_BaseColor",
+    "/Game/Assets/HeroicKnight_Clean/CleanUV_ORM.CleanUV_ORM"
+  ],
+  "material_slots": 1,
+  "height_cm": 173.82811235783083,
+  "animation_lengths_s": [
+    2.0
+  ],
+  "animation_reused_on_reimport": true,
+  "physics_asset": "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_PhysicsAsset.HeroicKnight_Clean_Rigged_PhysicsAsset",
+  "asset_paths": [
+    "/Game/Assets/HeroicKnight_Clean/CleanUV_BaseColor.CleanUV_BaseColor",
+    "/Game/Assets/HeroicKnight_Clean/CleanUV_ORM.CleanUV_ORM",
+    "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged.HeroicKnight_Clean_Rigged",
+    "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_Anim.HeroicKnight_Clean_Rigged_Anim",
+    "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_PhysicsAsset.HeroicKnight_Clean_Rigged_PhysicsAsset",
+    "/Game/Assets/HeroicKnight_Clean/HeroicKnight_Clean_Rigged_Skeleton.HeroicKnight_Clean_Rigged_Skeleton",
+    "/Game/Assets/HeroicKnight_Clean/L_HeroicKnight_Clean_Test.L_HeroicKnight_Clean_Test",
+    "/Game/Assets/HeroicKnight_Clean/M_HeroicKnight_Clean.M_HeroicKnight_Clean"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "vertices": 22565,
+  "triangles": 45053,
+  "bones": 21,
+  "frames": 121,
+  "fps": 30,
+  "loop_duration_seconds": 4,
+  "weapon_triangles": 3230,
+  "weight_min_sum": 0.9999916553497314,
+  "weight_max_sum": 1.0000000298023224,
+  "max_loop_bone_matrix_error": 4.532431114546521e-18,
+  "max_foot_drift_m": 4.712160915387242e-08,
+  "minimum_weight_sum": 0.9999916553497314,
+  "unweighted_vertices": 0,
+  "has_nan_vertices": false,
+  "fbx_armatures": 1,
+  "fbx_meshes": 6,
+  "fbx_bone_count": 21,
+  "fbx_action_range": [
+    2.0,
+    122.0
+  ],
+  "fbx_skin_modifier_count": 6,
+  "fbx_missing_images": [],
+  "fbx_fps": 30
+}
