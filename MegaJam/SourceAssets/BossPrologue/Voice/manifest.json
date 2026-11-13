@@ -1,0 +1,26 @@
+[
+  {
+    "name": "01_Hero_Challenge",
+    "text": "Prepare yourself, dragon!",
+    "voice": "en-US-GuyNeural",
+    "duration_seconds": 2.496
+  },
+  {
+    "name": "02_Dragon_Threat",
+    "text": "Ha ha ha! I'll roast you alive!",
+    "voice": "en-US-ChristopherNeural",
+    "duration_seconds": 4.296
+  },
+  {
+    "name": "03_Dragon_MissingLegs",
+    "text": "...Where did my legs go?",
+    "voice": "en-US-ChristopherNeural",
+    "duration_seconds": 2.328
+  },
+  {
+    "name": "04_Dragon_Protest",
+    "text": "You took my legs because they were off camera?",
+    "voice": "en-US-ChristopherNeural",
+    "duration_seconds": 3.576
+  }
+]
