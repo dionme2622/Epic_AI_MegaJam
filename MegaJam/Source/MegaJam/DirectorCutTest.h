@@ -28,9 +28,22 @@ private:
     void StartJump();
     void PlayMotion(UAnimSequence* Motion, bool bLoop);
     void UpdateAirPose(float DeltaSeconds);
+    void UpdateSideCamera(float FollowX);
 
-    UPROPERTY()
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Side Camera", meta=(AllowPrivateAccess="true"))
     TObjectPtr<UCameraComponent> SideCamera;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", ClampMin="100", Units="cm"))
+    float CameraDistance = 810.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", Units="cm"))
+    float CameraElevation = 266.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", ClampMin="-80", ClampMax="0", Units="deg"))
+    float CameraPitch = -17.f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Side Camera", meta=(AllowPrivateAccess="true", ClampMin="10", ClampMax="120", Units="deg"))
+    float CameraFieldOfView = 49.f;
     UPROPERTY()
     TObjectPtr<UAnimSequence> IdleMotion;
     UPROPERTY()
@@ -55,6 +68,7 @@ class ADirectorCutTestMode : public AGameModeBase
 
 public:
     ADirectorCutTestMode();
+    virtual APawn* SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform) override;
 
     UFUNCTION(BlueprintCallable, Category="Director Cut|Model Detail")
     void RegisterMeshVariants(const TArray<FDirectorCutMeshVariant>& Entries);
@@ -64,5 +78,8 @@ public:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Director Cut|Model Detail")
     TArray<FDirectorCutMeshVariant> MeshVariants;
 };
+
+
+
 
 

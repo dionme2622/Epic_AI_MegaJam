@@ -9,6 +9,7 @@
 #include "Components/InputComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/Engine.h"
+#include "EngineUtils.h"
 #include "Engine/SkeletalMesh.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UObject/ConstructorHelpers.h"
@@ -16,8 +17,6 @@
 namespace
 {
     constexpr float MeshHeightOffset = 53.f;
-    constexpr float CameraDistance = 810.f;
-    constexpr float CameraElevation = 266.f;
     // Frames 1–8 are anticipation. Frames 9–28 are takeoff through contact.
     constexpr float TakeoffFraction = 8.f / 27.f;
     constexpr float LandingPlayRate = 1.75f;
@@ -73,8 +72,7 @@ void ADirectorCutDragon::BeginPlay()
 {
     Super::BeginPlay();
     SpawnPoint = GetActorLocation();
-    CameraZ = SpawnPoint.Z;
-    SideCamera->SetWorldLocation(FVector(SpawnPoint.X, SpawnPoint.Y + CameraDistance, CameraZ + CameraElevation));
+    UpdateSideCamera(SpawnPoint.X);
     PlayMotion(IdleMotion, true);
     if (IsLocallyControlled() && GEngine)
     {
@@ -206,7 +204,14 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
 
     const FVector Position = GetActorLocation();
     const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, Position.X, DeltaSeconds, 6.f);
-    SideCamera->SetWorldLocation(FVector(DesiredX, SpawnPoint.Y + CameraDistance, CameraZ + CameraElevation));
+    UpdateSideCamera(DesiredX);
+}
+
+void ADirectorCutDragon::UpdateSideCamera(float FollowX)
+{
+    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + CameraDistance, SpawnPoint.Z + CameraElevation));
+    SideCamera->SetWorldRotation(FRotator(CameraPitch, -90.f, 0.f));
+    SideCamera->SetFieldOfView(CameraFieldOfView);
 }
 
 ADirectorCutTestMode::ADirectorCutTestMode()
@@ -214,8 +219,15 @@ ADirectorCutTestMode::ADirectorCutTestMode()
     DefaultPawnClass = ADirectorCutDragon::StaticClass();
     PlayerControllerClass = ADirectorCutPlayerController::StaticClass();
 }
-
-
-
-
+APawn* ADirectorCutTestMode::SpawnDefaultPawnAtTransform_Implementation(AController* NewPlayer, const FTransform& SpawnTransform)
+{
+    for (TActorIterator<ADirectorCutDragon> It(GetWorld()); It; ++It)
+    {
+        if (It->ActorHasTag(TEXT("PlayerDragon")) && !It->GetController())
+        {
+            return *It;
+        }
+    }
+    return Super::SpawnDefaultPawnAtTransform_Implementation(NewPlayer, SpawnTransform);
+}
 
