@@ -1,0 +1,22 @@
+"""Replace only the flame actor and its sequence binding in the open map."""
+import unreal
+actors=unreal.EditorLevelLibrary.get_all_level_actors()
+old=next(a for a in actors if a.get_actor_label()=='BossIntro_Dragon_Flame')
+loc=old.get_actor_location()+unreal.Vector(240,0,0)
+seq=unreal.load_asset('/Game/DirectorCut/Prologue/LS_BossPrologue_Cinematic')
+for binding in seq.get_bindings():
+ if 'Flame' in binding.get_name(): binding.remove()
+unreal.EditorLevelLibrary.destroy_actor(old)
+a=unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.NiagaraActor,loc,unreal.Rotator())
+a.set_actor_label('BossIntro_Dragon_NiagaraBreath')
+c=a.get_component_by_class(unreal.NiagaraComponent)
+c.set_auto_activate(False)
+c.set_asset(unreal.load_asset('/Game/DirectorCut/Prologue/Cinematic/NS_DragonBreath'))
+b=seq.add_possessable(c)
+t=b.add_track(unreal.MovieSceneNiagaraSystemTrack)
+s=t.add_section(); s.set_range(200,255)
+s.set_editor_property('section_start_behavior',unreal.NiagaraSystemSpawnSectionStartBehavior.ACTIVATE)
+s.set_editor_property('section_end_behavior',unreal.NiagaraSystemSpawnSectionEndBehavior.DEACTIVATE)
+unreal.EditorAssetLibrary.save_loaded_asset(seq)
+assert unreal.EditorLevelLibrary.save_current_level()
+unreal.log('NIAGARA_FIRE_INSTALLED')
