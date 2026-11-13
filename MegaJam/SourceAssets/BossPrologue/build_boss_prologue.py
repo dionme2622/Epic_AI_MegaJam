@@ -52,9 +52,9 @@ def import_file(path):
     assert asset, paths[0]
     return asset
 
-textures = {path.stem: import_file(path) for path in sorted((ROOT / 'Graphics').glob('*.png'))}
+textures = {path.stem: import_file(path) for path in sorted((ROOT / 'Graphics').glob('*.png')) if path.stem != '07_Fire'}
 voices = {path.stem: import_file(path) for path in sorted((ROOT / 'Voice').glob('*.wav'))}
-assert len(textures) == 7 and len(voices) == 4
+assert len(textures) == 6 and len(voices) == 4
 base_mat = unreal.load_asset('/Game/Assets/Prologue/M_Bilingual_Subtitle')
 assert base_mat
 
@@ -114,8 +114,15 @@ note = spawn_static('Developer_Note', plane, (1260, 430, 175), (3.0, 1.0, 1),
                     (0, 0, 90), materials['05_DevNote'])
 sign = spawn_static('Storage_Sign', plane, (1600, 160, 415), (2.7, .63, 1),
                     (0, 0, 90), materials['06_Storage'])
-flame = spawn_static('Dragon_Flame', plane, (420, 420, 335), (4.8, 1.7, 1),
-                     (0, 0, 90), materials['07_Fire'])
+flame = unreal.EditorLevelLibrary.spawn_actor_from_class(
+    unreal.Emitter, unreal.Vector(710, 10, 285), unreal.MathLibrary.make_rot_from_z(unreal.Vector(-1, 0, -.3)))
+flame.set_actor_label('BossIntro_Dragon_Flamethrower')
+flame_component = flame.get_component_by_class(unreal.ParticleSystemComponent)
+flame_component.set_auto_activate(False)
+flame_component.set_template(unreal.load_asset(ASSET + 'P_DragonBreath_Short'))
+flame.attach_to_component(dragon.get_component_by_class(unreal.SkeletalMeshComponent), 'Head',
+                         unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD,
+                         unreal.AttachmentRule.KEEP_WORLD, False)
 
 knight_mesh = unreal.load_asset('/Game/Assets/Knight/tripo_convert_4b997851-a9fc-4243-9238-73b72c3eada4')
 draw = unreal.load_asset('/Game/Assets/Knight/Anim/Withdrawing_Sword')
@@ -211,6 +218,13 @@ def visibility(binding, start, end):
 visibility(note_bind, 276, 420)
 visibility(sign_bind, 485, END)
 visibility(flame_bind, 200, 255)
+fire_track = flame_bind.add_track(unreal.MovieSceneParticleTrack)
+fire_section = fire_track.add_section()
+fire_section.set_range(0, END)
+fire_channel = fire_section.get_all_channels()[0]
+for frame, value in ((0, unreal.ParticleKey.DEACTIVATE), (200, unreal.ParticleKey.ACTIVATE),
+                     (250, unreal.ParticleKey.DEACTIVATE)):
+    fire_channel.add_key(unreal.FrameNumber(frame), value)
 
 caption_times = (
     ('01_Hero', 12, 75),
