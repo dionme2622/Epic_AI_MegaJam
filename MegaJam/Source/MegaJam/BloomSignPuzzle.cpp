@@ -35,7 +35,7 @@ ABloomSignPuzzle::ABloomSignPuzzle()
     ConsoleMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ConsoleMesh")); ConsoleMesh->SetupAttachment(Root);
     ConsoleMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
-void ABloomSignPuzzle::BeginPlay() { Super::BeginPlay(); SetBloomEnabled(bBloomOn); }
+void ABloomSignPuzzle::BeginPlay() { Super::BeginPlay(); SetBloomEnabled(bBloomOn); if (bRestrictToArea && IsValid(PostProcessVolume)) PostProcessVolume->BlendWeight=0.f; }
 void ABloomSignPuzzle::EndPlay(const EEndPlayReason::Type Reason) { CloseConsole(); Super::EndPlay(Reason); }
 void ABloomSignPuzzle::SetBloomEnabled(bool bEnabled)
 {
@@ -94,6 +94,14 @@ void ABloomSignPuzzle::EnterSymbol(int32 Index)
 void ABloomSignPuzzle::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    if (bRestrictToArea)
+    {
+        const APawn* Pawn=UGameplayStatics::GetPlayerPawn(this,0);
+        const float Offset=Pawn ? Pawn->GetActorLocation().X-GetActorLocation().X : TNumericLimits<float>::Max();
+        const bool bInArea=Pawn && Offset>=AreaMinOffsetX && Offset<=AreaMaxOffsetX;
+        if (IsValid(PostProcessVolume)) PostProcessVolume->BlendWeight=bInArea ? 1.f : 0.f;
+        if (!bInArea) { if (bConsoleOpen) CloseConsole(); return; }
+    }
     if (MessageTime>0) MessageTime=FMath::Max(0.f,MessageTime-DeltaSeconds);
     if (bFinishing)
     {

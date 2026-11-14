@@ -1,0 +1,12 @@
+(event EventBeginPlay
+  (Actor|Tick|SetActorTickEnabled :self (Variables|Default|GetPuzzleController) :bEnabled false)
+  (Utilities|FlowControl|Delay :Duration 0.25)
+  (bind pc (Game|GetPlayerController :PlayerIndex 0))
+  (Variables|Default|SetReturnTarget (Pawn|GetViewTarget :self pc))
+  (Input|SetIgnoreMoveInput :self pc :bNewMoveInput true)
+  (Game|Player|SetViewTargetwithBlend :self pc :NewViewTarget (Variables|Default|GetShotCamera) :BlendTime 1.35 :BlendFunc "VTBlend_EaseInOut" :BlendExp 2.0)
+  (Utilities|FlowControl|Delay :Duration 3.85)
+  (Game|Player|SetViewTargetwithBlend :self pc :NewViewTarget (Variables|Default|GetReturnTarget) :BlendTime 1.6 :BlendFunc "VTBlend_EaseInOut" :BlendExp 2.0)
+  (Utilities|FlowControl|Delay :Duration 1.65)
+  (Actor|Tick|SetActorTickEnabled :self (Variables|Default|GetPuzzleController) :bEnabled true)
+  (Input|SetIgnoreMoveInput :self pc :bNewMoveInput false))

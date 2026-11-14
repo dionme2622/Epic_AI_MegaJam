@@ -35,6 +35,9 @@ public:
     UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle") TObjectPtr<AStage2ShadowDoor> ExitDoor;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle", meta=(ClampMin="0")) float BloomIntensity = 7.f;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle", meta=(ClampMin="0")) float InteractDistance = 220.f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Integration") bool bRestrictToArea = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Integration") float AreaMinOffsetX = -2500.f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Integration") float AreaMaxOffsetX = 500.f;
     UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle") bool bBloomOn = true;
     UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle") bool bConsoleOpen = false;
     UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle") bool bSolved = false;
