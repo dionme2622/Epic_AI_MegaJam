@@ -1,0 +1,7 @@
+{
+  "unchanged_other_tracks": true,
+  "saved": true,
+  "frames": 65,
+  "root_first": "<Struct 'Transform' (0x000001FA1FC53F60) {rotation: {x: 0.065315, y: 0.065314, z: 0.704084, w: 0.704084}, translation: {x: 4.500000, y: 0.000000, z: 0.000000}, scale3d: {x: 100.000000, y: 100.000023, z: 100.000023}}>",
+  "root_last": "<Struct 'Transform' (0x000001FA1FC53F60) {rotation: {x: 0.065315, y: 0.065314, z: 0.704084, w: 0.704084}, translation: {x: 4.500000, y: 0.000000, z: 0.000000}, scale3d: {x: 100.000000, y: 100.000023, z: 100.000023}}>"
+}

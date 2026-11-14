@@ -1,0 +1,33 @@
+{
+  "get_bone_animation_tracks_doc": "x.get_bone_animation_tracks() -> Array[BoneAnimationTrack]\r\nGet Bone Animation Tracks\r\n\r\nReturns:\r\n    Array[BoneAnimationTrack]:",
+  "get_bone_track_by_name_doc": "x.get_bone_track_by_name(track_name) -> BoneAnimationTrack\r\nGet Bone Track by Name\r\n\r\nArgs:\r\n    track_name (Name): \r\n\r\nReturns:\r\n    BoneAnimationTrack:",
+  "get_bone_track_names_doc": "x.get_bone_track_names() -> Array[Name]\r\nPopulates the provided array with all contained (bone) track names\r\n\r\nReturns:\r\n    Array[Name]: \r\n\r\n    out_names (Array[Name]): [out] Array containing all bone track names",
+  "names": [
+    "root",
+    "pelvis",
+    "spine",
+    "chest",
+    "neck",
+    "head",
+    "upperarm_l",
+    "forearm_l",
+    "hand_l",
+    "wing_l",
+    "wingtip_l",
+    "upperarm_r",
+    "forearm_r",
+    "hand_r",
+    "wing_r",
+    "wingtip_r",
+    "tail_01",
+    "tail_02",
+    "tail_03",
+    "thigh_l",
+    "shin_l",
+    "foot_l",
+    "thigh_r",
+    "shin_r",
+    "foot_r"
+  ],
+  "track": "<Struct 'BoneAnimationTrack' (0x000001FB460B0B80) {internal_track_data: {}, bone_tree_index: -1, name: \"\"}>"
+}

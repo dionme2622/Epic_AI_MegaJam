@@ -1,0 +1,23 @@
+{
+  "/Game/Level/Character/ABP_Dragon": {
+    "class": "<Object '/Script/Engine.AnimBlueprint' (0x00007FF3D2305DF0) Class 'Class'>",
+    "methods": [
+      "generated_class",
+      "status"
+    ],
+    "target_skeleton": "<Object '/Game/DirectorCut/Dragon/Upper/SK_Dragon_Upper_Skeleton.SK_Dragon_Upper_Skeleton' (0x000001FA8E369000) Class 'Skeleton'>",
+    "status": "<BlueprintStatus.BS_DIRTY: 1>"
+  },
+  "/Game/Level/Character/BP_Dragon": {
+    "class": "<Object '/Script/Engine.Blueprint' (0x00007FF3D2173AF0) Class 'Class'>",
+    "methods": [
+      "generated_class",
+      "status"
+    ],
+    "status": "<BlueprintStatus.BS_UP_TO_DATE: 3>",
+    "skeletal_mesh_asset": "<Object '/Game/DirectorCut/Dragon/Upper/SK_Dragon_Upper.SK_Dragon_Upper' (0x000001F991316400) Class 'SkeletalMesh'>",
+    "anim_class": "<Object '/Game/Level/Character/ABP_Dragon.ABP_Dragon_C' (0x000001FB66678C00) Class 'AnimBlueprintGeneratedClass'>",
+    "animation_mode": "<AnimationMode.ANIMATION_BLUEPRINT: 0>",
+    "relative_rotation": "<Struct 'Rotator' (0x000001FB5B813D98) {pitch: 0.000000, yaw: 0.000000, roll: 0.000000}>"
+  }
+}
