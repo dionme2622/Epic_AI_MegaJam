@@ -8,8 +8,6 @@ class ADirectorCutDragon;
 class UMaterialInterface;
 class UPoseableMeshComponent;
 class UStaticMeshComponent;
-class UTextRenderComponent;
-class SWidget;
 
 UCLASS()
 class MEGAJAM_API AStage4ShadowStandIn : public AActor
@@ -20,7 +18,6 @@ public:
     AStage4ShadowStandIn();
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaSeconds) override;
-    virtual void EndPlay(EEndPlayReason::Type Reason) override;
     bool OwnsRecovery(double WorldX) const;
 
     UPROPERTY(EditInstanceOnly, Category="Stand-In")
@@ -54,7 +51,6 @@ public:
 private:
     FVector Project(const FVector& Point, const FVector& Light) const;
     void UpdateShadow(ADirectorCutDragon& Dragon, const FVector& Light, bool bVisible);
-    void UpdateHint(double X, bool bShadows, bool bOnFerry);
     void SetCheckpoint(ADirectorCutDragon& Dragon, int32 Index);
     void Respawn(ADirectorCutDragon& Dragon);
     void MoveMechanism(UStaticMeshComponent* Collider, UStaticMeshComponent* Art, const FVector& Delta);
@@ -64,8 +60,6 @@ private:
     UPROPERTY(Transient)
     TArray<TObjectPtr<UMaterialInterface>> LampOffMaterials;
 
-    TSharedPtr<SWidget> Overlay;
-    FText Hint;
     float FerryX = 816.f;
     float BridgeZ = -176.f;
     bool bFerryReturning = false;

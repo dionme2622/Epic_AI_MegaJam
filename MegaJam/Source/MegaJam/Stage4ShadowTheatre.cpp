@@ -17,7 +17,6 @@
 #include "Stage2ShadowPrototype.h"
 #include "Stage4ShadowStandIn.h"
 #include "Styling/CoreStyle.h"
-#include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/SBoxPanel.h"
 #include "Widgets/SOverlay.h"
@@ -148,18 +147,16 @@ void AStage4ShadowTheatre::BeginPlay()
             [
                 SNew(SBox).WidthOverride(600.f)
                 [
-                SNew(SBorder).Padding(FMargin(17.f, 7.f))
-                .Visibility_Lambda([this] { return Prompt.IsEmpty() ? EVisibility::Collapsed : EVisibility::HitTestInvisible; })
-                .BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-                .BorderBackgroundColor(FLinearColor(.047f, .023f, .033f, .93f))
-                [
                     SNew(SVerticalBox)
+                    .Visibility_Lambda([this] { return Prompt.IsEmpty() ? EVisibility::Collapsed : EVisibility::HitTestInvisible; })
                     + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)
                     [
                         SNew(STextBlock)
                         .Text_Lambda([this] { return Heading; })
                         .Font(FCoreStyle::GetDefaultFontStyle("Bold", 14))
                         .ColorAndOpacity(FLinearColor(.95f, .66f, .29f))
+                        .ShadowOffset(FVector2D(1.f, 2.f))
+                        .ShadowColorAndOpacity(FLinearColor::Black)
                     ]
                     + SVerticalBox::Slot().AutoHeight().Padding(0.f, 2.f, 0.f, 0.f).HAlign(HAlign_Center)
                     [
@@ -169,11 +166,12 @@ void AStage4ShadowTheatre::BeginPlay()
                             .Text_Lambda([this] { return Prompt; })
                             .Font(FCoreStyle::GetDefaultFontStyle("Regular", 14))
                             .ColorAndOpacity(FLinearColor(.9f, .85f, .77f))
+                            .ShadowOffset(FVector2D(1.f, 2.f))
+                            .ShadowColorAndOpacity(FLinearColor::Black)
                             .WrapTextAt(550.f)
                             .Justification(ETextJustify::Center)
                         ]
                     ]
-                ]
                 ]
             ];
         Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 7);
@@ -465,7 +463,7 @@ void AStage4ShadowTheatre::Tick(float DeltaSeconds)
     HandleControls(*Dragon, Station, bShadows);
     if (!bRecovered)
     {
-        UpdatePrompt(P.X, Station, bShadows);
+        UpdatePrompt(Station, bShadows);
     }
 }
 
@@ -506,8 +504,9 @@ void AStage4ShadowTheatre::HandleControls(ADirectorCutDragon& Dragon, int32 Stat
     if (!bShadows || Retake.Cue == INDEX_NONE || FMath::Abs(Retake.CurrentAngle - Retake.Angle) > .04f)
     {
         InputHintTime = 1.8f;
-        InputHint = bShadows ? LOCTEXT("WaitForLamp", "Let the lamp reach its brass mark, then press E.")
-            : LOCTEXT("NeedShadow", "Turn Shadows High in Settings to line up the shot.");
+        InputHint = !bShadows ? LOCTEXT("NeedShadow", "No silhouette in frame.")
+            : Retake.Cue == INDEX_NONE ? LOCTEXT("Unframed", "The silhouette is out of frame.")
+                                       : LOCTEXT("WaitForLamp", "The lamp is still moving.");
         return;
     }
 
@@ -591,17 +590,10 @@ void AStage4ShadowTheatre::ReturnToMark(ADirectorCutDragon& Dragon)
     Prompt = LOCTEXT("Retry", "Back to the last safe platform.");
 }
 
-void AStage4ShadowTheatre::UpdatePrompt(float X, int32 Station, bool bShadows)
+void AStage4ShadowTheatre::UpdatePrompt(int32 Station, bool bShadows)
 {
     if (ResetFlash > 0.f)
     {
-        return;
-    }
-    if (Checkpoint == 2 && (!StandInPuzzle || StandInPuzzle->bReachedExhibit)
-        && FMath::Abs(X - ExhibitX - ExhibitOffset.X) <= 125.f)
-    {
-        Heading = LOCTEXT("Exhibit", "ORIGINAL DRAGON LEGS");
-        Prompt = LOCTEXT("Recover", "E  Recover");
         return;
     }
     if (Station == None)
@@ -612,7 +604,7 @@ void AStage4ShadowTheatre::UpdatePrompt(float X, int32 Station, bool bShadows)
     if (CutFlash > 0.f)
     {
         Heading = LOCTEXT("Committed", "CUT LOCKED");
-        Prompt = LOCTEXT("SetMoving", "Wait for the stones to slide into place.");
+        Prompt = LOCTEXT("SetMoving", "Scenery moving.");
         return;
     }
 
@@ -625,7 +617,7 @@ void AStage4ShadowTheatre::UpdatePrompt(float X, int32 Station, bool bShadows)
     }
     else if (!bShadows)
     {
-        Prompt = LOCTEXT("WorkLight", "Lit edges show the current cut.  Settings > Shadows: High to line up the next shot.");
+        Prompt = FText::GetEmpty();
     }
     else
     {
@@ -634,16 +626,13 @@ void AStage4ShadowTheatre::UpdatePrompt(float X, int32 Station, bool bShadows)
         const FText Unset = LOCTEXT("Unset", "--");
         const FText Set = Committed == INDEX_NONE ? Unset : FText::AsNumber(Committed + 1);
         const FText Shot = Preview.Angle == INDEX_NONE ? Unset : FText::AsNumber(Preview.Angle + 1);
-        Prompt = FText::Format(
-            LOCTEXT("Controls", "Q / R  Aim lamp     E  Cut    |    Preview {0} / Cut {1}\n{2}"),
-            Shot, Set,
-            Station == Island ? LOCTEXT("NextShot", "Line up a shot that reaches the display platform.")
-                : LOCTEXT("ShotHint", "Use the castle's shadow to line up a brass mark. Compare the paths."));
+        Prompt = FText::Format(LOCTEXT("ShotStatus", "Preview {0}  /  Cut {1}"), Shot, Set);
     }
 }
 
 void AStage4ShadowTheatre::UpdateCostume(ADirectorCutDragon& Dragon, bool bUseCostume)
 {
+    bUseCostume = bUseCostume && !Dragon.HasHeroLegs();
     if (CostumeDragon.Get() == &Dragon && bUseCostume == bCostumeApplied)
     {
         return;
@@ -715,9 +704,16 @@ void AStage4ShadowTheatre::UpdateRecovery(float DeltaSeconds)
     if (Previous < 2.04f && RecoveryTime >= 2.04f)
     {
         Exhibit->SetVisibility(false);
-        if (APlayerController* Controller = RecoveryController.Get(); Controller && Controller->PlayerCameraManager)
+        if (APlayerController* Controller = RecoveryController.Get())
         {
-            Controller->PlayerCameraManager->StartCameraFade(.34f, 0.f, .42f, FLinearColor(1.f, .74f, .44f), false, false);
+            if (auto* Dragon = Cast<ADirectorCutDragon>(Controller->GetPawn()))
+            {
+                Dragon->RestoreOriginalLegs();
+            }
+            if (APlayerCameraManager* Camera = Controller->PlayerCameraManager)
+            {
+                Camera->StartCameraFade(.34f, 0.f, .42f, FLinearColor(1.f, .74f, .44f), false, false);
+            }
         }
         Heading = LOCTEXT("Final", "DIRECTOR'S CUT");
         Prompt = LOCTEXT("Done", "Original legs restored.");

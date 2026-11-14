@@ -8,6 +8,9 @@
 class AStage4ShadowTheatre;
 class AColorSignalPuzzle;
 class AFocusPropPuzzle;
+class ADirectorCutWallNote;
+class APlayerController;
+class APawn;
 class SOverlay;
 
 UCLASS()
@@ -26,15 +29,20 @@ public:
 
 private:
     void BuildOverlay();
+    void UpdateWallNote(APlayerController& Controller, const APawn& Pawn, bool bCanRead, bool bOtherPrompt);
 
     TSharedPtr<SOverlay> Overlay;
     TWeakObjectPtr<AStage4ShadowTheatre> FinalTheatre;
     TWeakObjectPtr<AColorSignalPuzzle> ColorConsole;
     TWeakObjectPtr<AFocusPropPuzzle> FocusPuzzle;
+    TArray<TWeakObjectPtr<ADirectorCutWallNote>> WallNotes;
+    TWeakObjectPtr<ADirectorCutWallNote> OpenWallNote;
     FName MapName;
     TSet<int32> PlayedStoryCues;
     FText SubtitleKorean;
     FText SubtitleEnglish;
+    FText WallNoteKorean;
+    FText WallNoteEnglish;
     FDirectorCutPuzzleGuide Guide;
     FText PromptKey;
     FText PromptKorean;

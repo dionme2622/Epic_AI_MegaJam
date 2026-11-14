@@ -96,7 +96,7 @@ private:
     void UpdateLamp(FRetake& Retake, USpotLightComponent* Lamp, UStaticMeshComponent& Rig,
         TObjectPtr<UStaticMeshComponent>& Projection, const TCHAR* ProjectionName, bool bWest, bool bShadows, float DeltaSeconds);
     void HandleControls(ADirectorCutDragon& Dragon, int32 Station, bool bShadows);
-    void UpdatePrompt(float PositionX, int32 Station, bool bShadows);
+    void UpdatePrompt(int32 Station, bool bShadows);
     void UpdateDecks(float DeltaSeconds, uint32 Preview);
     void UpdateProjection(TObjectPtr<UStaticMeshComponent>& Projection, UStaticMeshComponent& Rig, const TCHAR* ComponentName,
         const FVector& SourcePosition, bool bShadows);

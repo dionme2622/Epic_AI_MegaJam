@@ -13,20 +13,6 @@ struct FDirectorCutInteractionPrompt
     FVector Anchor = FVector::ZeroVector;
 };
 
-enum class EDirectorCutWorkshopPhase : uint8
-{
-    Unavailable,
-    Wheel,
-    WheelNeedsHigh,
-    WheelNeedsLow,
-    Hall,
-    LiftNeedsHigh,
-    LiftReady,
-    LiftMoving,
-    Exit
-};
-
-EDirectorCutWorkshopPhase GetDirectorCutWorkshopPhase(FName MapName, UWorld& World, const FVector& Player);
 bool IsDirectorCutWorkshopMenuOpen(FName MapName, UWorld& World);
 void SetDirectorCutWorkshopMenuOpen(UWorld& World, bool bOpen);
 bool CanChangeDirectorCutWorkshopDetail(UWorld& World);

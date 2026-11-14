@@ -23,13 +23,11 @@ struct FDirectorCutPuzzleGuide
 {
     FText TitleKorean;
     FText TitleEnglish;
-    FText Korean;
-    FText English;
     TArray<FDirectorCutGuideControl> Controls;
 };
 
 class APlayerController;
 
 TConstArrayView<FDirectorCutStoryCue> GetDirectorCutStoryCues(FName MapName);
-bool HasDirectorCutPuzzleGuides(FName MapName);
+bool HasDirectorCutPlayHUD(FName MapName);
 FDirectorCutPuzzleGuide GetDirectorCutPuzzleGuide(FName MapName, APlayerController& Controller);

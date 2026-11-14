@@ -171,7 +171,10 @@ void ADirectorCutPlayerController::BeginPlay()
 
     auto MakeChoice = [this](EOption Option, bool bHigh)
     {
-        const FText Text = bHigh ? LOCTEXT("High", "높음") : LOCTEXT("Low", "낮음");
+        const bool bIsShadows = Option == EOption::Shadows;
+        const FText Text = bIsShadows
+            ? (bHigh ? LOCTEXT("ShadowsOn", "On") : LOCTEXT("ShadowsOff", "Off"))
+            : (bHigh ? LOCTEXT("High", "High") : LOCTEXT("Low", "Low"));
         return SNew(SButton)
             .HAlign(HAlign_Center)
             .IsEnabled_Lambda([this, Option] { return GetWorld()->GetSubsystem<UDirectorCutGraphicsSubsystem>()->CanSet(Option); })
@@ -224,24 +227,24 @@ void ADirectorCutPlayerController::BeginPlay()
                                 [
                                     SNew(SVerticalBox)
                                     + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,bWorkshop ? 5 : 25)
-                                        [Label(LOCTEXT("Title", "그래픽 설정"), 38, AccentColor)]
+                                        [Label(LOCTEXT("Title", "Graphics Settings"), 38, AccentColor)]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,bWorkshop ? 14 : 0)
                                     [
                                         SNew(SBox).Visibility(bWorkshop ? EVisibility::HitTestInvisible : EVisibility::Collapsed)
-                                        [Label(LOCTEXT("WorkshopKeys", "1 낮음   2 높음   3 그림자 전환   Esc / M 닫기"), 17)]
+                                        [Label(LOCTEXT("WorkshopKeys", "1 Low Detail   2 High Detail   3 Toggle Shadows   Esc / M Close"), 17)]
                                     ]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,15)
-                                        [MakeRow(EOption::ModelDetail, LOCTEXT("Model", "모델 디테일"))]
+                                        [MakeRow(EOption::ModelDetail, LOCTEXT("Model", "Model Detail"))]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,15)
-                                        [MakeRow(EOption::Resolution, LOCTEXT("Resolution", "해상도"))]
+                                        [MakeRow(EOption::Resolution, LOCTEXT("Resolution", "Resolution"))]
                                     + SVerticalBox::Slot().AutoHeight()
-                                        [MakeRow(EOption::Shadows, LOCTEXT("Shadows", "그림자"))]
+                                        [MakeRow(EOption::Shadows, LOCTEXT("Shadows", "Shadows"))]
                                     + SVerticalBox::Slot().FillHeight(1).HAlign(HAlign_Right).VAlign(VAlign_Bottom)
                                     [
                                         SNew(SButton).ContentPadding(FMargin(26,12))
                                         .ButtonColorAndOpacity(FLinearColor(.39f,.27f,.12f))
                                         .OnClicked_Lambda([this] { SetMenuOpen(false); return FReply::Handled(); })
-                                        [Label(LOCTEXT("Close", "닫기"), 22)]
+                                        [Label(LOCTEXT("Close", "Close"), 22)]
                                     ]
                                 ]
                             ]
@@ -253,7 +256,7 @@ void ADirectorCutPlayerController::BeginPlay()
         + SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Top).Padding(0, 18, 18, 0)
         [
             SNew(SButton).HAlign(HAlign_Center).ContentPadding(FMargin(15, 8))
-            .ToolTipText(LOCTEXT("SettingsTooltip", "그래픽 설정"))
+            .ToolTipText(LOCTEXT("SettingsTooltip", "Graphics Settings"))
             .ButtonColorAndOpacity(PanelColor)
             .OnClicked_Lambda([this] { ToggleMenu(); return FReply::Handled(); })
             [Label(FText::FromString(TEXT("\u2699")), 27, AccentColor)]

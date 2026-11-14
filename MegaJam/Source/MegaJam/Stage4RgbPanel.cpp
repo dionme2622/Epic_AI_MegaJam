@@ -368,9 +368,9 @@ TSharedRef<SWidget> BuildStage4RgbPanel(AColorSignalPuzzle& Puzzle)
                 {
                     return State.IsValid() && State->bSolved
                         ? LOCTEXT("Unlocked", "VAULT UNLOCKED")
-                        : LOCTEXT("Clue", "Blue leads. Red is one step above green. No channel is dark.");
+                        : LOCTEXT("LightingStatus", "CALIBRATION IN PROGRESS");
                 })
-                .Font(FCoreStyle::GetDefaultFontStyle("Bold", 30))
+                .Font(FCoreStyle::GetDefaultFontStyle("Bold", 26))
                 .ColorAndOpacity(Brass)
             ]
             + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 3.f, 0.f, 0.f)

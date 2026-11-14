@@ -17,7 +17,6 @@
 #include "Materials/MaterialInterface.h"
 #include "Stage2ShadowPrototype.h"
 #include "Styling/CoreStyle.h"
-#include "Widgets/Layout/SBorder.h"
 #include "Widgets/SOverlay.h"
 #include "Widgets/Text/STextBlock.h"
 
@@ -58,24 +57,19 @@ void AStage3TakePuzzle::BeginPlay()
     if (UGameViewportClient* Viewport = GetWorld()->GetGameViewport())
     {
         Overlay = SNew(SOverlay).Visibility(EVisibility::HitTestInvisible)
-            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(18.f, 18.f)
+            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(18.f, 24.f)
             [
-                SNew(SBorder)
-                .Padding(FMargin(19.f, 11.f))
-                .BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-                .BorderBackgroundColor(FLinearColor(.045f, .025f, .03f, .95f))
+                SNew(STextBlock)
+                .Text_Lambda([this] { return Hint; })
+                .ColorAndOpacity(FLinearColor(1.f, .86f, .60f))
+                .Font(FCoreStyle::GetDefaultFontStyle("Bold", 16))
+                .ShadowOffset(FVector2D(1.f, 2.f))
+                .ShadowColorAndOpacity(FLinearColor::Black)
+                .Justification(ETextJustify::Center)
                 .Visibility_Lambda([this]
                 {
                     return Hint.IsEmpty() ? EVisibility::Collapsed : EVisibility::HitTestInvisible;
                 })
-                [
-                    SNew(STextBlock)
-                    .Text_Lambda([this] { return Hint; })
-                    .ColorAndOpacity(FLinearColor(1.f, .86f, .60f))
-                    .Font(FCoreStyle::GetDefaultFontStyle("Regular", 16))
-                    .Justification(ETextJustify::Center)
-                    .WrapTextAt(780.f)
-                ]
             ];
         Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 7);
     }
@@ -134,7 +128,7 @@ void AStage3TakePuzzle::Tick(float DeltaSeconds)
     if (bCompleted)
     {
         SetHint(LocalPosition.X <= RightMark.X + PlateHalfWidth
-            ? LOCTEXT("Complete", "TWO TAKES COMPLETE\nBoth marks are locked. The exit is open.")
+            ? LOCTEXT("Complete", "TWO TAKES APPROVED")
             : FText::GetEmpty());
         return;
     }
@@ -153,7 +147,8 @@ void AStage3TakePuzzle::Tick(float DeltaSeconds)
         SetGhostVisible(false);
         SetPlates(false, false);
         RewindPlayer(*Character);
-        SetHint(LOCTEXT("Reset", "CAMERA RESET\nPress E at the camera to record a new first take."));
+        MessageSeconds = 1.4f;
+        SetHint(LOCTEXT("Reset", "CAMERA RESET"));
         return;
     }
 
@@ -183,13 +178,13 @@ void AStage3TakePuzzle::Tick(float DeltaSeconds)
                 RewindPlayer(*Character);
                 SetPlates(false, false);
                 MessageSeconds = 2.4f;
-                SetHint(LOCTEXT("TakeExpired", "TAKE 1 EXPIRED\nReach the left plate and hold it. Press E at the camera to retry."));
+                SetHint(LOCTEXT("TakeExpired", "TAKE 1 EXPIRED"));
                 return;
             }
         }
         SetHint(FText::Format(bOnLeft && PlateHoldDuringRecording >= DesiredHold
-            ? LOCTEXT("FinishTake", "REC  {0}s\nHold the left plate a little longer for an easier replay, then press E to finish.")
-            : LOCTEXT("FindLeft", "REC  {0}s\nWalk to the left plate and hold it until the camera is ready."),
+            ? LOCTEXT("FinishTake", "REC  {0}s    •    TAKE READY    •    R  Reset")
+            : LOCTEXT("FindLeft", "REC  {0}s    •    R  Reset"),
             FText::AsNumber(FMath::CeilToInt(MaxRecordingSeconds - RecordedSeconds))));
         return;
     }
@@ -208,7 +203,7 @@ void AStage3TakePuzzle::Tick(float DeltaSeconds)
             StartPlayback(*Character);
             return;
         }
-        SetHint(LOCTEXT("Retry", "TAKE 2 MISSED\nReturn to the camera and press E to replay, or press R to record a longer hold."));
+        SetHint(LOCTEXT("Retry", "TAKE 2 MISSED    •    R  Reset"));
         return;
     }
     if (bNearCamera && bInteract)
@@ -218,9 +213,7 @@ void AStage3TakePuzzle::Tick(float DeltaSeconds)
     }
     if (MessageSeconds <= 0.f)
     {
-        SetHint(bNearCamera
-            ? LOCTEXT("Start", "TWO TAKES\nE  Record your first take. The dragon in Take 1 can hold the left plate.")
-            : LOCTEXT("Approach", "TWO TAKES\nFind the camera between the two brass floor plates."));
+        SetHint(FText::GetEmpty());
     }
 }
 
@@ -261,7 +254,7 @@ void AStage3TakePuzzle::StartRecording(ACharacter& Character)
     Frames.Reserve(FMath::CeilToInt(MaxRecordingSeconds / SampleInterval) + 2);
     Phase = EStage3TakePhase::Recording;
     SampleFrame(Character, false);
-    SetHint(LOCTEXT("Recording", "TAKE 1 RECORDING\nWalk to the left plate and hold it until the camera is ready."));
+    SetHint(LOCTEXT("Recording", "TAKE 1 RECORDING    •    R  Reset"));
 }
 
 void AStage3TakePuzzle::SampleFrame(ACharacter& Character, bool bOnLeftPlate)
@@ -296,7 +289,7 @@ void AStage3TakePuzzle::StartPlayback(ACharacter& Character)
     RewindPlayer(Character);
     ShowReplayFrame();
     SetGhostVisible(true);
-    SetHint(LOCTEXT("Playback", "TAKE 2 PLAYING\nRun to the right plate while your recorded dragon holds the left plate."));
+    SetHint(LOCTEXT("Playback", "TAKE 2 PLAYING    •    R  Reset"));
 }
 
 void AStage3TakePuzzle::UpdatePlayback(float DeltaSeconds, bool bPlayerOnRight)
@@ -341,12 +334,12 @@ void AStage3TakePuzzle::UpdatePlayback(float DeltaSeconds, bool bPlayerOnRight)
         Phase = EStage3TakePhase::ReplayReady;
         SetGhostVisible(false);
         SetPlates(false, bPlayerOnRight);
-        SetHint(LOCTEXT("Retry", "TAKE 2 MISSED\nReturn to the camera and press E to replay, or press R to record a longer hold."));
+        SetHint(LOCTEXT("Retry", "TAKE 2 MISSED    •    R  Reset"));
         return;
     }
     SetHint(bRecordedOnLeft && bPlayerOnRight
-        ? LOCTEXT("HoldBoth", "BOTH PLATES PRESSED\nHold your position.")
-        : LOCTEXT("Playback", "TAKE 2 PLAYING\nRun to the right plate while your recorded dragon holds the left plate."));
+        ? LOCTEXT("HoldBoth", "BOTH MARKS ACTIVE")
+        : LOCTEXT("Playback", "TAKE 2 PLAYING    •    R  Reset"));
 }
 
 void AStage3TakePuzzle::RewindPlayer(ACharacter& Character) const

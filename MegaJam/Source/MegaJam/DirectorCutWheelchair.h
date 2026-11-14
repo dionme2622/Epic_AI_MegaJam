@@ -2,9 +2,33 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Subsystems/GameInstanceSubsystem.h"
 #include "DirectorCutWheelchair.generated.h"
 
 class ADirectorCutDragon;
+
+UCLASS()
+class UDirectorCutWheelchairTravel : public UGameInstanceSubsystem
+{
+    GENERATED_BODY()
+
+public:
+    void BeginCastle() { CastleMounted = false; }
+    void RecordMount() { CastleMounted = true; }
+    bool EnterWorkshop(bool bStartMounted)
+    {
+        const bool bMounted = CastleMounted.Get(bStartMounted);
+        CastleMounted.Reset();
+        return bMounted;
+    }
+    void StartWorkshop() { bHeroLegsAcquired = false; }
+    void RecordHeroLegs() { bHeroLegsAcquired = true; }
+    bool HasHeroLegs(bool bDefault) const { return bHeroLegsAcquired.Get(bDefault); }
+
+private:
+    TOptional<bool> CastleMounted;
+    TOptional<bool> bHeroLegsAcquired;
+};
 
 namespace DirectorCutCart
 {

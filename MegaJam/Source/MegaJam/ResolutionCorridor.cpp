@@ -72,13 +72,14 @@ void AResolutionCorridor::BeginPlay()
     if(GEngine && GEngine->GameViewport)
     {
         const bool bCampaignBridge = bUseProjectedBridge && UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_");
-        Overlay=SNew(SOverlay).Visibility_Lambda([this]()
+        Overlay=SNew(SOverlay).Visibility_Lambda([this, bCampaignBridge]()
           {
               if (!Player.IsValid()) return EVisibility::Collapsed;
               const float X = Player->GetActorLocation().X - GetActorLocation().X;
               if ((bRestrictOverlayStart && X < ShowOverlayFromOffsetX) || (HideOverlayBeyondX > 0.f && X > HideOverlayBeyondX)) return EVisibility::Collapsed;
               const auto* Controller = Cast<ADirectorCutPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
               if (bUseProjectedBridge && Controller && Controller->IsGraphicsMenuOpen()) return EVisibility::Collapsed;
+              if (bCampaignBridge && !bBridgeConsoleOpen && !bCompleted) return EVisibility::Collapsed;
               return EVisibility::SelfHitTestInvisible;
           })
         +SOverlay::Slot().HAlign(HAlign_Center).VAlign(bCampaignBridge ? VAlign_Bottom : VAlign_Top).Padding(14)
@@ -97,7 +98,7 @@ FText AResolutionCorridor::StatusText() const
 {
     if (bUseProjectedBridge)
     {
-        if (bCompleted) return FText::FromString(TEXT("BRIDGE LOCKED  |  CROSS TO PROP STORAGE"));
+        if (bCompleted) return FText::FromString(TEXT("BRIDGE LOCKED"));
         if (!bBridgeConfigured) return FText::FromString(TEXT("PROJECTOR UNAVAILABLE"));
         if (UGameplayStatics::GetCurrentLevelName(this, true) != TEXT("Stage3_"))
         {

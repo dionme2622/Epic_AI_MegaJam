@@ -7,17 +7,9 @@
 #include "Components/StaticMeshComponent.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutTest.h"
-#include "Engine/GameViewportClient.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInterface.h"
-#include "Styling/CoreStyle.h"
-#include "Widgets/Layout/SBorder.h"
-#include "Widgets/Layout/SBox.h"
-#include "Widgets/SOverlay.h"
-#include "Widgets/Text/STextBlock.h"
-
-#define LOCTEXT_NAMESPACE "Stage4ShadowStandIn"
 
 namespace
 {
@@ -46,30 +38,6 @@ void AStage4ShadowStandIn::BeginPlay()
     for (UStaticMeshComponent* Lamp : SwitchLamps)
     {
         LampOffMaterials.Add(Lamp ? Lamp->GetMaterial(0) : nullptr);
-    }
-    if (UGameViewportClient* Viewport = GetWorld()->GetGameViewport())
-    {
-        Overlay = SNew(SOverlay).Visibility(EVisibility::HitTestInvisible)
-            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(14.f, 13.f)
-            [
-                SNew(SBorder)
-                .Padding(FMargin(18.f, 9.f))
-                .Visibility_Lambda([this] { return Hint.IsEmpty() ? EVisibility::Collapsed : EVisibility::HitTestInvisible; })
-                .BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-                .BorderBackgroundColor(FLinearColor(.047f, .023f, .033f, .95f))
-                [
-                    SNew(SBox).WidthOverride(570.f)
-                    [
-                        SNew(STextBlock)
-                        .Text_Lambda([this] { return Hint; })
-                        .ColorAndOpacity(FLinearColor(.98f,.83f,.57f))
-                        .Font(FCoreStyle::GetDefaultFontStyle("Regular", 15))
-                        .Justification(ETextJustify::Center)
-                        .WrapTextAt(560.f)
-                    ]
-                ]
-            ];
-        Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 7);
     }
 }
 
@@ -144,7 +112,6 @@ void AStage4ShadowStandIn::Tick(float DeltaSeconds)
     const FVector P = GetActorTransform().InverseTransformPosition(Dragon->GetActorLocation());
     const bool bInPuzzle = OwnsRecovery(Dragon->GetActorLocation().X);
     const auto* Graphics = GetWorld()->GetSubsystem<UDirectorCutGraphicsSubsystem>();
-    const auto* Controller = Cast<ADirectorCutPlayerController>(Dragon->GetController());
     const bool bShadows = !Graphics || Graphics->IsHigh(EDirectorCutGraphicsOption::Shadows);
     const bool bGrounded = Dragon->GetCharacterMovement()->IsMovingOnGround();
     const bool bOnFerry = Ferry && Dragon->GetMovementBase() == Ferry;
@@ -210,7 +177,6 @@ void AStage4ShadowStandIn::Tick(float DeltaSeconds)
 
     if (!bInPuzzle)
     {
-        Hint = FText::GetEmpty();
         return;
     }
     if (P.Z < -180.)
@@ -230,14 +196,6 @@ void AStage4ShadowStandIn::Tick(float DeltaSeconds)
     {
         bReachedExhibit = true;
         SetCheckpoint(*Dragon, 2);
-    }
-    if (Controller && Controller->IsGraphicsMenuOpen())
-    {
-        Hint = FText::GetEmpty();
-    }
-    else
-    {
-        UpdateHint(P.X, bShadows, bOnFerry);
     }
 }
 
@@ -263,47 +221,3 @@ void AStage4ShadowStandIn::Respawn(ADirectorCutDragon& Dragon)
         Controller->PlayerCameraManager->StartCameraFade(.65f, 0.f, .35f, FLinearColor::Black, false, false);
     }
 }
-
-void AStage4ShadowStandIn::UpdateHint(double X, bool bShadows, bool bOnFerry)
-{
-    if (bOnFerry && X < 740.)
-    {
-        Hint = LOCTEXT("Release", "SHADOW STAND-IN\nStay aboard and turn Shadows OFF to release the wall switch.");
-    }
-    else if (X < 280.)
-    {
-        Hint = bShadows
-            ? LOCTEXT("Call", "SHADOW STAND-IN\nStand on the brass mark. Your shadow calls the ferry.")
-            : LOCTEXT("Power", "SHADOW STAND-IN\nStand on the brass mark and turn Shadows ON (High).");
-    }
-    else if (bOnFerry)
-    {
-        Hint = LOCTEXT("LeaveFerry", "Step off when the ferry reaches the far ledge.");
-    }
-    else if (In(X, 930., 1200.) && Checkpoint >= 1)
-    {
-        Hint = LOCTEXT("Lower", "CHECKPOINT\nTry the lower switch from the floor. Watch what changes when you jump.");
-    }
-    else if (In(X, 1210., 1380.) && Checkpoint >= 1)
-    {
-        Hint = bRaisedBridge ? LOCTEXT("Cross", "HIGH SWITCH LATCHED\nCross the raised bridge.")
-            : bShadows ? LOCTEXT("UpperRelease", "At the raised brass mark, switch Shadows OFF, then ON.")
-                       : LOCTEXT("Upper", "At the raised brass mark, switch Shadows ON to latch the high switch.");
-    }
-    else
-    {
-        Hint = FText::GetEmpty();
-    }
-}
-
-void AStage4ShadowStandIn::EndPlay(EEndPlayReason::Type Reason)
-{
-    if (Overlay && GetWorld() && GetWorld()->GetGameViewport())
-    {
-        GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(Overlay.ToSharedRef());
-    }
-    Overlay.Reset();
-    Super::EndPlay(Reason);
-}
-
-#undef LOCTEXT_NAMESPACE

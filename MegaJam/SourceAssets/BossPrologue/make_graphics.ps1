@@ -7,8 +7,8 @@ $captions = @(
     @('03_Missing','드래곤: "잠깐… 내 다리는 어디 갔지?"','Dragon: "Wait... Where did my legs go?"'),
     @('04_Protest','드래곤: "화면에 안 나온다고 다리를 떼어 가?"','Dragon: "You took my legs because they were off camera?"')
 )
-$koFont = New-Object System.Drawing.Font('Malgun Gothic',44,[System.Drawing.FontStyle]::Bold)
-$enFont = New-Object System.Drawing.Font('Arial',34,[System.Drawing.FontStyle]::Regular)
+$koFont = New-Object System.Drawing.Font('Malgun Gothic',39,[System.Drawing.FontStyle]::Bold)
+$enFont = New-Object System.Drawing.Font('Arial',30,[System.Drawing.FontStyle]::Regular)
 function New-Canvas([int]$w,[int]$h) {
     $bmp = New-Object System.Drawing.Bitmap($w,$h,[System.Drawing.Imaging.PixelFormat]::Format32bppArgb)
     $g = [System.Drawing.Graphics]::FromImage($bmp)
@@ -18,15 +18,18 @@ function New-Canvas([int]$w,[int]$h) {
 }
 foreach ($row in $captions) {
     $canvas = New-Canvas 1920 220; $bmp=$canvas[0]; $g=$canvas[1]
-    $bg = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(205,6,9,18))
+    $outline = [System.Drawing.Brushes]::Black
     $white = [System.Drawing.Brushes]::White
-    $g.FillRectangle($bg,50,5,1820,205)
     $sf = New-Object System.Drawing.StringFormat
     $sf.Alignment = [System.Drawing.StringAlignment]::Center
-    $g.DrawString($row[1],$koFont,$white,[System.Drawing.RectangleF]::new(80,22,1760,82),$sf)
-    $g.DrawString($row[2],$enFont,$white,[System.Drawing.RectangleF]::new(80,114,1760,72),$sf)
+    foreach ($offset in @(@(-6,0),@(-4,-4),@(0,-6),@(4,-4),@(6,0),@(4,4),@(0,6),@(-4,4))) {
+        $g.DrawString($row[1],$koFont,$outline,[System.Drawing.RectangleF]::new((80+$offset[0]),(25+$offset[1]),1760,82),$sf)
+        $g.DrawString($row[2],$enFont,$outline,[System.Drawing.RectangleF]::new((80+$offset[0]),(116+$offset[1]),1760,72),$sf)
+    }
+    $g.DrawString($row[1],$koFont,$white,[System.Drawing.RectangleF]::new(80,25,1760,82),$sf)
+    $g.DrawString($row[2],$enFont,$white,[System.Drawing.RectangleF]::new(80,116,1760,72),$sf)
     $bmp.Save((Join-Path $root ($row[0]+'.png')),[System.Drawing.Imaging.ImageFormat]::Png)
-    $sf.Dispose();$bg.Dispose();$g.Dispose();$bmp.Dispose()
+    $sf.Dispose();$g.Dispose();$bmp.Dispose()
 }
 function Make-Card([string]$name,[string[]]$lines,[int]$w,[int]$h,[int]$fontSize) {
     $canvas=New-Canvas $w $h; $bmp=$canvas[0]; $g=$canvas[1]

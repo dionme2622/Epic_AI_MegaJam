@@ -58,7 +58,7 @@ FText AFocusPropPuzzle::GetStatusText() const
 }
 FText AFocusPropPuzzle::GetProgressText() const
 {
-    return FText::FromString(FString::Printf(TEXT("ALIGN THE TWO KEY PIECES     %d%%"), FMath::RoundToInt(GetAlignmentProgress()*100.f)));
+    return FText::FromString(FString::Printf(TEXT("REGISTRATION     %d%%"), FMath::RoundToInt(GetAlignmentProgress()*100.f)));
 }
 FSlateColor AFocusPropPuzzle::GetProgressColor() const { return IsAligned() ? FSlateColor(FLinearColor(.35f,1.f,.56f,1.f)) : FSlateColor(FLinearColor(1.f,.76f,.35f,1.f)); }
 void AFocusPropPuzzle::EnterPuzzle()

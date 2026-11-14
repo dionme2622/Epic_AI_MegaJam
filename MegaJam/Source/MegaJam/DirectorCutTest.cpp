@@ -9,9 +9,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/PoseableMeshComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/Engine.h"
+#include "Engine/GameInstance.h"
 #include "EngineUtils.h"
 #include "Engine/SkeletalMesh.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -39,7 +41,8 @@ ADirectorCutDragon::ADirectorCutDragon()
 
     static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(
         TEXT("/Game/DirectorCut/Dragon/Origin/SK_Dragon_Origin.SK_Dragon_Origin"));
-    if (MeshAsset.Succeeded())
+    StandingDragonMesh = MeshAsset.Object;
+    if (StandingDragonMesh)
     {
         GetMesh()->SetSkeletalMesh(MeshAsset.Object);
     }
@@ -56,13 +59,37 @@ ADirectorCutDragon::ADirectorCutDragon()
     RunMotion = Run.Object;
     JumpMotion = Jump.Object;
     LandMotion = Land.Object;
+    StandingMotions[0] = IdleMotion;
+    StandingMotions[1] = RunMotion;
+    StandingMotions[2] = JumpMotion;
+    StandingMotions[3] = LandMotion;
 
+    static ConstructorHelpers::FObjectFinder<USkeletalMesh> UpperMesh(
+        TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_Upper.SK_Dragon_Upper"));
     static ConstructorHelpers::FObjectFinder<UAnimSequence> UpperIdle(
         TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Idle.SK_Dragon_UpperArmature_Idle"));
     static ConstructorHelpers::FObjectFinder<UAnimSequence> UpperJump(
         TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Jump.SK_Dragon_UpperArmature_Jump"));
+    static ConstructorHelpers::FObjectFinder<UAnimSequence> UpperRun(
+        TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Run_Upright.SK_Dragon_UpperArmature_Run_Upright"));
+    static ConstructorHelpers::FObjectFinder<UAnimSequence> UpperLand(
+        TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Land.SK_Dragon_UpperArmature_Land"));
+    HeroUpperMesh = UpperMesh.Object;
     UnmountedCartIdleMotion = UpperIdle.Object;
     UnmountedCartJumpMotion = UpperJump.Object;
+    HeroRunMotion = UpperRun.Object;
+    HeroLandMotion = UpperLand.Object;
+
+    HeroLegsMesh = CreateDefaultSubobject<UPoseableMeshComponent>(TEXT("EquippedHeroLegs"));
+    HeroLegsMesh->SetupAttachment(GetMesh());
+    HeroLegsMesh->SetRelativeScale3D(FVector(.82f));
+    HeroLegsMesh->SetRelativeLocation(FVector(-3.f, 0.f, 0.f));
+    HeroLegsMesh->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
+    HeroLegsMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    HeroLegsMesh->SetVisibility(false);
+    static ConstructorHelpers::FObjectFinder<USkeletalMesh> KnightLower(
+        TEXT("/Game/DirectorCut/Dragon/KnightLegs/SK_Knight_LowerBody.SK_Knight_LowerBody"));
+    HeroLegsMesh->SetSkinnedAssetAndUpdate(KnightLower.Object);
 
     auto* Movement = GetCharacterMovement();
     PrimaryActorTick.AddPrerequisite(Movement, Movement->PrimaryComponentTick);
@@ -108,9 +135,20 @@ void ADirectorCutDragon::BeginPlay()
     }
     SpawnPoint = GetActorLocation();
     UpdateSideCamera(SpawnPoint.X);
-    const bool bStartMounted = bRideCart && !bAwaitWheelchair;
+    auto* Game = GetGameInstance();
+    auto* Travel = Game ? Game->GetSubsystem<UDirectorCutWheelchairTravel>() : nullptr;
+    if (bAwaitWheelchair && Travel)
+    {
+        Travel->BeginCastle();
+    }
+    const bool bStartMounted = bContinueCartFromCastle && Travel
+        ? Travel->EnterWorkshop(bRideCart) : bRideCart && !bAwaitWheelchair;
+    if (bContinueCartFromCastle && Travel)
+    {
+        Travel->StartWorkshop();
+    }
     bRideCart = false;
-    if (bAwaitWheelchair && CartRiderMesh && CartMotion)
+    if ((bAwaitWheelchair || bContinueCartFromCastle) && CartRiderMesh && CartMotion)
     {
         GetMesh()->SetSkeletalMesh(CartRiderMesh);
         IdleMotion = UnmountedCartIdleMotion ? UnmountedCartIdleMotion.Get() : CartMotion.Get();
@@ -120,12 +158,16 @@ void ADirectorCutDragon::BeginPlay()
     }
     CartBody->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
     GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
-    if (!bStartMounted || !MountCart())
+    if ((LevelName == TEXT("Stage3_") || LevelName == TEXT("Stage4")) && (!Travel || Travel->HasHeroLegs(true)))
+    {
+        EquipHeroLegs();
+    }
+    else if (!bStartMounted || !MountCart())
     {
         CartBody->SetVisibility(false, true);
         PlayMotion(IdleMotion, 0.f, 0.f);
     }
-    if (IsLocallyControlled() && GEngine && !bAwaitWheelchair
+    if (IsLocallyControlled() && GEngine && !bAwaitWheelchair && !bContinueCartFromCastle
         && LevelName != TEXT("Stage3_") && LevelName != TEXT("Stage4") && LevelName != TEXT("L_Stage1")
         && !(LevelName == TEXT("Stage1") && GetWorld()->GetOutermost()->GetName().Contains(TEXT("/DirectorCut/Stage/"))))
     {
@@ -136,7 +178,7 @@ void ADirectorCutDragon::BeginPlay()
 
 bool ADirectorCutDragon::CanMountCart() const
 {
-    return !bRideCart && CartRiderMesh && CartMotion && CartBody->GetStaticMesh();
+    return !bRideCart && !bHeroLegsEquipped && CartRiderMesh && CartMotion && CartBody->GetStaticMesh();
 }
 
 bool ADirectorCutDragon::MountCart()
@@ -158,10 +200,76 @@ bool ADirectorCutDragon::MountCart()
         GetMesh()->SetSkeletalMesh(CartRiderMesh);
     }
     bRideCart = true;
+    StopJumping();
+    BufferedJumpUntil = -1.0;
+    if (bAwaitWheelchair)
+    {
+        auto* Game = GetGameInstance();
+        if (auto* Travel = Game ? Game->GetSubsystem<UDirectorCutWheelchairTravel>() : nullptr)
+        {
+            Travel->RecordMount();
+        }
+    }
     LastCartLocation = GetActorLocation();
     CartBody->SetVisibility(true, true);
     UpdateCart(0.f);
     return true;
+}
+
+bool ADirectorCutDragon::EquipHeroLegs()
+{
+    if (bHeroLegsEquipped || !HeroUpperMesh || !HeroLegsMesh->GetSkinnedAsset())
+    {
+        return false;
+    }
+
+    bHeroLegsEquipped = true;
+    bRideCart = false;
+    StopJumping();
+    BufferedJumpUntil = -1.0;
+    CartBody->SetVisibility(false, true);
+    GetMesh()->SetSkeletalMesh(HeroUpperMesh);
+    GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
+    GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
+    CurrentMotion = nullptr;
+    IdleMotion = UnmountedCartIdleMotion;
+    RunMotion = HeroRunMotion;
+    JumpMotion = UnmountedCartJumpMotion;
+    LandMotion = HeroLandMotion;
+    PlayMotion(IdleMotion, 0.f, 0.f);
+    HeroLegsMesh->SetVisibility(true);
+    UpdateHeroLegsPose();
+
+    if (bContinueCartFromCastle)
+    {
+        auto* Game = GetGameInstance();
+        if (auto* Travel = Game ? Game->GetSubsystem<UDirectorCutWheelchairTravel>() : nullptr)
+        {
+            Travel->RecordHeroLegs();
+        }
+    }
+    return true;
+}
+
+void ADirectorCutDragon::RestoreOriginalLegs()
+{
+    if (!bHeroLegsEquipped || !StandingDragonMesh) return;
+
+    bHeroLegsEquipped = false;
+    HeroLegsMesh->SetVisibility(false);
+    GetMesh()->SetSkeletalMesh(StandingDragonMesh);
+    GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
+    CurrentMotion = nullptr;
+    IdleMotion = StandingMotions[0];
+    RunMotion = StandingMotions[1];
+    JumpMotion = StandingMotions[2];
+    LandMotion = StandingMotions[3];
+    PlayMotion(IdleMotion, 0.f, 0.f);
+}
+
+bool ADirectorCutDragon::CanJumpInternal_Implementation() const
+{
+    return !bRideCart && (!bContinueCartFromCastle || bHeroLegsEquipped) && Super::CanJumpInternal_Implementation();
 }
 
 void ADirectorCutDragon::SetupPlayerInputComponent(UInputComponent* Input)
@@ -184,7 +292,7 @@ void ADirectorCutDragon::Move(float Amount)
 
 void ADirectorCutDragon::StartJump()
 {
-    if (Controller && Controller->IsMoveInputIgnored())
+    if (bRideCart || (bContinueCartFromCastle && !bHeroLegsEquipped) || (Controller && Controller->IsMoveInputIgnored()))
     {
         return;
     }
@@ -202,6 +310,12 @@ void ADirectorCutDragon::StartJump()
 
 void ADirectorCutDragon::CheckJumpInput(float DeltaTime)
 {
+    if (bRideCart)
+    {
+        StopJumping();
+        BufferedJumpUntil = -1.0;
+        return;
+    }
     if (BufferedJumpUntil >= 0.0)
     {
         if (GetWorld()->GetTimeSeconds() > BufferedJumpUntil || (Controller && Controller->IsMoveInputIgnored()))
@@ -331,9 +445,14 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
         }
     }
 
+    if (bHeroLegsEquipped)
+    {
+        UpdateHeroLegsPose();
+    }
     const FVector Position = GetActorLocation();
     TheatreCameraBlend = FMath::FInterpTo(TheatreCameraBlend, TheatreCameraTarget, DeltaSeconds, 3.5f);
-    const float TargetX = FMath::Lerp(static_cast<float>(Position.X), TheatreCameraFocusX, TheatreCameraBlend);
+    const float TargetX = FMath::Lerp(static_cast<float>(Position.X) + (bContinueCartFromCastle ? 175.f : 0.f),
+        TheatreCameraFocusX, TheatreCameraBlend);
     const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, TargetX, DeltaSeconds, 6.f);
     UpdateSideCamera(DesiredX);
 }
@@ -380,12 +499,45 @@ void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
     PlayMotion(Motion, CartMotionTime, .18f);
 }
 
+void ADirectorCutDragon::UpdateHeroLegsPose()
+{
+    const auto* LowerAsset = Cast<USkeletalMesh>(HeroLegsMesh->GetSkinnedAsset());
+    if (!LowerAsset) return;
+    const auto& Skeleton = LowerAsset->GetRefSkeleton();
+    const auto& Reference = Skeleton.GetRefBonePose();
+    if (HeroLegsMesh->BoneSpaceTransforms.Num() != Reference.Num()) return;
+
+    const float Speed = FMath::Abs(GetVelocity().X);
+    const bool bAirborne = GetCharacterMovement()->IsFalling();
+    const float Cycle = RunMotion && RunMotion->GetPlayLength() > 0.f
+        ? GroundMotionTime / RunMotion->GetPlayLength() * UE_TWO_PI : 0.f;
+    const float Swing = bAirborne ? .45f : FMath::Sin(Cycle) * FMath::Min(Speed / 340.f, 1.f) * .47f;
+    const FName Bones[] = {TEXT("LeftUpLeg"), TEXT("RightUpLeg"), TEXT("LeftLeg"), TEXT("RightLeg")};
+    const float Bend[] = {Swing, -Swing, FMath::Max(0.f, -Swing) * 1.35f, FMath::Max(0.f, Swing) * 1.35f};
+    for (int32 Index = 0; Index < UE_ARRAY_COUNT(Bones); ++Index)
+    {
+        const int32 Bone = Skeleton.FindBoneIndex(Bones[Index]);
+        if (Bone == INDEX_NONE) continue;
+        FQuat ParentOrientation = FQuat::Identity;
+        for (int32 Parent = Skeleton.GetParentIndex(Bone); Parent != INDEX_NONE; Parent = Skeleton.GetParentIndex(Parent))
+        {
+            ParentOrientation = Reference[Parent].GetRotation() * ParentOrientation;
+        }
+        const FVector LocalAxis = ParentOrientation.UnrotateVector(-FVector::XAxisVector);
+        FTransform Pose = Reference[Bone];
+        Pose.SetRotation(FQuat(LocalAxis, Bend[Index]) * Pose.GetRotation());
+        HeroLegsMesh->BoneSpaceTransforms[Bone] = Pose;
+    }
+    HeroLegsMesh->RefreshBoneTransforms();
+}
+
 void ADirectorCutDragon::UpdateSideCamera(float FollowX)
 {
     const float Distance = FMath::Lerp(CameraDistance, 1310.f, TheatreCameraBlend);
     const float Height = FMath::Lerp(CameraElevation, 305.f, TheatreCameraBlend);
     const float Pitch = FMath::Lerp(CameraPitch, -6.f, TheatreCameraBlend);
-    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + Distance, SpawnPoint.Z + Height));
+    const double AnchorZ = bContinueCartFromCastle ? GetActorLocation().Z : SpawnPoint.Z;
+    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + Distance, AnchorZ + Height));
     SideCamera->SetWorldRotation(FRotator(Pitch, -90.f, 0.f));
     SideCamera->SetFieldOfView(FMath::Lerp(CameraFieldOfView, 61.f, TheatreCameraBlend));
 }

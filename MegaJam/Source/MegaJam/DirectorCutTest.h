@@ -8,6 +8,7 @@
 
 class UAnimSequence;
 class UCameraComponent;
+class UPoseableMeshComponent;
 class UStaticMeshComponent;
 class USkeletalMesh;
 
@@ -26,6 +27,9 @@ public:
     bool IsRidingCart() const { return bRideCart; }
     bool CanMountCart() const;
     bool MountCart();
+    bool HasHeroLegs() const { return bHeroLegsEquipped; }
+    bool EquipHeroLegs();
+    void RestoreOriginalLegs();
 
     void SetPuzzleRespawnPoint(const FVector& Location) { SpawnPoint = Location; }
     void SetTheatreCameraFraming(float Amount, float FocusX)
@@ -36,6 +40,7 @@ public:
 
 protected:
     virtual void BeginPlay() override;
+    virtual bool CanJumpInternal_Implementation() const override;
 
 private:
     void Move(float Amount);
@@ -44,12 +49,37 @@ private:
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
     void UpdateCart(float DeltaSeconds);
+    void UpdateHeroLegsPose();
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     bool bRideCart = false;
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     bool bAwaitWheelchair = false;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    bool bContinueCartFromCastle = false;
+
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Hero Legs", meta=(AllowPrivateAccess="true"))
+    bool bHeroLegsEquipped = false;
+
+    UPROPERTY(VisibleAnywhere, Category="Hero Legs")
+    TObjectPtr<UPoseableMeshComponent> HeroLegsMesh;
+
+    UPROPERTY()
+    TObjectPtr<USkeletalMesh> StandingDragonMesh;
+
+    UPROPERTY()
+    TObjectPtr<USkeletalMesh> HeroUpperMesh;
+
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> HeroRunMotion;
+
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> HeroLandMotion;
+
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> StandingMotions[4];
 
     UPROPERTY(VisibleAnywhere, Category="Ride Cart")
     TObjectPtr<UStaticMeshComponent> CartBody;

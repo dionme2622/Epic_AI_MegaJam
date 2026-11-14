@@ -62,6 +62,20 @@ namespace
         return Line(TAttribute<FText>::CreateLambda([TextSource = &Text] { return *TextSource; }),
             Size, Color, bBold, Justify, WrapAt);
     }
+
+    TSharedRef<STextBlock> SubtitleLine(const FText& Text, int32 Size, bool bBold)
+    {
+        FSlateFontInfo Font = FCoreStyle::GetDefaultFontStyle(bBold ? "Bold" : "Regular", Size);
+        Font.OutlineSettings = FFontOutlineSettings(1, FLinearColor::Black);
+        return SNew(STextBlock)
+            .Text_Lambda([TextSource = &Text] { return *TextSource; })
+            .Font(Font)
+            .ColorAndOpacity(bBold ? FLinearColor::White : HudIvory)
+            .ShadowOffset(FVector2D(1.f, 2.f))
+            .ShadowColorAndOpacity(FLinearColor(0.f, 0.f, 0.f, .72f))
+            .WrapTextAt(700.f)
+            .Justification(ETextJustify::Center);
+    }
 }
 
 void UDirectorCutPlayHUD::OnWorldBeginPlay(UWorld& World)
@@ -74,7 +88,7 @@ void UDirectorCutPlayHUD::OnWorldBeginPlay(UWorld& World)
     {
         MapName = TEXT("L_Stage1");
     }
-    if (HasDirectorCutPuzzleGuides(MapName))
+    if (HasDirectorCutPlayHUD(MapName))
     {
         BuildOverlay();
     }
@@ -178,7 +192,9 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
             Guide = GetDirectorCutPuzzleGuide(MapName, *Controller);
         }
 
-        if (SubtitleRemaining <= 0.f && !bMenuOpen && !bRgbActive && !bEndingShown && GetWorld()->GetTimeSeconds() >= 1.6f)
+        const bool bFocusActive = FocusPuzzle.IsValid() && FocusPuzzle->bActive;
+        if (SubtitleRemaining <= 0.f && !bMenuOpen && !bRgbActive && !bFocusActive
+            && !bEndingShown && GetWorld()->GetTimeSeconds() >= 1.6f)
         {
             const auto Cues = GetDirectorCutStoryCues(MapName);
             for (int32 Index = 0; Index < Cues.Num(); ++Index)
@@ -297,12 +313,6 @@ void UDirectorCutPlayHUD::BuildOverlay()
                                     SNew(SVerticalBox)
                                     + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleKorean, 20, HudGold, true)]
                                     + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleEnglish, 12, SoftIvory, true)]
-                                    + SVerticalBox::Slot().AutoHeight().Padding(0.f, 7.f, 0.f, 7.f)
-                                    [SNew(SBox).HeightOverride(1.f)[SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudBrass)]]
-                                    + SVerticalBox::Slot().AutoHeight()
-                                    [Line(Guide.Korean, 16, HudIvory, true, ETextJustify::Left, CardWidth - 30.f)]
-                                    + SVerticalBox::Slot().AutoHeight().Padding(0.f, 3.f, 0.f, 0.f)
-                                    [Line(Guide.English, 13, SoftIvory, false, ETextJustify::Left, CardWidth - 30.f)]
                                     + SVerticalBox::Slot().AutoHeight()[MakeGuideControls(bFocusLayout ? 3 : 2)]
                                 ]
                             ]
@@ -348,7 +358,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
         ]
         + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(20.f, 0.f, 20.f, 84.f)
         [
-            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudPanelColor).Padding(FMargin(24.f, 12.f))
+            SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .79f); })
             .Visibility_Lambda([this]
             {
                 return !bMenuOpen && SubtitleRemaining > 0.f
@@ -357,8 +367,8 @@ void UDirectorCutPlayHUD::BuildOverlay()
             })
             [
                 SNew(SVerticalBox)
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[Line(SubtitleKorean, 24, FLinearColor::White, true, ETextJustify::Center, 650.f)]
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[Line(SubtitleEnglish, 18, HudIvory, false, ETextJustify::Center, 650.f)]
+                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[SubtitleLine(SubtitleKorean, 24, true)]
+                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[SubtitleLine(SubtitleEnglish, 18, false)]
             ]
         ];
     Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 65);
