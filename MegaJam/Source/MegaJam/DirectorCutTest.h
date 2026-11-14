@@ -8,6 +8,8 @@
 
 class UAnimSequence;
 class UCameraComponent;
+class UStaticMeshComponent;
+class USkeletalMesh;
 
 UCLASS()
 class ADirectorCutDragon : public ACharacter
@@ -30,6 +32,26 @@ private:
     void PlayMotion(UAnimSequence* Motion, float Time, float BlendDuration, float RootHeightOffset = 0.f);
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
+    void UpdateCart();
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    bool bRideCart = false;
+
+    UPROPERTY(VisibleAnywhere, Category="Ride Cart")
+    TObjectPtr<UStaticMeshComponent> CartBody;
+
+    UPROPERTY()
+    TArray<TObjectPtr<UStaticMeshComponent>> CartWheels;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<USkeletalMesh> CartRiderMesh;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<UAnimSequence> CartMotion;
+
+    float WheelAngle = 0.f;
+    FVector LastCartLocation;
+    bool bCartWasGrounded = false;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Side Camera", meta=(AllowPrivateAccess="true"))
     TObjectPtr<UCameraComponent> SideCamera;
@@ -82,6 +104,9 @@ public:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Director Cut|Model Detail")
     TArray<FDirectorCutMeshVariant> MeshVariants;
 };
+
+
+
 
 
 
