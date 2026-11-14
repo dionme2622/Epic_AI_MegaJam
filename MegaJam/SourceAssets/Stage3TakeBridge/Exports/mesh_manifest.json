@@ -1,0 +1,168 @@
+{
+  "SM_S3Take_PressurePlate": {
+    "bounds_cm": [
+      [
+        -89.0,
+        -75.0,
+        -19.5
+      ],
+      [
+        89.0,
+        78.7,
+        1.9
+      ]
+    ],
+    "material_slots": [
+      "M03_Slate",
+      "M07_Tarnish",
+      "M12_Velvet",
+      "M06_Gold",
+      "M09_Iron",
+      "M08_Highlight",
+      "M13_Seams",
+      "M14_Lamp"
+    ],
+    "vertices": 808,
+    "placement": "Pivot centred on the walkable surface. Put Z at floor height, use NoCollision. Indicator lens faces +Y at (0, 78, -6)."
+  },
+  "SM_S3Take_CueLamp": {
+    "bounds_cm": [
+      [
+        -20.0,
+        -14.0,
+        0.0
+      ],
+      [
+        20.0,
+        20.3,
+        83.0
+      ]
+    ],
+    "material_slots": [
+      "M09_Iron",
+      "M07_Tarnish",
+      "M06_Gold",
+      "M18_Steel",
+      "M08_Highlight"
+    ],
+    "vertices": 964,
+    "placement": "Floor pivot, 40 cm wide and ~83 cm tall, use NoCollision. Cyan runtime overlay can sit on the lens face, local (0, 16, 66), with 11 cm radius."
+  },
+  "SM_S3Bridge_Platform": {
+    "bounds_cm": [
+      [
+        -100.0,
+        -74.0,
+        -57.0
+      ],
+      [
+        100.0,
+        89.1,
+        0.0
+      ]
+    ],
+    "material_slots": [
+      "M04_Porphyry",
+      "M02_Basalt",
+      "M07_Tarnish",
+      "M06_Gold",
+      "M05_Capstone",
+      "M09_Iron",
+      "M08_Highlight"
+    ],
+    "vertices": 1616,
+    "placement": "200 cm wide before edge details, deck top at Z=0, wheel bottoms at -57 cm. Use movable/blocking collision on a separate box covering the flat tread."
+  },
+  "SM_S3Bridge_ProjectionScreen": {
+    "bounds_cm": [
+      [
+        -382.8,
+        -6.0,
+        -131.0
+      ],
+      [
+        382.8,
+        21.1,
+        157.0
+      ]
+    ],
+    "material_slots": [
+      "M11_Endgrain",
+      "M19_Pit",
+      "M07_Tarnish",
+      "M08_Highlight",
+      "M06_Gold",
+      "M09_Iron"
+    ],
+    "vertices": 1632,
+    "placement": "Pivot centre of the 720 \u00d7 224 cm usable canvas. Canvas faces +Y and ends at Y=4.2 cm. Put diagram on +Y=8 or closer."
+  },
+  "SM_S3Bridge_SpliceDesk": {
+    "bounds_cm": [
+      [
+        -76.0,
+        -35.0,
+        0.0
+      ],
+      [
+        76.0,
+        43.5,
+        147.0
+      ]
+    ],
+    "material_slots": [
+      "M11_Endgrain",
+      "M10_Plank",
+      "M07_Tarnish",
+      "M09_Iron",
+      "M08_Highlight",
+      "M06_Gold",
+      "M14_Lamp"
+    ],
+    "vertices": 2328,
+    "placement": "Ground pivot, facing +Y. Position behind the movement path so the controls stay visible."
+  },
+  "SM_S3Bridge_FilmClip": {
+    "bounds_cm": [
+      [
+        -10.5,
+        -3.0,
+        -11.5
+      ],
+      [
+        10.5,
+        7.5,
+        11.5
+      ]
+    ],
+    "material_slots": [
+      "M07_Tarnish",
+      "M13_Seams",
+      "M08_Highlight"
+    ],
+    "vertices": 216,
+    "placement": "Moving clips. Home pivots at desk-relative X=-43/+43, Y=45, Z=72. Five positions are separated by 21 cm along Z."
+  },
+  "SM_S3Bridge_Rail": {
+    "bounds_cm": [
+      [
+        -120.0,
+        -71.5,
+        -15.5
+      ],
+      [
+        120.0,
+        71.5,
+        10.0
+      ]
+    ],
+    "material_slots": [
+      "M10_Plank",
+      "M09_Iron",
+      "M08_Highlight",
+      "M07_Tarnish"
+    ],
+    "vertices": 1160,
+    "placement": "240 cm repeat along X. Use NoCollision and place about 70 cm below the platform top, with scale adjusted to the section gaps."
+  }
+}

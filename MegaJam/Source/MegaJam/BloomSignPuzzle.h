@@ -38,6 +38,22 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Integration") bool bRestrictToArea = false;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Integration") float AreaMinOffsetX = -2500.f;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Integration") float AreaMaxOffsetX = 500.f;
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle|Film Editing") bool bUseFilmEditing = false;
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle|Film Editing", meta=(EditCondition="bUseFilmEditing"))
+    TArray<TObjectPtr<AActor>> FilmSources;
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle|Film Editing", meta=(EditCondition="bUseFilmEditing"))
+    TArray<TObjectPtr<AActor>> FilmScenes;
+    // Stage 3 variant: configure the three shutters to match the hidden cues.
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle|Shutters") bool bUseShutterPuzzle = false;
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle|Shutters", meta=(EditCondition="bUseShutterPuzzle"))
+    TArray<TObjectPtr<AActor>> ShutterClues;
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Bloom Puzzle|Shutters", meta=(EditCondition="bUseShutterPuzzle", ClampMin="0", ClampMax="7"))
+    int32 TargetShutterMask = 5;
+    UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle|Shutters") int32 ShutterMask = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Bloom Puzzle|Film Editing", meta=(ClampMin="0"))
+    float FilmPickupDistance = 180.f;
+    UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle|Film Editing") TArray<int32> CollectedFilms;
+    UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle|Film Editing") TArray<int32> FilmSequence;
     UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle") bool bBloomOn = true;
     UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle") bool bConsoleOpen = false;
     UPROPERTY(BlueprintReadOnly, Category="Bloom Puzzle") bool bSolved = false;
@@ -52,7 +68,12 @@ private:
     float MessageTime = 0.f;
     bool bWrong = false;
     bool bFinishing = false;
+    int32 WrongFilmSlot = INDEX_NONE;
     float FinishTime = 0.f;
+    TSharedPtr<SWidget> FilmHintOverlay;
+    int32 FindNearbyFilm() const;
+    FText GetFilmHint() const;
+    void TryFilmPlayback();
     FText GetStatusText() const;
     FText GetProgressText() const;
 };

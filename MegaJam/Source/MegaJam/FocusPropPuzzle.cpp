@@ -1,4 +1,5 @@
 #include "FocusPropPuzzle.h"
+#include "DirectorCutGraphics.h"
 #include "Stage2ShadowPrototype.h"
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -129,6 +130,8 @@ void AFocusPropPuzzle::Tick(float DeltaSeconds)
         if (FinishTime <= 0.f) { bCompleting = false; if (IsValid(ExitDoor)) ExitDoor->OpenDoor(); OnSolved(); LeavePuzzle(); }
         return;
     }
+    if (const auto* Director = Cast<ADirectorCutPlayerController>(PC))
+        if (Director->IsGraphicsMenuOpen()) return;
     if (PC->WasInputKeyJustPressed(EKeys::E)) { if (bActive) LeavePuzzle(); else EnterPuzzle(); return; }
     if (!bActive) return;
     if (PC->WasInputKeyJustPressed(EKeys::Q)) SelectNear(!bNearSelected);
