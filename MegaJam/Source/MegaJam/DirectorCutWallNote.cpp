@@ -63,8 +63,8 @@ void ADirectorCutWallNote::GetText(FText& Korean, FText& English) const
     switch (Note)
     {
     case EDirectorCutWallNote::Wheel:
-        Korean = LOCTEXT("WheelKo", "둥근 원본은 잘 굴러감. 각진 검수본은 황동 받침 위에서 미끄러지지 않음.");
-        English = LOCTEXT("WheelEn", "The round master rolls freely. The angular proof holds on the brass cradle.");
+        Korean = LOCTEXT("WheelKo", "그래픽 설정의 Model Detail에 따라 바퀴 모양이 달라짐. 둥근 원본은 잘 굴러감. 각진 검수본은 황동 받침 위에서 미끄러지지 않음.");
+        English = LOCTEXT("WheelEn", "The wheel changes shape with Model Detail. The round master rolls freely. The angular proof holds on the brass cradle.");
         break;
     case EDirectorCutWallNote::Lens:
         Korean = LOCTEXT("LensKo", "소품은 두 조각으로 제작. 카메라에서 봤을 땐 열쇠 하나처럼 보여야 함.");
@@ -75,8 +75,8 @@ void ADirectorCutWallNote::GetText(FText& Korean, FText& English) const
         English = LOCTEXT("TwoTakesEn", "Both lamps need to show in the same frame. Keep the first take.");
         break;
     case EDirectorCutWallNote::Projection:
-        Korean = LOCTEXT("ProjectionKo", "작은 검수본에선 잔흠집이 묻힌다. 이어 붙인 자리를 보기에 그쪽이 더 낫다.");
-        English = LOCTEXT("ProjectionEn", "Fine scratches vanish on the small proof. It's easier to see the splices that way.");
+        Korean = LOCTEXT("ProjectionKo", "그래픽 설정의 Resolution에 따라 같은 필름도 다르게 보인다. 작은 검수본에선 잔흠집이 묻혀 이어 붙인 자리가 더 잘 보인다.");
+        English = LOCTEXT("ProjectionEn", "The same film looks different at each Resolution setting. Fine scratches vanish on the small proof, making the splices easier to see.");
         break;
     case EDirectorCutWallNote::VaultLighting:
         Korean = LOCTEXT("LightingKo", "파란 조명이 가장 밝다. 빨강은 초록보다 한 칸 위. 모든 조명은 켜둔다.");

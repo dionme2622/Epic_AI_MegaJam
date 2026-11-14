@@ -43,8 +43,8 @@ namespace
     };
     const FDirectorCutStoryCue VaultStory[] = {
         {-280.f, 220.f,
-            LOCTEXT("VaultArrivalKo", "용: 진짜 다리는 이 보관소에 있어. 조명대 왼쪽에 메모지가 붙어 있네."),
-            LOCTEXT("VaultArrivalEn", "Dragon: My legs are in this vault. There's a note to the left of the lighting console.")},
+            LOCTEXT("VaultArrivalKo", "용: 진짜 다리는 이 보관소에 있어. 조명대 오른쪽에 메모지가 붙어 있네."),
+            LOCTEXT("VaultArrivalEn", "Dragon: My legs are in this vault. There's a note to the right of the lighting console.")},
         {6660.f, 6810.f,
             LOCTEXT("VaultExhibitKo", "용: 저 유리 보관함 안에 내 다리가 있어. 이번엔 진짜야."),
             LOCTEXT("VaultExhibitEn", "Dragon: My legs are inside that glass case. This time they're real.")},

@@ -4,6 +4,7 @@
 #include "DirectorCutGraphics.h"
 #include "DirectorCutInteractionData.h"
 #include "DirectorCutStoryData.h"
+#include "DirectorCutWallNote.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/UserInterfaceSettings.h"
 #include "Engine/World.h"
@@ -12,6 +13,7 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "InputCoreTypes.h"
 #include "Stage4ShadowTheatre.h"
 #include "Styling/CoreStyle.h"
 #include "Widgets/Layout/SBorder.h"
@@ -33,6 +35,7 @@ namespace
     const FLinearColor SoftIvory(.81f, .76f, .72f);
     const FLinearColor HudBrass(.31f, .19f, .075f);
     const FLinearColor Ink(.065f, .036f, .019f);
+    const FLinearColor Parchment(.76f, .60f, .37f);
     constexpr int32 MaxGuideControls = 6;
 
     float ReadableScale(const UGameViewportClient& Viewport, float Minimum)
@@ -90,6 +93,10 @@ void UDirectorCutPlayHUD::OnWorldBeginPlay(UWorld& World)
     }
     if (HasDirectorCutPlayHUD(MapName))
     {
+        for (TActorIterator<ADirectorCutWallNote> It(&World); It; ++It)
+        {
+            WallNotes.Add(*It);
+        }
         BuildOverlay();
     }
     if (MapName == TEXT("Stage4"))
@@ -143,6 +150,38 @@ void UDirectorCutPlayHUD::ClearSubtitle()
     SubtitleRemaining = 0.f;
 }
 
+ADirectorCutWallNote* UDirectorCutPlayHUD::UpdateWallNote(const FVector& Position, bool bCanRead, bool bInteract)
+{
+    if (const ADirectorCutWallNote* Note = OpenWallNote.Get())
+    {
+        if (!bCanRead || !Note->IsInReach(Position) || bInteract) OpenWallNote.Reset();
+        return nullptr;
+    }
+    if (!bCanRead) return nullptr;
+
+    ADirectorCutWallNote* Nearest = nullptr;
+    double NearestDistance = TNumericLimits<double>::Max();
+    for (const auto& Entry : WallNotes)
+    {
+        ADirectorCutWallNote* Note = Entry.Get();
+        if (Note && Note->IsInReach(Position))
+        {
+            const double Distance = FMath::Abs(Note->GetActorLocation().X - Position.X);
+            if (Distance < NearestDistance)
+            {
+                Nearest = Note;
+                NearestDistance = Distance;
+            }
+        }
+    }
+    if (Nearest && bInteract)
+    {
+        OpenWallNote = Nearest;
+        Nearest->GetText(WallNoteKorean, WallNoteEnglish);
+    }
+    return Nearest;
+}
+
 void UDirectorCutPlayHUD::Tick(float DeltaTime)
 {
     if (!Overlay) return;
@@ -153,13 +192,14 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
     {
         bPromptVisible = false;
         bGuideVisible = false;
+        OpenWallNote.Reset();
         return;
     }
 
     const auto* Director = Cast<ADirectorCutPlayerController>(Controller);
     bMenuOpen = Director ? Director->IsGraphicsMenuOpen() : IsDirectorCutWorkshopMenuOpen(MapName, *GetWorld());
     const bool bRgbActive = ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive;
-    if (!bMenuOpen && !bRgbActive)
+    if (!bMenuOpen && !bRgbActive && !OpenWallNote.IsValid())
     {
         SubtitleRemaining = FMath::Max(0.f, SubtitleRemaining - DeltaTime);
     }
@@ -174,27 +214,23 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
         }
     }
     const double X = Pawn->GetActorLocation().X;
+    const bool bFocusActive = FocusPuzzle.IsValid() && FocusPuzzle->bActive;
+    const bool bInteract = !WallNotes.IsEmpty() && Controller->WasInputKeyJustPressed(EKeys::E);
     QueryRemaining -= DeltaTime;
+    if (QueryRemaining <= 0.f || bInteract)
+    {
+        ActionPrompt = {};
+        if (!bMenuOpen) GetDirectorCutInteractionPrompt(MapName, *Controller, ActionPrompt);
+    }
     if (QueryRemaining <= 0.f)
     {
         QueryRemaining = .10f;
-        FDirectorCutInteractionPrompt Prompt;
-        bHasPrompt = !bMenuOpen && GetDirectorCutInteractionPrompt(MapName, *Controller, Prompt);
-        if (bHasPrompt)
-        {
-            PromptKey = Prompt.Key;
-            PromptKorean = Prompt.Korean;
-            PromptEnglish = Prompt.English;
-            PromptWorldPosition = Prompt.Anchor;
-        }
         if (!bMenuOpen)
         {
             Guide = GetDirectorCutPuzzleGuide(MapName, *Controller);
         }
-
-        const bool bFocusActive = FocusPuzzle.IsValid() && FocusPuzzle->bActive;
         if (SubtitleRemaining <= 0.f && !bMenuOpen && !bRgbActive && !bFocusActive
-            && !bEndingShown && GetWorld()->GetTimeSeconds() >= 1.6f)
+            && !OpenWallNote.IsValid() && !bEndingShown && GetWorld()->GetTimeSeconds() >= 1.6f)
         {
             const auto Cues = GetDirectorCutStoryCues(MapName);
             for (int32 Index = 0; Index < Cues.Num(); ++Index)
@@ -212,8 +248,30 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
     }
 
     bGuideVisible = !bMenuOpen && !bEndingShown && !Guide.TitleKorean.IsEmpty() && !bRgbActive;
+    const bool bCanRead = !bMenuOpen && !bRgbActive && !bFocusActive && !bGuideVisible && !bEndingShown
+        && ActionPrompt.Key.IsEmpty() && !Controller->IsMoveInputIgnored() && Controller->GetViewTarget() == Pawn;
+    const ADirectorCutWallNote* Note = UpdateWallNote(Pawn->GetActorLocation(), bCanRead, bInteract);
     bPromptVisible = false;
-    if (!bHasPrompt || bMenuOpen) return;
+    if (bMenuOpen || OpenWallNote.IsValid()) return;
+
+    if (Note)
+    {
+        PromptKey = LOCTEXT("ReadNoteKey", "E");
+        PromptKorean = LOCTEXT("ReadNoteKo", "메모 읽기");
+        PromptEnglish = LOCTEXT("ReadNoteEn", "Read note");
+        PromptWorldPosition = Note->GetPromptAnchor();
+    }
+    else if (!ActionPrompt.Key.IsEmpty())
+    {
+        PromptKey = ActionPrompt.Key;
+        PromptKorean = ActionPrompt.Korean;
+        PromptEnglish = ActionPrompt.English;
+        PromptWorldPosition = ActionPrompt.Anchor;
+    }
+    else
+    {
+        return;
+    }
 
     UGameViewportClient* Viewport = GetWorld()->GetGameViewport();
     FVector2D Pixel;
@@ -224,7 +282,7 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
         if (ViewportPixels.X <= 0. || ViewportPixels.Y <= 0.) return;
         const FVector2D Normalized = Pixel / ViewportPixels;
         PromptScreenPosition = FVector2D(FMath::Clamp(Normalized.X, .18, .82),
-            FMath::Clamp(Normalized.Y, .46, .76));
+            FMath::Clamp(Normalized.Y, Note ? .20 : .46, .76));
         bPromptVisible = true;
     }
 }
@@ -356,19 +414,53 @@ void UDirectorCutPlayHUD::BuildOverlay()
                 ]
             ]
         ]
+        + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center).Padding(20.f, 10.f)
+        [
+            SNew(SScaleBox).Stretch(EStretch::ScaleToFit).StretchDirection(EStretchDirection::DownOnly)
+            .HAlign(HAlign_Center).VAlign(VAlign_Center)
+            .Visibility_Lambda([this]
+            {
+                return OpenWallNote.IsValid() && !bMenuOpen ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+            })
+            [
+                SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .85f); })
+                [
+                    SNew(SBox).WidthOverride(565.f)
+                    [
+                        SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudBrass).Padding(3.f)
+                        [
+                            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(Parchment).Padding(FMargin(27.f, 20.f))
+                            [
+                                SNew(SVerticalBox)
+                                + SVerticalBox::Slot().AutoHeight()
+                                [Line(TAttribute<FText>(LOCTEXT("WallNoteTitle", "작업 메모  /  PRODUCTION NOTE")), 16, Ink, true)]
+                                + SVerticalBox::Slot().AutoHeight().Padding(0.f, 10.f, 0.f, 14.f)
+                                [SNew(SBox).HeightOverride(1.f)[SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudBrass)]]
+                                + SVerticalBox::Slot().AutoHeight()
+                                [Line(WallNoteKorean, 23, Ink, true, ETextJustify::Left, 500.f)]
+                                + SVerticalBox::Slot().AutoHeight().Padding(0.f, 9.f, 0.f, 0.f)
+                                [Line(WallNoteEnglish, 17, Ink, false, ETextJustify::Left, 500.f)]
+                                + SVerticalBox::Slot().AutoHeight().Padding(0.f, 17.f, 0.f, 0.f)
+                                [Line(TAttribute<FText>(LOCTEXT("CloseWallNote", "E   닫기 / Close")), 14, Ink, true)]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]
         + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(20.f, 0.f, 20.f, 84.f)
         [
             SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .79f); })
             .Visibility_Lambda([this]
             {
-                return !bMenuOpen && SubtitleRemaining > 0.f
+                return !bMenuOpen && !OpenWallNote.IsValid() && SubtitleRemaining > 0.f
                     && !(ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive)
                     ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
             })
             [
                 SNew(SVerticalBox)
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[SubtitleLine(SubtitleKorean, 24, true)]
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[SubtitleLine(SubtitleEnglish, 18, false)]
+                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[SubtitleLine(SubtitleKorean, 21, true)]
+                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[SubtitleLine(SubtitleEnglish, 16, false)]
             ]
         ];
     Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 65);

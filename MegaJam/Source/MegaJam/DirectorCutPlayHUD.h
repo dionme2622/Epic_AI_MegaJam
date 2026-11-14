@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DirectorCutInteractionData.h"
 #include "DirectorCutStoryData.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "DirectorCutPlayHUD.generated.h"
@@ -29,7 +30,7 @@ public:
 
 private:
     void BuildOverlay();
-    void UpdateWallNote(APlayerController& Controller, const APawn& Pawn, bool bCanRead, bool bOtherPrompt);
+    ADirectorCutWallNote* UpdateWallNote(const FVector& Position, bool bCanRead, bool bInteract);
 
     TSharedPtr<SOverlay> Overlay;
     TWeakObjectPtr<AStage4ShadowTheatre> FinalTheatre;
@@ -44,6 +45,7 @@ private:
     FText WallNoteKorean;
     FText WallNoteEnglish;
     FDirectorCutPuzzleGuide Guide;
+    FDirectorCutInteractionPrompt ActionPrompt;
     FText PromptKey;
     FText PromptKorean;
     FText PromptEnglish;
@@ -53,7 +55,6 @@ private:
     float QueryRemaining = 0.f;
     float RecoveryElapsed = 0.f;
     bool bPromptVisible = false;
-    bool bHasPrompt = false;
     bool bMenuOpen = false;
     bool bGuideVisible = false;
     bool bEndingShown = false;
