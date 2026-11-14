@@ -103,6 +103,7 @@ private:
     void SetCheckpoint(ADirectorCutDragon& Dragon, int32 Index);
     void ReturnToMark(ADirectorCutDragon& Dragon);
     void UpdateCostume(ADirectorCutDragon& Dragon, bool bUseCostume);
+    bool CanRecoverLegs(const ADirectorCutDragon& Dragon) const;
     void StartRecovery(ADirectorCutDragon& Dragon);
     void UpdateRecovery(float DeltaSeconds);
     virtual void OnConstruction(const FTransform& Transform) override;

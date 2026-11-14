@@ -460,30 +460,21 @@ void AStage4ShadowTheatre::Tick(float DeltaSeconds)
         SetCheckpoint(*Dragon, 0);
     }
 
-    HandleControls(*Dragon, Station, bShadows);
-    if (!bRecovered)
+    if (Controller && Controller->WasInputKeyJustPressed(EKeys::E) && CanRecoverLegs(*Dragon))
     {
-        UpdatePrompt(Station, bShadows);
+        StartRecovery(*Dragon);
+        return;
     }
+
+    HandleControls(*Dragon, Station, bShadows);
+    UpdatePrompt(Station, bShadows);
 }
 
 void AStage4ShadowTheatre::HandleControls(ADirectorCutDragon& Dragon, int32 Station, bool bShadows)
 {
     auto* Controller = Cast<ADirectorCutPlayerController>(Dragon.GetController());
-    if (!Controller || !Dragon.GetCharacterMovement()->IsMovingOnGround())
+    if (!Controller || Station == None)
     {
-        return;
-    }
-
-    if (Station == None)
-    {
-        const double X = GetActorTransform().InverseTransformPosition(Dragon.GetActorLocation()).X;
-        if (Checkpoint == 2 && (!StandInPuzzle || StandInPuzzle->bReachedExhibit)
-            && FMath::Abs(X - ExhibitX - ExhibitOffset.X) <= 125.f
-            && Controller->WasInputKeyJustPressed(EKeys::E))
-        {
-            StartRecovery(Dragon);
-        }
         return;
     }
 
@@ -528,24 +519,38 @@ void AStage4ShadowTheatre::HandleControls(ADirectorCutDragon& Dragon, int32 Stat
     }
 }
 
+bool AStage4ShadowTheatre::CanRecoverLegs(const ADirectorCutDragon& Dragon) const
+{
+    if (bRecovered || (IsValid(EntranceDoor) && !EntranceDoor->bOpen)
+        || !Dragon.GetCharacterMovement()->IsMovingOnGround()
+        || !(IsValid(StandInPuzzle) ? StandInPuzzle->bReachedExhibit : Checkpoint == 2))
+    {
+        return false;
+    }
+
+    const auto* Controller = Cast<ADirectorCutPlayerController>(Dragon.GetController());
+    const FVector Offset = GetActorTransform().InverseTransformVectorNoScale(
+        Dragon.GetActorLocation() - Exhibit->GetComponentLocation());
+    return Controller && !Controller->IsGraphicsMenuOpen()
+        && FMath::Abs(Offset.X) <= 145. && FMath::Abs(Offset.Z) <= 115.;
+}
+
 bool AStage4ShadowTheatre::GetInteractionPrompt(const ADirectorCutDragon& Dragon, FDirectorCutInteractionPrompt& Out) const
 {
-    if (bRecovered || RecoveryTime >= 0.f || (IsValid(EntranceDoor) && !EntranceDoor->bOpen)
+    if (CanRecoverLegs(Dragon))
+    {
+        Out = {FText::FromString(TEXT("E")), LOCTEXT("RecoverLegsKeyKo", "다리 되찾기"),
+            LOCTEXT("RecoverLegsKeyEn", "Recover your legs"),
+            Exhibit->GetComponentLocation() + GetActorTransform().TransformVector(FVector(0., 49., 112.))};
+        return true;
+    }
+    if (bRecovered || (IsValid(EntranceDoor) && !EntranceDoor->bOpen)
         || !Dragon.GetCharacterMovement()->IsMovingOnGround())
     {
         return false;
     }
 
     const FVector Local = GetActorTransform().InverseTransformPosition(Dragon.GetActorLocation());
-    if (Checkpoint == 2 && (!StandInPuzzle || StandInPuzzle->bReachedExhibit)
-        && FMath::Abs(Local.X - ExhibitX - ExhibitOffset.X) <= 125.f)
-    {
-        Out = {FText::FromString(TEXT("E")), LOCTEXT("RecoverLegsKeyKo", "다리 되찾기"),
-            LOCTEXT("RecoverLegsKeyEn", "Recover your legs"),
-            GetActorTransform().TransformPosition(FVector(ExhibitX, -65.f, 205.f) + ExhibitOffset)};
-        return true;
-    }
-
     const int32 Station = StationAt(Local.X);
     if (Station == None || ResetFlash > 0.f || CutFlash > 0.f)
     {

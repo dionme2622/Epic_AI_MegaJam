@@ -192,7 +192,9 @@ void AStage4ShadowStandIn::Tick(float DeltaSeconds)
     {
         SetCheckpoint(*Dragon, 1);
     }
-    else if (Checkpoint == 1 && bRaisedBridge && bGrounded && P.X >= 1710.)
+    else if (Checkpoint < 2 && bRaisedBridge && bGrounded && P.X >= 1710.
+        && FMath::IsNearlyEqual(P.Z - Dragon->GetCapsuleComponent()->GetScaledCapsuleHalfHeight(),
+            CheckpointMarks[2].Z, 35.))
     {
         bReachedExhibit = true;
         SetCheckpoint(*Dragon, 2);
