@@ -11,7 +11,8 @@ class UDirectorCutDragonAnimInstance : public UAnimInstance
     GENERATED_BODY()
 
 public:
-    void SetMotion(UAnimSequence* Sequence, float Time, float BlendDuration, float RootHeightOffset);
+    void SetMotion(UAnimSequence* Sequence, float Time, float BlendDuration, float RootHeightOffset,
+        const TOptional<FVector>& EquippedWaist);
 
 protected:
     virtual FAnimInstanceProxy* CreateAnimInstanceProxy() override;

@@ -49,7 +49,7 @@ private:
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
     void UpdateCart(float DeltaSeconds);
-    void UpdateHeroLegsPose();
+    void UpdateHeroLegsPose(float DeltaSeconds);
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     bool bRideCart = false;
@@ -143,6 +143,7 @@ private:
     float GroundMotionTime = 0.f;
     float MoveInput = 0.f;
     float AirPhase = 0.f;
+    FVector HeroLegAngles[2] = {};
     float TheatreCameraTarget = 0.f;
     float TheatreCameraBlend = 0.f;
     float TheatreCameraFocusX = 0.f;

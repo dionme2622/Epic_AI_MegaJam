@@ -29,6 +29,21 @@ namespace
     constexpr float LandingPlayRate = 2.1f;
     constexpr float LandingDuration = .13f;
     constexpr double JumpBufferDuration = .13;
+    // Centroids of the cut surfaces in the two authored meshes' reference poses.
+    const FVector DragonWaist(4.91, .01, 41.);
+    const FVector KnightWaist(-.01, -.80, 40.5);
+    const FVector EquippedLegScale(1.16, 1.16, 1.);
+    const FRotator EquippedLegFacing(0., -90., 0.);
+
+    FTransform ComponentBonePose(const FReferenceSkeleton& Skeleton, TConstArrayView<FTransform> LocalPose, int32 Bone)
+    {
+        FTransform Pose = LocalPose[Bone];
+        for (int32 Parent = Skeleton.GetParentIndex(Bone); Parent != INDEX_NONE; Parent = Skeleton.GetParentIndex(Parent))
+        {
+            Pose *= LocalPose[Parent];
+        }
+        return Pose;
+    }
 }
 
 ADirectorCutDragon::ADirectorCutDragon()
@@ -82,9 +97,10 @@ ADirectorCutDragon::ADirectorCutDragon()
 
     HeroLegsMesh = CreateDefaultSubobject<UPoseableMeshComponent>(TEXT("EquippedHeroLegs"));
     HeroLegsMesh->SetupAttachment(GetMesh());
-    HeroLegsMesh->SetRelativeScale3D(FVector(.82f));
-    HeroLegsMesh->SetRelativeLocation(FVector(-3.f, 0.f, 0.f));
-    HeroLegsMesh->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
+    HeroLegsMesh->SetRelativeScale3D(EquippedLegScale);
+    HeroLegsMesh->SetRelativeLocation(DragonWaist - EquippedLegFacing.RotateVector(KnightWaist * EquippedLegScale)
+        + FVector(0., 0., 3.0));
+    HeroLegsMesh->SetRelativeRotation(EquippedLegFacing);
     HeroLegsMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     HeroLegsMesh->SetVisibility(false);
     static ConstructorHelpers::FObjectFinder<USkeletalMesh> KnightLower(
@@ -236,9 +252,12 @@ bool ADirectorCutDragon::EquipHeroLegs()
     RunMotion = HeroRunMotion;
     JumpMotion = UnmountedCartJumpMotion;
     LandMotion = HeroLandMotion;
+    GroundMotionTime = 0.f;
+    LandingElapsed = LandingDuration;
+    AirPhase = 0.f;
     PlayMotion(IdleMotion, 0.f, 0.f);
     HeroLegsMesh->SetVisibility(true);
-    UpdateHeroLegsPose();
+    UpdateHeroLegsPose(0.f);
 
     if (bContinueCartFromCastle)
     {
@@ -258,6 +277,7 @@ void ADirectorCutDragon::RestoreOriginalLegs()
     bHeroLegsEquipped = false;
     HeroLegsMesh->SetVisibility(false);
     GetMesh()->SetSkeletalMesh(StandingDragonMesh);
+    GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
     GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
     CurrentMotion = nullptr;
     IdleMotion = StandingMotions[0];
@@ -344,7 +364,8 @@ void ADirectorCutDragon::PlayMotion(UAnimSequence* Motion, float Time, float Ble
     {
         if (auto* Instance = Cast<UDirectorCutDragonAnimInstance>(GetMesh()->GetAnimInstance()))
         {
-            Instance->SetMotion(Motion, Time, BlendDuration, RootHeightOffset);
+            const TOptional<FVector> Waist = bHeroLegsEquipped ? TOptional<FVector>(DragonWaist) : TOptional<FVector>();
+            Instance->SetMotion(Motion, Time, BlendDuration, RootHeightOffset, Waist);
             CurrentMotion = Motion;
         }
     }
@@ -387,6 +408,11 @@ void ADirectorCutDragon::UpdateAirPose(float DeltaSeconds)
         FMath::Max(AirPhase, FMath::FInterpTo(AirPhase, TargetPhase, DeltaSeconds, 28.f));
 
     const float Time = JumpMotion->GetPlayLength() * FMath::Lerp(TakeoffFraction, 1.f, AirPhase);
+    if (bHeroLegsEquipped)
+    {
+        PlayMotion(JumpMotion, Time, .065f);
+        return;
+    }
 
     // The clip has its own vertical root arc. The capsule already supplies
     // world height, so cancel that translation while preserving the leg pose.
@@ -407,7 +433,10 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
         BufferedJumpUntil = -1.0;
         LandingElapsed = LandingDuration;
         AirPhase = 0.f;
-        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
+        if (!bHeroLegsEquipped)
+        {
+            GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
+        }
     }
 
     if (bRideCart)
@@ -420,10 +449,13 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
     }
     else
     {
-        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
+        if (!bHeroLegsEquipped)
+        {
+            GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
+        }
         const float Speed = FMath::Abs(GetVelocity().X);
         const bool bMoving = Speed > 12.f || !FMath::IsNearlyZero(MoveInput);
-        if (!bMoving && LandMotion && LandingElapsed < LandingDuration)
+        if (LandMotion && LandingElapsed < LandingDuration && (bHeroLegsEquipped || !bMoving))
         {
             PlayMotion(LandMotion, FMath::Min(LandingElapsed * LandingPlayRate, LandMotion->GetPlayLength()), .045f);
             LandingElapsed += DeltaSeconds;
@@ -447,7 +479,7 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
 
     if (bHeroLegsEquipped)
     {
-        UpdateHeroLegsPose();
+        UpdateHeroLegsPose(DeltaSeconds);
     }
     const FVector Position = GetActorLocation();
     TheatreCameraBlend = FMath::FInterpTo(TheatreCameraBlend, TheatreCameraTarget, DeltaSeconds, 3.5f);
@@ -499,7 +531,7 @@ void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
     PlayMotion(Motion, CartMotionTime, .18f);
 }
 
-void ADirectorCutDragon::UpdateHeroLegsPose()
+void ADirectorCutDragon::UpdateHeroLegsPose(float DeltaSeconds)
 {
     const auto* LowerAsset = Cast<USkeletalMesh>(HeroLegsMesh->GetSkinnedAsset());
     if (!LowerAsset) return;
@@ -507,28 +539,69 @@ void ADirectorCutDragon::UpdateHeroLegsPose()
     const auto& Reference = Skeleton.GetRefBonePose();
     if (HeroLegsMesh->BoneSpaceTransforms.Num() != Reference.Num()) return;
 
-    const float Speed = FMath::Abs(GetVelocity().X);
-    const bool bAirborne = GetCharacterMovement()->IsFalling();
+    const auto* Movement = GetCharacterMovement();
+    const bool bAirborne = Movement->IsFalling();
+    const float Speed = FMath::Min(FMath::Abs(GetVelocity().X) / Movement->MaxWalkSpeed, 1.);
     const float Cycle = RunMotion && RunMotion->GetPlayLength() > 0.f
         ? GroundMotionTime / RunMotion->GetPlayLength() * UE_TWO_PI : 0.f;
-    const float Swing = bAirborne ? .45f : FMath::Sin(Cycle) * FMath::Min(Speed / 340.f, 1.f) * .47f;
-    const FName Bones[] = {TEXT("LeftUpLeg"), TEXT("RightUpLeg"), TEXT("LeftLeg"), TEXT("RightLeg")};
-    const float Bend[] = {Swing, -Swing, FMath::Max(0.f, -Swing) * 1.35f, FMath::Max(0.f, Swing) * 1.35f};
-    for (int32 Index = 0; Index < UE_ARRAY_COUNT(Bones); ++Index)
+    const float Tuck = FMath::SmoothStep(.03f, .43f, AirPhase) * (1.f - FMath::SmoothStep(.58f, 1.f, AirPhase));
+    const float Landing = CurrentMotion == LandMotion && !bAirborne
+        ? FMath::Sin(UE_PI * FMath::Clamp(LandingElapsed / LandingDuration, 0.f, 1.f)) : 0.f;
+    static const FName Joints[2][3] = {
+        {TEXT("LeftUpLeg"), TEXT("LeftLeg"), TEXT("LeftFoot")},
+        {TEXT("RightUpLeg"), TEXT("RightLeg"), TEXT("RightFoot")}
+    };
+    double LowestSole = TNumericLimits<double>::Max();
+    for (int32 Leg = 0; Leg < 2; ++Leg)
     {
-        const int32 Bone = Skeleton.FindBoneIndex(Bones[Index]);
-        if (Bone == INDEX_NONE) continue;
-        FQuat ParentOrientation = FQuat::Identity;
-        for (int32 Parent = Skeleton.GetParentIndex(Bone); Parent != INDEX_NONE; Parent = Skeleton.GetParentIndex(Parent))
+        const float Side = Leg == 0 ? 1.f : -1.f;
+        const float Stride = Side * FMath::Cos(Cycle);
+        const float Swing = FMath::Max(0.f, Side * FMath::Sin(Cycle));
+        const FVector Stance(-4.f * Side, 4.f, 0.f);
+        FVector Target = Stance + FVector(31.f * Stride, 49.f * Swing, -18.f * Swing) * Speed;
+        if (bAirborne)
         {
-            ParentOrientation = Reference[Parent].GetRotation() * ParentOrientation;
+            const FVector Tucked(Leg == 0 ? -46.f : -23.f, Leg == 0 ? 82.f : 66.f, -28.f);
+            Target = FMath::Lerp(Stance, Tucked, Tuck);
         }
-        const FVector LocalAxis = ParentOrientation.UnrotateVector(-FVector::XAxisVector);
-        FTransform Pose = Reference[Bone];
-        Pose.SetRotation(FQuat(LocalAxis, Bend[Index]) * Pose.GetRotation());
-        HeroLegsMesh->BoneSpaceTransforms[Bone] = Pose;
+        else if (Landing > 0.f)
+        {
+            Target = Stance + FVector(-19.f, 39.f, -19.f) * Landing;
+        }
+        FVector& Angles = HeroLegAngles[Leg];
+        Angles = DeltaSeconds > 0.f ? FMath::VInterpTo(Angles, Target, DeltaSeconds, 26.f) : Target;
+        for (int32 Joint = 0; Joint < 3; ++Joint)
+        {
+            const int32 Bone = Skeleton.FindBoneIndex(Joints[Leg][Joint]);
+            if (Bone == INDEX_NONE) continue;
+            const FTransform Parent = ComponentBonePose(Skeleton, Reference, Skeleton.GetParentIndex(Bone));
+            // Knight feet face +Y in their bind pose. Negative pitch raises the thigh forward.
+            const FVector Axis = Parent.InverseTransformVectorNoScale(-FVector::XAxisVector);
+            FTransform Pose = Reference[Bone];
+            Pose.SetRotation(FQuat(Axis, FMath::DegreesToRadians(Angles[Joint])) * Pose.GetRotation());
+            HeroLegsMesh->BoneSpaceTransforms[Bone] = Pose;
+        }
+
+        const int32 Foot = Skeleton.FindBoneIndex(Joints[Leg][2]);
+        if (Foot != INDEX_NONE)
+        {
+            const FTransform RestFoot = ComponentBonePose(Skeleton, Reference, Foot);
+            const FTransform PosedFoot = ComponentBonePose(Skeleton, HeroLegsMesh->BoneSpaceTransforms, Foot);
+            const FVector Ankle = RestFoot.GetTranslation();
+            // Sample the heel and toe of each sole so the supporting boot tracks the floor.
+            for (const double Offset : {-6., 12.})
+            {
+                const FVector Point = PosedFoot.TransformPosition(RestFoot.InverseTransformPosition({Ankle.X, Ankle.Y + Offset, 0.}));
+                LowestSole = FMath::Min(LowestSole, Point.Z);
+            }
+        }
     }
     HeroLegsMesh->RefreshBoneTransforms();
+
+    const float Contact = bAirborne ? FMath::SmoothStep(.86f, 1.f, AirPhase) : 1.f;
+    const double SoleOffset = LowestSole == TNumericLimits<double>::Max()
+        ? 0. : LowestSole * EquippedLegScale.Z + HeroLegsMesh->GetRelativeLocation().Z;
+    GetMesh()->SetRelativeLocation(FVector(0., 0., -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight() - SoleOffset * Contact));
 }
 
 void ADirectorCutDragon::UpdateSideCamera(float FollowX)
