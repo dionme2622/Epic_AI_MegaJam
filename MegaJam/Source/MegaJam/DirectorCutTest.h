@@ -8,6 +8,8 @@
 
 class UAnimSequence;
 class UCameraComponent;
+class UStaticMeshComponent;
+class USkeletalMesh;
 
 UCLASS()
 class ADirectorCutDragon : public ACharacter
@@ -19,12 +21,7 @@ public:
     virtual void Tick(float DeltaSeconds) override;
     virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
     virtual void Landed(const FHitResult& Hit) override;
-    void SetPuzzleRespawnPoint(const FVector& Location) { SpawnPoint = Location; }
-    void SetTheatreCameraFraming(float Amount, float FocusX)
-    {
-        TheatreCameraTarget = Amount;
-        TheatreCameraFocusX = FocusX;
-    }
+    virtual void CheckJumpInput(float DeltaTime) override;
 
 protected:
     virtual void BeginPlay() override;
@@ -32,9 +29,37 @@ protected:
 private:
     void Move(float Amount);
     void StartJump();
-    void PlayMotion(UAnimSequence* Motion, bool bLoop);
+    void PlayMotion(UAnimSequence* Motion, float Time, float BlendDuration, float RootHeightOffset = 0.f);
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
+    void UpdateCart(float DeltaSeconds);
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    bool bRideCart = false;
+
+    UPROPERTY(VisibleAnywhere, Category="Ride Cart")
+    TObjectPtr<UStaticMeshComponent> CartBody;
+
+    UPROPERTY()
+    TArray<TObjectPtr<UStaticMeshComponent>> CartWheels;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<USkeletalMesh> CartRiderMesh;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<UAnimSequence> CartMotion;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<UAnimSequence> CartIdleMotion;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<UAnimSequence> CartDriveMotion;
+
+    float CartMotionTime = 0.f;
+    bool bCartDriving = false;
+    float WheelAngle = 0.f;
+    FVector LastCartLocation;
+    bool bCartWasGrounded = false;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Side Camera", meta=(AllowPrivateAccess="true"))
     TObjectPtr<UCameraComponent> SideCamera;
@@ -63,11 +88,11 @@ private:
 
     FVector SpawnPoint;
     float CameraZ = 0.f;
-    float LandUntil = 0.f;
+    double BufferedJumpUntil = -1.0;
+    float LandingElapsed = 1.f;
+    float GroundMotionTime = 0.f;
+    float MoveInput = 0.f;
     float AirPhase = 0.f;
-    float TheatreCameraTarget = 0.f;
-    float TheatreCameraBlend = 0.f;
-    float TheatreCameraFocusX = 0.f;
 };
 
 UCLASS()
@@ -87,6 +112,11 @@ public:
     UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Director Cut|Model Detail")
     TArray<FDirectorCutMeshVariant> MeshVariants;
 };
+
+
+
+
+
 
 
 
