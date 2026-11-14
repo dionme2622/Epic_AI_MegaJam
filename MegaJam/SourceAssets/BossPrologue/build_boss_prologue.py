@@ -52,9 +52,9 @@ def import_file(path):
     assert asset, paths[0]
     return asset
 
-textures = {path.stem: import_file(path) for path in sorted((ROOT / 'Graphics').glob('*.png')) if path.stem != '07_Fire'}
+textures = {path.stem: import_file(path) for path in sorted((ROOT / 'Graphics').glob('*.png')) if path.stem not in ('06_Storage', '07_Fire')}
 voices = {path.stem: import_file(path) for path in sorted((ROOT / 'Voice').glob('*.wav'))}
-assert len(textures) == 6 and len(voices) == 4
+assert len(textures) == 5 and len(voices) == 4
 base_mat = unreal.load_asset('/Game/Assets/Prologue/M_Bilingual_Subtitle')
 assert base_mat
 
@@ -110,20 +110,9 @@ spawn_static('Storage_Door', cube, (1600, 60, 190), (1.6, .17, 2.9), mat=shadow)
 spawn_static('Storage_LeftPost', cube, (1495, 100, 185), (.42, .55, 3.7), mat=stone)
 spawn_static('Storage_RightPost', cube, (1705, 100, 185), (.42, .55, 3.7), mat=stone)
 spawn_static('Storage_Lintel', cube, (1600, 100, 365), (2.6, .55, .48), mat=stone)
-note = spawn_static('Developer_Note', plane, (1260, 430, 175), (3.0, 1.0, 1),
+note = spawn_static('Developer_Note', plane, (1210, -300, 245), (3.776, 3.021, 1),
                     (0, 0, 90), materials['05_DevNote'])
-sign = spawn_static('Storage_Sign', plane, (1600, 160, 415), (2.7, .63, 1),
-                    (0, 0, 90), materials['06_Storage'])
-flame = unreal.EditorLevelLibrary.spawn_actor_from_class(
-    unreal.Emitter, unreal.Vector(710, 10, 285), unreal.MathLibrary.make_rot_from_z(unreal.Vector(-1, 0, -.3)))
-flame.set_actor_label('BossIntro_Dragon_Flamethrower')
-flame_component = flame.get_component_by_class(unreal.ParticleSystemComponent)
-flame_component.set_auto_activate(False)
-flame_component.set_template(unreal.load_asset(ASSET + 'P_DragonBreath_Short'))
-flame.attach_to_component(dragon.get_component_by_class(unreal.SkeletalMeshComponent), 'Head',
-                         unreal.AttachmentRule.KEEP_WORLD, unreal.AttachmentRule.KEEP_WORLD,
-                         unreal.AttachmentRule.KEEP_WORLD, False)
-
+exec((ROOT / 'install_storage_letters.py').read_text(encoding='utf-8'))
 knight_mesh = unreal.load_asset('/Game/Assets/Knight/tripo_convert_4b997851-a9fc-4243-9238-73b72c3eada4')
 draw = unreal.load_asset('/Game/Assets/Knight/Anim/Withdrawing_Sword')
 crouch = unreal.load_asset('/Game/Assets/Knight/Anim/Crouch_Idle')
@@ -141,6 +130,19 @@ center, extent = hero.get_actor_bounds(False)
 hero.set_actor_location(unreal.Vector(110, 0, 70 - (center.z - extent.z)), False, False)
 player.set_actor_hidden_in_game(True)
 
+dragon_mesh = dragon.get_component_by_class(unreal.SkeletalMeshComponent)
+mouth = dragon_mesh.get_socket_location('Head') + unreal.Vector(-90, 5, -115)
+aim = hero.get_actor_location() + unreal.Vector(0, 0, 95) - (mouth + unreal.Vector(0, 0, 150))
+flame = unreal.EditorLevelLibrary.spawn_actor_from_class(
+    unreal.NiagaraActor, mouth, unreal.MathLibrary.make_rot_from_x(aim))
+flame.set_actor_label('BossIntro_Dragon_NiagaraBreath')
+flame_component = flame.get_component_by_class(unreal.NiagaraComponent)
+flame_component.set_auto_activate(False)
+flame_component.set_asset(unreal.load_asset(ASSET + 'NS_DragonBreath'))
+flame.attach_to_component(dragon_mesh, 'Head', unreal.AttachmentRule.KEEP_WORLD,
+                          unreal.AttachmentRule.KEEP_WORLD,
+                          unreal.AttachmentRule.KEEP_WORLD, False)
+
 def bind(actor):
     return seq.add_possessable(actor)
 
@@ -149,7 +151,9 @@ dragon_bind = bind(dragon)
 hero_bind = bind(hero)
 note_bind = bind(note)
 sign_bind = bind(sign)
-flame_bind = bind(flame)
+flame_parent = seq.add_possessable(flame)
+flame_bind = seq.add_possessable(flame_component)
+flame_bind.set_parent(flame_parent)
 
 def transform(binding, keys, scale=1.0):
     track = binding.add_track(unreal.MovieScene3DTransformTrack)
@@ -215,16 +219,13 @@ def visibility(binding, start, end):
     if end < END:
         channel.add_key(unreal.FrameNumber(end), False)
 
-visibility(note_bind, 276, 420)
+note.set_actor_hidden_in_game(False)
 visibility(sign_bind, 485, END)
-visibility(flame_bind, 200, 255)
-fire_track = flame_bind.add_track(unreal.MovieSceneParticleTrack)
+fire_track = flame_bind.add_track(unreal.MovieSceneNiagaraSystemTrack)
 fire_section = fire_track.add_section()
-fire_section.set_range(0, END)
-fire_channel = fire_section.get_all_channels()[0]
-for frame, value in ((0, unreal.ParticleKey.DEACTIVATE), (200, unreal.ParticleKey.ACTIVATE),
-                     (250, unreal.ParticleKey.DEACTIVATE)):
-    fire_channel.add_key(unreal.FrameNumber(frame), value)
+fire_section.set_range(200, 250)
+fire_section.set_editor_property('section_start_behavior', unreal.NiagaraSystemSpawnSectionStartBehavior.ACTIVATE)
+fire_section.set_editor_property('section_end_behavior', unreal.NiagaraSystemSpawnSectionEndBehavior.DEACTIVATE)
 
 caption_times = (
     ('01_Hero', 12, 75),
@@ -262,3 +263,4 @@ assert unreal.EditorLevelLibrary.save_current_level()
 unreal.EditorLevelLibrary.set_level_viewport_camera_info(
     camera.get_actor_location(), camera.get_actor_rotation())
 unreal.log('BOSS_PROLOGUE_BUILD_OK level=' + LEVEL + ' sequence=' + SEQ)
+

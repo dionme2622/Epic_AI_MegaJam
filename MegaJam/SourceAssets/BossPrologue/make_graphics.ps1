@@ -4,7 +4,7 @@ New-Item -ItemType Directory -Force -Path $root | Out-Null
 $captions = @(
     @('01_Hero','용사: "각오해라, 드래곤!!!"','Hero: "Prepare yourself, dragon!"'),
     @('02_Dragon','드래곤: "크하하!! 통구이로 만들어주지!!!!!!"','Dragon: "Ha ha ha! I''ll roast you alive!"'),
-    @('03_Missing','드래곤: "... 내 다리는 어디 갔지?"','Dragon: "...Where did my legs go?"'),
+    @('03_Missing','드래곤: "잠깐… 내 다리는 어디 갔지?"','Dragon: "Wait... Where did my legs go?"'),
     @('04_Protest','드래곤: "화면에 안 나온다고 다리를 떼어 가?"','Dragon: "You took my legs because they were off camera?"')
 )
 $koFont = New-Object System.Drawing.Font('Malgun Gothic',44,[System.Drawing.FontStyle]::Bold)
@@ -40,7 +40,6 @@ function Make-Card([string]$name,[string[]]$lines,[int]$w,[int]$h,[int]$fontSize
     $font.Dispose();$paper.Dispose();$ink.Dispose();$g.Dispose();$bmp.Dispose()
 }
 Make-Card '05_DevNote' @('개발 메모','최종 보스 하체 — 테스트 구역으로 이동.','현재 카메라에 잡히지 않으므로 임시 제거.') 1024 370 37
-Make-Card '06_Storage' @('하체 보관실','LOWER BODY STORAGE') 1024 240 51
 
 $canvas=New-Canvas 1024 512; $bmp=$canvas[0]; $g=$canvas[1]
 $outer=New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(170,255,69,10))
