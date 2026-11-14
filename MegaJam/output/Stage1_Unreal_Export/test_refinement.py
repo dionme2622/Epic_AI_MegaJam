@@ -25,20 +25,20 @@ async def main():
     img=await c(app,'CaptureEditorImage',{});Path('output/Stage1_Unreal_Export/'+n+'.png').write_bytes(base64.b64decode(img['data']))
    print('INITIAL',await state(),flush=True)
    await place(850,200);await key('Q');await asyncio.sleep(1);s0=await state();await asyncio.sleep(1);s1=await state();print('WHEEL_MOVES',s0['WheelX'],s1['WheelX'],flush=True)
-   assert s1['WheelX']>s0['WheelX']
+   assert s1['WheelX']>s0['WheelX'];await capture('Refined/preview_wheel_high')
    for _ in range(80):
     sw=await state()
     if 1150 < sw['WheelX'] < 1260: break
     await asyncio.sleep(.1)
    else: raise RuntimeError('Wheel did not reach the target')
    await key('Q');await asyncio.sleep(.5)
-   state1=await state();print('WHEEL_RESULT',state1,await pos(gate),flush=True);assert state1['WheelSolved'];await capture('refined_wheel')
+   state1=await state();print('WHEEL_RESULT',state1,await pos(gate),flush=True);assert state1['WheelSolved'];await capture('Refined/preview_wheel_low')
    await place(8700,180);await key('E');print('LIFT_LOW',await state(),flush=True);assert not (await state())['LiftActive']
    await key('Q');await key('E');await asyncio.sleep(.5);s2=await state();print('LIFT_START',s2,flush=True);assert s2['LiftActive'] and not s2['IsLow']
    await key('Q');s3=await state();print('MOVING_QUALITY_CHECK',s3,flush=True);assert not s3['IsLow']
    await asyncio.sleep(5);up=await state();print('LIFT_UP',up,'PAWN',await pos(pawn),'LIFT',await pos(lift),'GEAR',await pos(gear),flush=True)
    assert up['LiftSolved'] and not up['LiftActive'] and up['LiftAlpha']>=229
-   await capture('refined_lift')
+   await capture('Refined/preview_gear_high')
    await key('E');await asyncio.sleep(5);down=await state();print('LIFT_DOWN',down,'PAWN',await pos(pawn),flush=True);assert not down['LiftActive'] and down['LiftAlpha']<=1
    await c(app,'StopPIE',{})
 asyncio.run(main())

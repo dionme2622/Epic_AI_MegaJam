@@ -1,0 +1,26 @@
+{
+  "Wheel_Refined_High": [
+    "WheelStone",
+    "DarkIron",
+    "AgedBronze",
+    "WheelStoneLight",
+    "PaleBrass"
+  ],
+  "Wheel_Refined_Low": [
+    "WheelStone",
+    "DarkIron",
+    "AgedBronze",
+    "WheelStoneLight",
+    "PaleBrass"
+  ],
+  "Gear_Refined_High": [
+    "AgedBronze",
+    "DarkIron",
+    "PaleBrass"
+  ],
+  "Gear_Refined_Low": [
+    "AgedBronze",
+    "DarkIron",
+    "PaleBrass"
+  ]
+}

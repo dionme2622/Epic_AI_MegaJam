@@ -1,0 +1,68 @@
+create_material {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStone.M_WheelStone'}
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStone.M_WheelStone:MaterialExpressionConstant3Vector_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStone.M_WheelStone:MaterialExpressionConstant_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStone.M_WheelStone:MaterialExpressionConstant_1'}
+set_properties True
+connect_to_output None
+recompile None
+create_material {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStoneLight.M_WheelStoneLight'}
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStoneLight.M_WheelStoneLight:MaterialExpressionConstant3Vector_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStoneLight.M_WheelStoneLight:MaterialExpressionConstant_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_WheelStoneLight.M_WheelStoneLight:MaterialExpressionConstant_1'}
+set_properties True
+connect_to_output None
+recompile None
+create_material {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze'}
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze:MaterialExpressionConstant3Vector_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze:MaterialExpressionConstant_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze:MaterialExpressionConstant_1'}
+set_properties True
+connect_to_output None
+recompile None
+create_material {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass'}
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass:MaterialExpressionConstant3Vector_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass:MaterialExpressionConstant_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass:MaterialExpressionConstant_1'}
+set_properties True
+connect_to_output None
+recompile None
+create_material {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron'}
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron:MaterialExpressionConstant3Vector_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron:MaterialExpressionConstant_0'}
+set_properties True
+connect_to_output None
+add_expression {'refPath': '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron:MaterialExpressionConstant_1'}
+set_properties True
+connect_to_output None
+recompile None
+import_file [{'refPath': '/Game/Stage1Generated/RefinedMachinery/Wheel_Refined_High.Wheel_Refined_High'}]
+get_properties {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"WheelStone","importedMaterialSlotName":"WheelStone","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[83.582366943359375,417.29107666015625,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,
+SLOTS Wheel_Refined_High {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"WheelStone","importedMaterialSlotName":"WheelStone","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[83.582366943359375,417.29107666015625,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[51.466728210449219,778.43634033203125,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"AgedBronze","importedMaterialSlotName":"AgedBronze","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[60.658470153808594,961.0472412109375,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"WheelStoneLight","importedMaterialSlotName":"WheelStoneLight","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[237.68743896484375,801.87835693359375,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"PaleBrass","importedMaterialSlotName":"PaleBrass","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[23.264837265014648,726.1558837890625,0,0]},"overlayMaterialInterface":"None"}]}
+import_file [{'refPath': '/Game/Stage1Generated/RefinedMachinery/Wheel_Refined_Low.Wheel_Refined_Low'}]
+get_properties {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"WheelStone","importedMaterialSlotName":"WheelStone","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[46.520290374755859,349.02401733398438,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,
+SLOTS Wheel_Refined_Low {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"WheelStone","importedMaterialSlotName":"WheelStone","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[46.520290374755859,349.02401733398438,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[79.325393676757812,549.29083251953125,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"AgedBronze","importedMaterialSlotName":"AgedBronze","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[62.234951019287109,586.2049560546875,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"WheelStoneLight","importedMaterialSlotName":"WheelStoneLight","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[247.45921325683594,473.8482666015625,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"PaleBrass","importedMaterialSlotName":"PaleBrass","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[40.787960052490234,619.89190673828125,0,0]},"overlayMaterialInterface":"None"}]}
+import_file [{'refPath': '/Game/Stage1Generated/RefinedMachinery/Gear_Refined_High.Gear_Refined_High'}]
+get_properties {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"AgedBronze","importedMaterialSlotName":"AgedBronze","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[75.993019104003906,300.87899780273438,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,
+SLOTS Gear_Refined_High {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"AgedBronze","importedMaterialSlotName":"AgedBronze","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[75.993019104003906,300.87899780273438,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[74.314056396484375,529.06439208984375,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"PaleBrass","importedMaterialSlotName":"PaleBrass","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[11.44990348815918,415.04446411132812,0,0]},"overlayMaterialInterface":"None"}]}
+import_file [{'refPath': '/Game/Stage1Generated/RefinedMachinery/Gear_Refined_Low.Gear_Refined_Low'}]
+get_properties {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"AgedBronze","importedMaterialSlotName":"AgedBronze","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[72.710708618164062,213.17822265625,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,"bO
+SLOTS Gear_Refined_Low {"staticMaterials":[{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"AgedBronze","importedMaterialSlotName":"AgedBronze","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[72.710708618164062,213.17822265625,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"DarkIron","importedMaterialSlotName":"DarkIron","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[96.512016296386719,319.93099975585938,0,0]},"overlayMaterialInterface":"None"},{"materialInterface":{"refPath":"/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial"},"materialSlotName":"PaleBrass","importedMaterialSlotName":"PaleBrass","uVChannelData":{"bInitialized":true,"bOverrideDensities":false,"localUVDensities":[56.172557830810547,311.4068603515625,0,0]},"overlayMaterialInterface":"None"}]}
+save_assets True
