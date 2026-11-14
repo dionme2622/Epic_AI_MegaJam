@@ -32,7 +32,7 @@ private:
     void PlayMotion(UAnimSequence* Motion, float Time, float BlendDuration, float RootHeightOffset = 0.f);
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
-    void UpdateCart();
+    void UpdateCart(float DeltaSeconds);
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     bool bRideCart = false;
@@ -49,6 +49,14 @@ private:
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     TObjectPtr<UAnimSequence> CartMotion;
 
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<UAnimSequence> CartIdleMotion;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    TObjectPtr<UAnimSequence> CartDriveMotion;
+
+    float CartMotionTime = 0.f;
+    bool bCartDriving = false;
     float WheelAngle = 0.f;
     FVector LastCartLocation;
     bool bCartWasGrounded = false;

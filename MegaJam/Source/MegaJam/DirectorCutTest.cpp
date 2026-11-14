@@ -112,7 +112,7 @@ void ADirectorCutDragon::BeginPlay()
         }
         GetMesh()->SetSkeletalMesh(CartRiderMesh);
         LastCartLocation = GetActorLocation();
-        UpdateCart();
+        UpdateCart(0.f);
     }
     CartBody->SetVisibility(bRideCart, true);
     if (!bRideCart)
@@ -260,7 +260,7 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
 
     if (bRideCart)
     {
-        UpdateCart();
+        UpdateCart(DeltaSeconds);
     }
     else if (GetCharacterMovement()->IsFalling())
     {
@@ -298,7 +298,7 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
     UpdateSideCamera(DesiredX);
 }
 
-void ADirectorCutDragon::UpdateCart()
+void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
 {
     const FVector Position = GetActorLocation();
     const bool bGrounded = GetCharacterMovement()->IsMovingOnGround();
@@ -320,7 +320,24 @@ void ADirectorCutDragon::UpdateCart()
     GetMesh()->SetRelativeRotation(Facing);
     const FVector DeckCenter(0.f, 0.f, CartDeckHeight - MeshHeightOffset);
     GetMesh()->SetRelativeLocation(DeckCenter - Facing.RotateVector(SeatAnchor * GetMesh()->GetRelativeScale3D()));
-    PlayMotion(CartMotion, .33f, 0.f);
+    const float Speed = FMath::Abs(GetVelocity().X);
+    bCartDriving = Speed > (bCartDriving ? 9.f : 18.f);
+    UAnimSequence* Motion = bCartDriving ? CartDriveMotion.Get() : CartIdleMotion.Get();
+    if (!Motion)
+    {
+        PlayMotion(CartMotion, .33f, 0.f);
+        return;
+    }
+
+    if (Motion != CurrentMotion)
+    {
+        CartMotionTime = 0.f;
+    }
+    const float PlayRate = bCartDriving
+        ? FMath::GetMappedRangeValueClamped(FVector2D(0.f, GetCharacterMovement()->MaxWalkSpeed), FVector2D(.65f, 1.15f), Speed)
+        : 1.f;
+    CartMotionTime = FMath::Fmod(CartMotionTime + DeltaSeconds * PlayRate, Motion->GetPlayLength());
+    PlayMotion(Motion, CartMotionTime, .18f);
 }
 
 void ADirectorCutDragon::UpdateSideCamera(float FollowX)
