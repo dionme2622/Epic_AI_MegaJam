@@ -1,0 +1,2760 @@
+{
+  "/Game/Level/Stage4_puzzle0": [
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.WorldSettings_1",
+      "class": "/Script/Engine.WorldSettings",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.Brush_1",
+      "class": "/Script/Engine.Brush",
+      "xform": {
+        "location": {
+          "x": -90,
+          "y": 110,
+          "z": 20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -1090,
+          "y": -890,
+          "z": -80
+        },
+        "max": {
+          "x": 910,
+          "y": 1110,
+          "z": 120
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.DirectionalLight_0",
+      "class": "/Script/Engine.DirectionalLight",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 400
+        },
+        "rotation": {
+          "pitch": -80.4803901821914,
+          "yaw": -88.7885003939543,
+          "roll": -69.06887165998292
+        },
+        "scale": {
+          "x": 1,
+          "y": 1.0000000149011612,
+          "z": 1.0000000149011612
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -128,
+          "y": -142.514296142779,
+          "z": 146.2206600404216
+        },
+        "max": {
+          "x": 128,
+          "y": 128.00000000000003,
+          "z": 528
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.SkyAtmosphere_0",
+      "class": "/Script/Engine.SkyAtmosphere",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": -6000
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -128,
+          "y": -128,
+          "z": -6128
+        },
+        "max": {
+          "x": 240,
+          "y": 128,
+          "z": -5872
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.ExponentialHeightFog_0",
+      "class": "/Script/Engine.ExponentialHeightFog",
+      "xform": {
+        "location": {
+          "x": -5600,
+          "y": -50,
+          "z": -6850
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -5728,
+          "y": -178,
+          "z": -6978
+        },
+        "max": {
+          "x": -5472,
+          "y": 78,
+          "z": -6722
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.VolumetricCloud_0",
+      "class": "/Script/Engine.VolumetricCloud",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 700
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -128,
+          "y": -128,
+          "z": 572
+        },
+        "max": {
+          "x": 128,
+          "y": 128,
+          "z": 828
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.PlayerStart_0",
+      "class": "/Script/Engine.PlayerStart",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 92
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -128,
+          "y": -128,
+          "z": -36
+        },
+        "max": {
+          "x": 240,
+          "y": 128,
+          "z": 220
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.StaticMeshActor_0",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 400,
+          "y": 400,
+          "z": 400
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -1638400,
+          "y": -1638400,
+          "z": -1638400
+        },
+        "max": {
+          "x": 1638400,
+          "y": 1638400,
+          "z": 1638400
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.StaticMeshActor_7",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 450,
+          "y": 0,
+          "z": -50
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 18,
+          "y": 8,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -450,
+          "y": -400,
+          "z": -100
+        },
+        "max": {
+          "x": 1350,
+          "y": 400,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.StaticMeshActor_8",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 450,
+          "y": -450,
+          "z": 300
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 18,
+          "y": 0.2,
+          "z": 7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -450,
+          "y": -460,
+          "z": -50
+        },
+        "max": {
+          "x": 1350,
+          "y": -440,
+          "z": 650
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.BP_S2_Door_C_0",
+      "class": "/Game/Stage2ShadowPrototype/BP_S2_Door.BP_S2_Door_C",
+      "xform": {
+        "location": {
+          "x": 1150,
+          "y": 0,
+          "z": 150
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.5,
+          "y": 3,
+          "z": 3
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1125,
+          "y": -150,
+          "z": 0
+        },
+        "max": {
+          "x": 1175,
+          "y": 150,
+          "z": 300
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.BP_ColorSignalPuzzle_C_0",
+      "class": "/Game/ColorSignalPrototype/BP_ColorSignalPuzzle.BP_ColorSignalPuzzle_C",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -510,
+          "y": -149.00002574920654,
+          "z": -685
+        },
+        "max": {
+          "x": 1510,
+          "y": 2410,
+          "z": 1335
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.StaticMeshActor_9",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": -130,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -94,
+          "y": -495.00006103515625,
+          "z": -4.76837158203125e-06
+        },
+        "max": {
+          "x": 1014,
+          "y": -385,
+          "z": 640
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.StaticMeshActor_10",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": -130,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -98,
+          "y": -465,
+          "z": 46
+        },
+        "max": {
+          "x": 1018,
+          "y": -375,
+          "z": 608
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.StaticMeshActor_11",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": -130,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -74.99999237060547,
+          "y": -473.00006103515625,
+          "z": 529
+        },
+        "max": {
+          "x": 995,
+          "y": -462.99993896484375,
+          "z": 591
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.TextRenderActor_0",
+      "class": "/Script/Engine.TextRenderActor",
+      "xform": {
+        "location": {
+          "x": -160,
+          "y": -220,
+          "z": 280
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 89.99999999999999,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -288,
+          "y": -348,
+          "z": 152
+        },
+        "max": {
+          "x": 118.15383911132818,
+          "y": -92,
+          "z": 408
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.BuoyancyManager_0",
+      "class": "/Script/Water.BuoyancyManager",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.DefaultPhysicsVolume_0",
+      "class": "/Script/Engine.DefaultPhysicsVolume",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.GameplayDebuggerPlayerManager_0",
+      "class": "/Script/GameplayDebugger.GameplayDebuggerPlayerManager",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.ChaosDebugDrawActor",
+      "class": "/Script/Engine.Actor",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle0.Stage4_puzzle0:PersistentLevel.AbstractNavData-Default",
+      "class": "/Script/NavigationSystem.AbstractNavData",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    }
+  ],
+  "/Game/Level/Stage4_puzzle1": [
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.WorldSettings_1",
+      "class": "/Script/Engine.WorldSettings",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.Brush_1",
+      "class": "/Script/Engine.Brush",
+      "xform": {
+        "location": {
+          "x": -90,
+          "y": 110,
+          "z": 20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -1090,
+          "y": -890,
+          "z": -80
+        },
+        "max": {
+          "x": 910,
+          "y": 1110,
+          "z": 120
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.DirectionalLight_0",
+      "class": "/Script/Engine.DirectionalLight",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 400
+        },
+        "rotation": {
+          "pitch": -80.4803901821914,
+          "yaw": -88.7885003939543,
+          "roll": -69.06887165998292
+        },
+        "scale": {
+          "x": 1,
+          "y": 1.0000000149011612,
+          "z": 1.0000000149011612
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -128,
+          "y": -142.514296142779,
+          "z": 146.2206600404216
+        },
+        "max": {
+          "x": 128,
+          "y": 128.00000000000003,
+          "z": 528
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.PlayerStart_0",
+      "class": "/Script/Engine.PlayerStart",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 92
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -128,
+          "y": -128,
+          "z": -36
+        },
+        "max": {
+          "x": 240,
+          "y": 128,
+          "z": 220
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_7",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": -20,
+          "y": 0,
+          "z": -35
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 6,
+          "y": 4,
+          "z": 0.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -320,
+          "y": -200,
+          "z": -70
+        },
+        "max": {
+          "x": 280,
+          "y": 200,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_8",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 2310,
+          "y": 0,
+          "z": -35
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 7,
+          "y": 4,
+          "z": 0.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1960,
+          "y": -200,
+          "z": -70
+        },
+        "max": {
+          "x": 2660,
+          "y": 200,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_9",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 410,
+          "y": 0,
+          "z": -20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 3.3,
+          "z": 0.4
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 327.5,
+          "y": -165,
+          "z": -40
+        },
+        "max": {
+          "x": 492.5,
+          "y": 165,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_10",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 410,
+          "y": -157,
+          "z": 3
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 0.12,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 327.5,
+          "y": -163,
+          "z": -1
+        },
+        "max": {
+          "x": 492.5,
+          "y": -151,
+          "z": 7
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_11",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 680,
+          "y": 0,
+          "z": -20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 3.3,
+          "z": 0.4
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 597.5,
+          "y": -165,
+          "z": -40
+        },
+        "max": {
+          "x": 762.5,
+          "y": 165,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_12",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 680,
+          "y": -157,
+          "z": 3
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 0.12,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 597.5,
+          "y": -163,
+          "z": -1
+        },
+        "max": {
+          "x": 762.5,
+          "y": -151,
+          "z": 7
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_13",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 950,
+          "y": 0,
+          "z": -20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 3.3,
+          "z": 0.4
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 867.5,
+          "y": -165,
+          "z": -40
+        },
+        "max": {
+          "x": 1032.5,
+          "y": 165,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_14",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 950,
+          "y": -157,
+          "z": 3
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 0.12,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 867.5,
+          "y": -163,
+          "z": -1
+        },
+        "max": {
+          "x": 1032.5,
+          "y": -151,
+          "z": 7
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_15",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1220,
+          "y": 0,
+          "z": -20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 3.3,
+          "z": 0.4
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1137.5,
+          "y": -165,
+          "z": -40
+        },
+        "max": {
+          "x": 1302.5,
+          "y": 165,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_16",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1220,
+          "y": -157,
+          "z": 3
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 0.12,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1137.5,
+          "y": -163,
+          "z": -1
+        },
+        "max": {
+          "x": 1302.5,
+          "y": -151,
+          "z": 7
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_17",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1490,
+          "y": 0,
+          "z": -20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 3.3,
+          "z": 0.4
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1407.5,
+          "y": -165,
+          "z": -40
+        },
+        "max": {
+          "x": 1572.5,
+          "y": 165,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_18",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1490,
+          "y": -157,
+          "z": 3
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 0.12,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1407.5,
+          "y": -163,
+          "z": -1
+        },
+        "max": {
+          "x": 1572.5,
+          "y": -151,
+          "z": 7
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_19",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1760,
+          "y": 0,
+          "z": -20
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 3.3,
+          "z": 0.4
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1677.5,
+          "y": -165,
+          "z": -40
+        },
+        "max": {
+          "x": 1842.5,
+          "y": 165,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_20",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1760,
+          "y": -157,
+          "z": 3
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1.65,
+          "y": 0.12,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1677.5,
+          "y": -163,
+          "z": -1
+        },
+        "max": {
+          "x": 1842.5,
+          "y": -151,
+          "z": 7
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_21",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1100,
+          "y": 0,
+          "z": -650
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1050,
+          "y": -50,
+          "z": -700
+        },
+        "max": {
+          "x": 1150,
+          "y": 50,
+          "z": -600
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_22",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1100,
+          "y": -260,
+          "z": 280
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 30,
+          "y": 0.25,
+          "z": 7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -400,
+          "y": -272.5,
+          "z": -70
+        },
+        "max": {
+          "x": 2600,
+          "y": -247.5,
+          "z": 630
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_23",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 400,
+          "y": 0,
+          "z": 365
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.5,
+          "y": 5.2,
+          "z": 0.65
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 275,
+          "y": -260,
+          "z": 332.5
+        },
+        "max": {
+          "x": 525,
+          "y": 260,
+          "z": 397.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_24",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 400,
+          "y": -240,
+          "z": 396
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.6,
+          "y": 0.18,
+          "z": 0.13
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 270,
+          "y": -249,
+          "z": 389.5
+        },
+        "max": {
+          "x": 530,
+          "y": -231,
+          "z": 402.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_25",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 305,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 302,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 308,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_26",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 495,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 492,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 498,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_27",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 670,
+          "y": 0,
+          "z": 365
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.5,
+          "y": 5.2,
+          "z": 0.65
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 545,
+          "y": -260,
+          "z": 332.5
+        },
+        "max": {
+          "x": 795,
+          "y": 260,
+          "z": 397.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_28",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 670,
+          "y": -240,
+          "z": 396
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.6,
+          "y": 0.18,
+          "z": 0.13
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 540,
+          "y": -249,
+          "z": 389.5
+        },
+        "max": {
+          "x": 800,
+          "y": -231,
+          "z": 402.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_29",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 575,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 572,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 578,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_30",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 765,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 762,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 768,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_31",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 940,
+          "y": 0,
+          "z": 365
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.5,
+          "y": 5.2,
+          "z": 0.65
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 815,
+          "y": -260,
+          "z": 332.5
+        },
+        "max": {
+          "x": 1065,
+          "y": 260,
+          "z": 397.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_32",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 940,
+          "y": -240,
+          "z": 396
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.6,
+          "y": 0.18,
+          "z": 0.13
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 810,
+          "y": -249,
+          "z": 389.5
+        },
+        "max": {
+          "x": 1070,
+          "y": -231,
+          "z": 402.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_33",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 845,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 842,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 848,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_34",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1035,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1032,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1038,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_35",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1210,
+          "y": 0,
+          "z": 365
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.5,
+          "y": 5.2,
+          "z": 0.65
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1085,
+          "y": -260,
+          "z": 332.5
+        },
+        "max": {
+          "x": 1335,
+          "y": 260,
+          "z": 397.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_36",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1210,
+          "y": -240,
+          "z": 396
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.6,
+          "y": 0.18,
+          "z": 0.13
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1080,
+          "y": -249,
+          "z": 389.5
+        },
+        "max": {
+          "x": 1340,
+          "y": -231,
+          "z": 402.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_37",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1115,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1112,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1118,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_38",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1305,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1302,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1308,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_39",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1480,
+          "y": 0,
+          "z": 365
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.5,
+          "y": 5.2,
+          "z": 0.65
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1355,
+          "y": -260,
+          "z": 332.5
+        },
+        "max": {
+          "x": 1605,
+          "y": 260,
+          "z": 397.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_40",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1480,
+          "y": -240,
+          "z": 396
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.6,
+          "y": 0.18,
+          "z": 0.13
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1350,
+          "y": -249,
+          "z": 389.5
+        },
+        "max": {
+          "x": 1610,
+          "y": -231,
+          "z": 402.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_41",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1385,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1382,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1388,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_42",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1575,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1572,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1578,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_43",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1750,
+          "y": 0,
+          "z": 365
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.5,
+          "y": 5.2,
+          "z": 0.65
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1625,
+          "y": -260,
+          "z": 332.5
+        },
+        "max": {
+          "x": 1875,
+          "y": 260,
+          "z": 397.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_44",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1750,
+          "y": -240,
+          "z": 396
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 2.6,
+          "y": 0.18,
+          "z": 0.13
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1620,
+          "y": -249,
+          "z": 389.5
+        },
+        "max": {
+          "x": 1880,
+          "y": -231,
+          "z": 402.5
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_45",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1655,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1652,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1658,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_46",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1845,
+          "y": -220,
+          "z": 530
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.06,
+          "y": 0.08,
+          "z": 2.7
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1842,
+          "y": -224,
+          "z": 395
+        },
+        "max": {
+          "x": 1848,
+          "y": -216,
+          "z": 665
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_47",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": -260,
+          "y": -240,
+          "z": 250
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.28,
+          "y": 0.4,
+          "z": 5
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -274,
+          "y": -260,
+          "z": 0
+        },
+        "max": {
+          "x": -246,
+          "y": -220,
+          "z": 500
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_48",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": -260,
+          "y": -240,
+          "z": 490
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.22
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": -285,
+          "y": -265,
+          "z": 479
+        },
+        "max": {
+          "x": -235,
+          "y": -215,
+          "z": 501
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_49",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 250,
+          "y": -240,
+          "z": 250
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.28,
+          "y": 0.4,
+          "z": 5
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 236,
+          "y": -260,
+          "z": 0
+        },
+        "max": {
+          "x": 264,
+          "y": -220,
+          "z": 500
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_50",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 250,
+          "y": -240,
+          "z": 490
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.22
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 225,
+          "y": -265,
+          "z": 479
+        },
+        "max": {
+          "x": 275,
+          "y": -215,
+          "z": 501
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_51",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1930,
+          "y": -240,
+          "z": 250
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.28,
+          "y": 0.4,
+          "z": 5
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1916,
+          "y": -260,
+          "z": 0
+        },
+        "max": {
+          "x": 1944,
+          "y": -220,
+          "z": 500
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_52",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 1930,
+          "y": -240,
+          "z": 490
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.22
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 1905,
+          "y": -265,
+          "z": 479
+        },
+        "max": {
+          "x": 1955,
+          "y": -215,
+          "z": 501
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_53",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 2600,
+          "y": -240,
+          "z": 250
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.28,
+          "y": 0.4,
+          "z": 5
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 2586,
+          "y": -260,
+          "z": 0
+        },
+        "max": {
+          "x": 2614,
+          "y": -220,
+          "z": 500
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_54",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 2600,
+          "y": -240,
+          "z": 490
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.22
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 2575,
+          "y": -265,
+          "z": 479
+        },
+        "max": {
+          "x": 2625,
+          "y": -215,
+          "z": 501
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_55",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 2330,
+          "y": -30,
+          "z": 30
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 3,
+          "y": 1.6,
+          "z": 0.6
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 2180,
+          "y": -110,
+          "z": 0
+        },
+        "max": {
+          "x": 2480,
+          "y": 50,
+          "z": 60
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.StaticMeshActor_56",
+      "class": "/Script/Engine.StaticMeshActor",
+      "xform": {
+        "location": {
+          "x": 2330,
+          "y": -30,
+          "z": 62
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 3.1,
+          "y": 1.7,
+          "z": 0.08
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 2175,
+          "y": -115,
+          "z": 58
+        },
+        "max": {
+          "x": 2485,
+          "y": 55,
+          "z": 66
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.BP_DragonLowerCollectible_C_0",
+      "class": "/Game/ShadowBodyStage/BP_DragonLowerCollectible.BP_DragonLowerCollectible_C",
+      "xform": {
+        "location": {
+          "x": 2340,
+          "y": -25,
+          "z": 70
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 2184.6023712158203,
+          "y": -69.00000381469727,
+          "z": 67.9999885559082
+        },
+        "max": {
+          "x": 2392.3310470581055,
+          "y": 19.000003814697266,
+          "z": 192
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.BuoyancyManager_0",
+      "class": "/Script/Water.BuoyancyManager",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.DefaultPhysicsVolume_0",
+      "class": "/Script/Engine.DefaultPhysicsVolume",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.GameplayDebuggerPlayerManager_0",
+      "class": "/Script/GameplayDebugger.GameplayDebuggerPlayerManager",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.ChaosDebugDrawActor",
+      "class": "/Script/Engine.Actor",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    },
+    {
+      "ref": "/Game/Level/Stage4_puzzle1.Stage4_puzzle1:PersistentLevel.AbstractNavData-Default",
+      "class": "/Script/NavigationSystem.AbstractNavData",
+      "xform": {
+        "location": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      },
+      "bounds": {
+        "min": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "max": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "isValid": true
+      }
+    }
+  ]
+}

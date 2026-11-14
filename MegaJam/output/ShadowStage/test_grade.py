@@ -1,0 +1,28 @@
+import asyncio,json,base64,re
+from pathlib import Path
+from mcp import ClientSession
+from mcp.client.streamable_http import streamable_http_client
+async def main():
+ async with streamable_http_client('http://127.0.0.1:8000/mcp') as (r,w,_):
+  async with ClientSession(r,w) as s:
+   await s.initialize()
+   async def c(t,n,a):
+    z=await s.call_tool('call_tool',{'toolset_name':t,'tool_name':n,'arguments':a})
+    if z.isError:raise RuntimeError(f'{n} {z.content}')
+    return json.loads(z.content[0].text).get('returnValue')
+   sc='editor_toolset.toolsets.scene.SceneTools';app='EditorToolset.EditorAppToolset';sl='SlateInspectorToolset.SlateInspectorToolset';ac='editor_toolset.toolsets.actor.ActorTools';ob='editor_toolset.toolsets.object.ObjectTools';asset='editor_toolset.toolsets.asset.AssetTools'
+   assert not await c(app,'IsPIERunning',{})
+   await c(sc,'load_level',{'level_path':'/Game/Level/Stage2_ShadowBody_Prototype'});pp=(await c(sc,'find_actors',{'name':'ShadowStage_ColorGrade','tag':'','collision_channels':[]}))[0];assert '/Game/Level/Stage2_ShadowBody_Prototype.' in pp['refPath']
+   v={'bOverride_ColorGainShadows':True,'colorGainShadows':{'x':.03,'y':.03,'z':.03,'w':1},'bOverride_ColorCorrectionShadowsMax':True,'colorCorrectionShadowsMax':.45,'bOverride_IndirectLightingIntensity':True,'indirectLightingIntensity':0.0}
+   await c(ob,'set_properties',{'instance':pp,'values':json.dumps({'settings':v})});print('PP',await c(ob,'get_properties',{'instance':pp,'properties':['bUnbound']}),flush=True)
+   await c(asset,'save_assets',{'asset_paths':['/Game/Level/Stage2_ShadowBody_Prototype']})
+   await c(app,'StartPIE',{'options':{'bSimulate':False,'playMode':'PlayMode_InViewPort','warmupSeconds':1}})
+   pawn=next(x for x in await c(sc,'find_actors',{'name':'Dragon','tag':'','collision_channels':[]}) if 'DirectorCutDragon' in x['refPath']);await c(ac,'set_actor_transform',{'actor':pawn,'xform':{'location':{'x':950,'y':0,'z':65}}});await asyncio.sleep(2)
+   async def shot(n):
+    z=await c(app,'CaptureEditorImage',{});Path('output/ShadowStage/'+n+'.png').write_bytes(base64.b64decode(z['data']))
+   await shot('grade_on');await c(sl,'Observe',{'ref':'w1','maxDepth':100});snap=await c(sl,'Snapshot',{'ref':'w1','maxDepth':100});gear=re.search(r'button "⚙".*?\[ref=(b\d+)\]',snap).group(1);await c(sl,'Click',{'ref':gear});await asyncio.sleep(.6)
+   snap=await c(sl,'Snapshot',{'ref':'w1','maxDepth':100})
+   if 'text "그림자"' not in snap:await c(sl,'PressKey',{'key':'Enter'});await asyncio.sleep(.6);snap=await c(sl,'Snapshot',{'ref':'w1','maxDepth':100})
+   after=snap[snap.index('text "그림자"'):];low=re.search(r'button "낮음".*?\[ref=(b\d+)\]',after).group(1);close=re.search(r'button "닫기".*?\[ref=(b\d+)\]',after).group(1)
+   await c(sl,'Click',{'ref':low});await c(sl,'PressKey',{'key':'Enter'});await asyncio.sleep(.6);await c(sl,'Click',{'ref':close});await c(sl,'PressKey',{'key':'Enter'});await asyncio.sleep(1);await shot('grade_off');await c(app,'StopPIE',{});print('COMPLETE',flush=True)
+asyncio.run(main())

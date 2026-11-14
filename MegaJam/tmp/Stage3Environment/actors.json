@@ -1,0 +1,402 @@
+[
+  {
+    "label": "DirectionalLight",
+    "class": "DirectionalLight",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.DirectionalLight_0",
+    "loc": [
+      0.0,
+      0.0,
+      400.0
+    ],
+    "center": [
+      0.0,
+      -7.25714807138948,
+      337.11033002021077
+    ],
+    "ext": [
+      128.0,
+      135.2571480713895,
+      190.88966997978918
+    ]
+  },
+  {
+    "label": "SkyAtmosphere",
+    "class": "SkyAtmosphere",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.SkyAtmosphere_0",
+    "loc": [
+      0.0,
+      0.0,
+      -6000.0
+    ],
+    "center": [
+      56.0,
+      0.0,
+      -6000.0
+    ],
+    "ext": [
+      184.0,
+      128.0,
+      128.0
+    ]
+  },
+  {
+    "label": "ExponentialHeightFog",
+    "class": "ExponentialHeightFog",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.ExponentialHeightFog_0",
+    "loc": [
+      -5600.0,
+      -50.0,
+      -6850.0
+    ],
+    "center": [
+      -5600.0,
+      -50.0,
+      -6850.0
+    ],
+    "ext": [
+      128.0,
+      128.0,
+      128.0
+    ]
+  },
+  {
+    "label": "VolumetricCloud",
+    "class": "VolumetricCloud",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.VolumetricCloud_0",
+    "loc": [
+      0.0,
+      0.0,
+      700.0
+    ],
+    "center": [
+      0.0,
+      0.0,
+      700.0
+    ],
+    "ext": [
+      128.0,
+      128.0,
+      128.0
+    ]
+  },
+  {
+    "label": "PlayerStart",
+    "class": "PlayerStart",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.PlayerStart_0",
+    "loc": [
+      0.0,
+      0.0,
+      92.0
+    ],
+    "center": [
+      56.0,
+      0.0,
+      92.0
+    ],
+    "ext": [
+      184.0,
+      128.0,
+      128.0
+    ]
+  },
+  {
+    "label": "SM_SkySphere",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_0",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ext": [
+      1638400.0,
+      1638400.0,
+      1638400.0
+    ]
+  },
+  {
+    "label": "Focus_Floor",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_3",
+    "loc": [
+      450.0,
+      0.0,
+      -50.0
+    ],
+    "center": [
+      450.0,
+      0.0,
+      -50.0
+    ],
+    "ext": [
+      900.0,
+      400.0,
+      50.0
+    ]
+  },
+  {
+    "label": "Focus_BackWall",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_4",
+    "loc": [
+      450.0,
+      -450.0,
+      300.0
+    ],
+    "center": [
+      450.0,
+      -450.0,
+      300.0
+    ],
+    "ext": [
+      900.0,
+      10.0,
+      350.0
+    ]
+  },
+  {
+    "label": "Focus_Stage",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_5",
+    "loc": [
+      500.0,
+      -300.0,
+      75.0
+    ],
+    "center": [
+      500.0,
+      -300.0,
+      75.0
+    ],
+    "ext": [
+      350.0,
+      200.0,
+      75.0
+    ]
+  },
+  {
+    "label": "Focus_ExitDoor",
+    "class": "BP_S2_Door_C",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.BP_S2_Door_C_1",
+    "loc": [
+      1150.0,
+      0.0,
+      150.0
+    ],
+    "center": [
+      1150.0,
+      0.0,
+      150.0
+    ],
+    "ext": [
+      25.0,
+      150.0,
+      150.0
+    ]
+  },
+  {
+    "label": "Focus_Controls",
+    "class": "TextRenderActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.TextRenderActor_3",
+    "loc": [
+      -140.0,
+      -210.0,
+      280.0
+    ],
+    "center": [
+      -90.76922607421872,
+      -210.0,
+      280.0
+    ],
+    "ext": [
+      177.23077392578128,
+      128.0,
+      128.0
+    ]
+  },
+  {
+    "label": "Focus_Controller",
+    "class": "BP_FocusPropPuzzle_C",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.BP_FocusPropPuzzle_C_0",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      500.0,
+      1149.9999914169312,
+      300.0
+    ],
+    "ext": [
+      1010.0,
+      1360.0000085830688,
+      1010.0
+    ]
+  },
+  {
+    "label": "FocusDetail_Wood",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_1",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      460.0,
+      -310.0000305175781,
+      319.9999976158142
+    ],
+    "ext": [
+      554.0,
+      55.000030517578125,
+      320.0000023841858
+    ]
+  },
+  {
+    "label": "FocusDetail_Brass",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_2",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      460.0,
+      -290.0,
+      327.0
+    ],
+    "ext": [
+      558.0,
+      45.0,
+      281.0
+    ]
+  },
+  {
+    "label": "FocusDetail_Curtain",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_6",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      460.00000381469727,
+      -338.0,
+      560.0
+    ],
+    "ext": [
+      534.9999961853027,
+      5.00006103515625,
+      31.0
+    ]
+  },
+  {
+    "label": "FocusIntro_KeyCamera",
+    "class": "CameraActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.CameraActor_0",
+    "loc": [
+      475.0,
+      1050.0,
+      405.0
+    ],
+    "center": [
+      475.0,
+      1050.0,
+      405.0
+    ],
+    "ext": [
+      1010.0,
+      1010.0,
+      1010.0
+    ]
+  },
+  {
+    "label": "FocusIntro_Director",
+    "class": "BP_FocusIntro_C",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.BP_FocusIntro_C_0",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ext": [
+      128.0,
+      128.0,
+      128.0
+    ]
+  },
+  {
+    "label": "Stage3_Bloom",
+    "class": "LevelInstance",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.LevelInstance_0",
+    "loc": [
+      1900.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      2950.0,
+      -24.0,
+      261.0
+    ],
+    "ext": [
+      1600.0,
+      324.0,
+      389.0
+    ]
+  },
+  {
+    "label": "Stage3_Resolution",
+    "class": "LevelInstance",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.LevelInstance_1",
+    "loc": [
+      5150.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      5865.0,
+      0.0,
+      180.0
+    ],
+    "ext": [
+      1305.0,
+      700.0,
+      420.0
+    ]
+  },
+  {
+    "label": "Stage3_EntryFade",
+    "class": "BP_StageFadeIn_C",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.BP_StageFadeIn_C_0",
+    "loc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "center": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ext": [
+      128.0,
+      128.0,
+      128.0
+    ]
+  }
+]

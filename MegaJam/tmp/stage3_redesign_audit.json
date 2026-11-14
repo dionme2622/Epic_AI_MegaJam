@@ -1,0 +1,1973 @@
+{
+  "/Game/DirectorCut/Stage/Stage3_": [
+    {
+      "name": "DirectionalLight",
+      "cls": "DirectionalLight",
+      "location": [
+        0.0,
+        0.0,
+        400.0
+      ],
+      "center": [
+        0.0,
+        -7.25714807138948,
+        337.11033002021077
+      ],
+      "extent": [
+        128.0,
+        135.2571480713895,
+        190.88966997978918
+      ],
+      "components": []
+    },
+    {
+      "name": "SkyAtmosphere",
+      "cls": "SkyAtmosphere",
+      "location": [
+        0.0,
+        0.0,
+        -6000.0
+      ],
+      "center": [
+        56.0,
+        0.0,
+        -6000.0
+      ],
+      "extent": [
+        184.0,
+        128.0,
+        128.0
+      ],
+      "components": []
+    },
+    {
+      "name": "SM_SkySphere",
+      "cls": "StaticMeshActor",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "extent": [
+        1638400.0,
+        1638400.0,
+        1638400.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/EngineSky/SM_SkySphere.SM_SkySphere",
+          "mat": [
+            "<Object '/Engine/EngineSky/M_SimpleSkyDome.M_SimpleSkyDome' (0x00000166861B3800) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            400.0,
+            400.0,
+            400.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Focus_Floor",
+      "cls": "StaticMeshActor",
+      "location": [
+        450.0,
+        0.0,
+        -50.0
+      ],
+      "center": [
+        450.0,
+        0.0,
+        -50.0
+      ],
+      "extent": [
+        900.0,
+        400.0,
+        50.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            450.0,
+            0.0,
+            -50.0
+          ],
+          "scale": [
+            18.0,
+            8.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Focus_BackWall",
+      "cls": "StaticMeshActor",
+      "location": [
+        450.0,
+        -450.0,
+        300.0
+      ],
+      "center": [
+        450.0,
+        -450.0,
+        300.0
+      ],
+      "extent": [
+        900.0,
+        10.0,
+        350.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Stone_Plum.M_Stone_Plum' (0x0000016671B49800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            450.0,
+            -450.0,
+            300.0
+          ],
+          "scale": [
+            18.0,
+            0.2,
+            7.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 1",
+      "cls": "StaticMeshActor",
+      "location": [
+        -1575.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        149.99993896484375,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            -1575.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 2",
+      "cls": "StaticMeshActor",
+      "location": [
+        -305.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        1419.9999389648438,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            -305.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 3",
+      "cls": "StaticMeshActor",
+      "location": [
+        965.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        2689.9999389648438,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            965.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 4",
+      "cls": "StaticMeshActor",
+      "location": [
+        2235.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        3959.9999389648438,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            2235.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 5",
+      "cls": "StaticMeshActor",
+      "location": [
+        3505.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        5229.999938964844,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            3505.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 6",
+      "cls": "StaticMeshActor",
+      "location": [
+        4775.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        6499.999938964844,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            4775.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Stone Floor 1",
+      "cls": "StaticMeshActor",
+      "location": [
+        0.0,
+        0.0,
+        -0.8
+      ],
+      "center": [
+        491.31268310546875,
+        6.499961853027344,
+        -77.80000071525575
+      ],
+      "extent": [
+        941.3126831054688,
+        149.50006866455078,
+        78.49999928474426
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/LightingGallery/SM_RGB_GalleryFloor.SM_RGB_GalleryFloor",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M05_Capstone.M05_Capstone' (0x00000166AC143800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            0.0,
+            0.0,
+            -0.8
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Stone Floor 2",
+      "cls": "StaticMeshActor",
+      "location": [
+        1800.0,
+        0.0,
+        -0.8
+      ],
+      "center": [
+        2291.3126831054688,
+        6.499961853027344,
+        -77.80000071525575
+      ],
+      "extent": [
+        941.3126831054688,
+        149.50006866455078,
+        78.49999928474426
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/LightingGallery/SM_RGB_GalleryFloor.SM_RGB_GalleryFloor",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M05_Capstone.M05_Capstone' (0x00000166AC143800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            1800.0,
+            0.0,
+            -0.8
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Stone Floor 3",
+      "cls": "StaticMeshActor",
+      "location": [
+        3300.0,
+        0.0,
+        -0.8
+      ],
+      "center": [
+        3791.3126831054688,
+        6.499961853027344,
+        -77.80000071525575
+      ],
+      "extent": [
+        941.3126831054688,
+        149.50006866455078,
+        78.49999928474426
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/LightingGallery/SM_RGB_GalleryFloor.SM_RGB_GalleryFloor",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M05_Capstone.M05_Capstone' (0x00000166AC143800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            3300.0,
+            0.0,
+            -0.8
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Stone Floor 4",
+      "cls": "StaticMeshActor",
+      "location": [
+        4700.0,
+        0.0,
+        -0.8
+      ],
+      "center": [
+        4921.090707397461,
+        6.499961853027344,
+        -77.80000071525575
+      ],
+      "extent": [
+        423.5907073974613,
+        149.50006866455078,
+        78.49999928474426
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/LightingGallery/SM_RGB_GalleryFloor.SM_RGB_GalleryFloor",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M05_Capstone.M05_Capstone' (0x00000166AC143800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            4700.0,
+            0.0,
+            -0.8
+          ],
+          "scale": [
+            0.45,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Stone Floor 5",
+      "cls": "StaticMeshActor",
+      "location": [
+        7000.0,
+        0.0,
+        -0.8
+      ],
+      "center": [
+        7491.312683105469,
+        6.499961853027344,
+        -77.80000071525575
+      ],
+      "extent": [
+        941.3126831054688,
+        149.50006866455078,
+        78.49999928474426
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/LightingGallery/SM_RGB_GalleryFloor.SM_RGB_GalleryFloor",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M05_Capstone.M05_Capstone' (0x00000166AC143800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            7000.0,
+            0.0,
+            -0.8
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Focus Work Light",
+      "cls": "PointLight",
+      "location": [
+        360.0,
+        120.0,
+        260.0
+      ],
+      "center": [
+        360.0,
+        120.0,
+        260.0
+      ],
+      "extent": [
+        128.0,
+        128.0,
+        128.0
+      ],
+      "components": []
+    },
+    {
+      "name": "Mosaic Corridor Fill",
+      "cls": "PointLight",
+      "location": [
+        5750.0,
+        140.0,
+        245.0
+      ],
+      "center": [
+        5750.0,
+        140.0,
+        245.0
+      ],
+      "extent": [
+        128.0,
+        128.0,
+        128.0
+      ],
+      "components": []
+    },
+    {
+      "name": "Archive Empty Crate",
+      "cls": "Stage3StorageCrate",
+      "location": [
+        6860.0,
+        0.0,
+        0.0
+      ],
+      "center": [
+        6860.0,
+        0.20000000000000284,
+        107.00000095367432
+      ],
+      "extent": [
+        72.5,
+        42.7,
+        85.00000095367432
+      ],
+      "components": [
+        {
+          "name": "Floor",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            28.0
+          ],
+          "scale": [
+            1.4,
+            0.8,
+            0.12
+          ]
+        },
+        {
+          "name": "Front",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            38.0,
+            62.0
+          ],
+          "scale": [
+            1.4,
+            0.08,
+            0.76
+          ]
+        },
+        {
+          "name": "Back",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            -38.0,
+            62.0
+          ],
+          "scale": [
+            1.4,
+            0.08,
+            0.76
+          ]
+        },
+        {
+          "name": "Left",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            -66.0,
+            0.0,
+            62.0
+          ],
+          "scale": [
+            0.08,
+            0.7,
+            0.76
+          ]
+        },
+        {
+          "name": "Right",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            66.0,
+            0.0,
+            62.0
+          ],
+          "scale": [
+            0.08,
+            0.7,
+            0.76
+          ]
+        },
+        {
+          "name": "Packing",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M05_Capstone.M05_Capstone' (0x00000166AC143800) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            39.0
+          ],
+          "scale": [
+            1.22,
+            0.64,
+            0.08
+          ]
+        },
+        {
+          "name": "PackingImpression",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            44.0
+          ],
+          "scale": [
+            0.66,
+            0.31,
+            0.012
+          ]
+        },
+        {
+          "name": "Lid",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M10_Plank.M10_Plank' (0x000001667185EE00) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            40.0,
+            0.0
+          ],
+          "scale": [
+            1.45,
+            0.85,
+            0.11
+          ]
+        },
+        {
+          "name": "LidBandLeft",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M06_Gold.M06_Gold' (0x00000166AC140000) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            -48.0,
+            40.0,
+            6.0
+          ],
+          "scale": [
+            0.1,
+            0.85,
+            0.018
+          ]
+        },
+        {
+          "name": "LidBandRight",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M06_Gold.M06_Gold' (0x00000166AC140000) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            48.0,
+            40.0,
+            6.0
+          ],
+          "scale": [
+            0.1,
+            0.85,
+            0.018
+          ]
+        },
+        {
+          "name": "FrontBand",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M06_Gold.M06_Gold' (0x00000166AC140000) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            42.0,
+            67.0
+          ],
+          "scale": [
+            1.42,
+            0.018,
+            0.07
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Wall 7",
+      "cls": "StaticMeshActor",
+      "location": [
+        6045.0,
+        5.0,
+        0.0
+      ],
+      "center": [
+        7769.999938964844,
+        -303.5029754638672,
+        97.0
+      ],
+      "extent": [
+        635.0000610351562,
+        30.497238159179688,
+        785.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage4Integrated/Theatre/SM_Vault_CenterWall.SM_Vault_CenterWall",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M01_Bedrock.M01_Bedrock' (0x00000166861BD200) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M02_Basalt.M02_Basalt' (0x00000166861B7000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M03_Slate.M03_Slate' (0x00000166861B7E00) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            6045.0,
+            5.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage3 Bloom Spotlight 1",
+      "cls": "StaticMeshActor",
+      "location": [
+        2070.0,
+        -200.0,
+        0.0
+      ],
+      "center": [
+        2070.000001716614,
+        -198.69477100372313,
+        90.57378188073635
+      ],
+      "extent": [
+        36.049934577941826,
+        35.594777870178234,
+        89.8762318521738
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage3Integrated/Archive/SM_Stage3_StageSpotlight.SM_Stage3_StageSpotlight",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M06_Gold.M06_Gold' (0x00000166AC140000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M14_Lamp.M14_Lamp' (0x00000166861BC400) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            2070.0,
+            -200.0,
+            0.0
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage3 Bloom Spotlight 2",
+      "cls": "StaticMeshActor",
+      "location": [
+        2620.0,
+        -200.0,
+        0.0
+      ],
+      "center": [
+        2620.000001716614,
+        -198.69477100372313,
+        90.57378188073635
+      ],
+      "extent": [
+        36.04993457794171,
+        35.594777870178234,
+        89.8762318521738
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage3Integrated/Archive/SM_Stage3_StageSpotlight.SM_Stage3_StageSpotlight",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M06_Gold.M06_Gold' (0x00000166AC140000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M14_Lamp.M14_Lamp' (0x00000166861BC400) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            2620.0,
+            -200.0,
+            0.0
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Stage3 Bloom Spotlight 3",
+      "cls": "StaticMeshActor",
+      "location": [
+        3170.0,
+        -200.0,
+        0.0
+      ],
+      "center": [
+        3170.000001716614,
+        -198.69477100372313,
+        90.57378188073635
+      ],
+      "extent": [
+        36.04993457794171,
+        35.594777870178234,
+        89.8762318521738
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Game/Stage3Integrated/Archive/SM_Stage3_StageSpotlight.SM_Stage3_StageSpotlight",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M09_Iron.M09_Iron' (0x00000166861BA800) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M06_Gold.M06_Gold' (0x00000166AC140000) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M07_Tarnish.M07_Tarnish' (0x00000166861B4600) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M14_Lamp.M14_Lamp' (0x00000166861BC400) Class 'Material'>",
+            "<Object '/Game/Stage4Integrated/Theatre/M08_Highlight.M08_Highlight' (0x00000166861B9A00) Class 'Material'>"
+          ],
+          "collision": "NoCollision",
+          "relative": [
+            3170.0,
+            -200.0,
+            0.0
+          ],
+          "scale": [
+            0.9,
+            0.9,
+            0.9
+          ]
+        }
+      ]
+    }
+  ],
+  "/Game/Stage3Integrated/Sections/L_Bloom": [
+    {
+      "name": "Bloom_Floor",
+      "cls": "StaticMeshActor",
+      "location": [
+        1050.0,
+        0.0,
+        -50.0
+      ],
+      "center": [
+        1050.0,
+        0.0,
+        -50.0
+      ],
+      "extent": [
+        1600.0,
+        300.0,
+        50.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            1050.0,
+            0.0,
+            -50.0
+          ],
+          "scale": [
+            32.0,
+            6.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bloom_Wall",
+      "cls": "StaticMeshActor",
+      "location": [
+        1050.0,
+        -300.0,
+        300.0
+      ],
+      "center": [
+        1050.0,
+        -300.0,
+        300.0
+      ],
+      "extent": [
+        1600.0,
+        10.0,
+        350.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Stone_Plum.M_Stone_Plum' (0x0000016671B49800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            1050.0,
+            -300.0,
+            300.0
+          ],
+          "scale": [
+            32.0,
+            0.2,
+            7.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bloom_Sign_Sun",
+      "cls": "BP_BloomSign_C",
+      "location": [
+        1450.0,
+        -150.0,
+        160.0
+      ],
+      "center": [
+        1449.9999961853027,
+        -152.87500035762787,
+        160.0
+      ],
+      "extent": [
+        83.50000381469727,
+        16.375007271766663,
+        83.5
+      ],
+      "components": [
+        {
+          "name": "Frame",
+          "mesh": "/Game/BloomPuzzlePrototype/DetailRefined/SM_Bloom_Frame_Ornate.SM_Bloom_Frame_Ornate",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Face",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/BloomPuzzlePrototype/M_BloomFace.M_BloomFace' (0x0000016746FF4600) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.3,
+            0.06,
+            1.3
+          ]
+        },
+        {
+          "name": "Symbol",
+          "mesh": "/Game/BloomPuzzlePrototype/DetailRefined/SM_Bloom_Sun_Refined.SM_Bloom_Sun_Refined",
+          "mat": [
+            "<Object '/Game/BloomPuzzlePrototype/M_BloomInk.M_BloomInk' (0x0000016746FF5400) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            10.0,
+            0.0
+          ],
+          "scale": [
+            0.45,
+            1.0,
+            0.45
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bloom_Sign_Star",
+      "cls": "BP_BloomSign_C",
+      "location": [
+        350.0,
+        -150.0,
+        160.0
+      ],
+      "center": [
+        349.99999618530273,
+        -152.87500035762787,
+        160.0
+      ],
+      "extent": [
+        83.50000381469727,
+        16.375007271766663,
+        83.5
+      ],
+      "components": [
+        {
+          "name": "Frame",
+          "mesh": "/Game/BloomPuzzlePrototype/DetailRefined/SM_Bloom_Frame_Ornate.SM_Bloom_Frame_Ornate",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Face",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/BloomPuzzlePrototype/M_BloomFace.M_BloomFace' (0x0000016746FF4600) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.3,
+            0.06,
+            1.3
+          ]
+        },
+        {
+          "name": "Symbol",
+          "mesh": "/Game/BloomPuzzlePrototype/DetailRefined/SM_Bloom_Star_Refined.SM_Bloom_Star_Refined",
+          "mat": [
+            "<Object '/Game/BloomPuzzlePrototype/M_BloomInk.M_BloomInk' (0x0000016746FF5400) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            10.0,
+            0.0
+          ],
+          "scale": [
+            0.45,
+            1.0,
+            0.45
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bloom_Sign_Moon",
+      "cls": "BP_BloomSign_C",
+      "location": [
+        900.0,
+        -150.0,
+        160.0
+      ],
+      "center": [
+        899.9999961853027,
+        -152.87500047683716,
+        160.0
+      ],
+      "extent": [
+        83.50000381469727,
+        16.375007152557373,
+        83.5
+      ],
+      "components": [
+        {
+          "name": "Frame",
+          "mesh": "/Game/BloomPuzzlePrototype/DetailRefined/SM_Bloom_Frame_Ornate.SM_Bloom_Frame_Ornate",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Face",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/BloomPuzzlePrototype/M_BloomFace.M_BloomFace' (0x0000016746FF4600) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.3,
+            0.06,
+            1.3
+          ]
+        },
+        {
+          "name": "Symbol",
+          "mesh": "/Game/BloomPuzzlePrototype/DetailRefined/SM_Bloom_Moon_Refined.SM_Bloom_Moon_Refined",
+          "mat": [
+            "<Object '/Game/BloomPuzzlePrototype/M_BloomInk.M_BloomInk' (0x0000016746FF5400) Class 'Material'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            0.0,
+            10.0,
+            0.0
+          ],
+          "scale": [
+            0.45,
+            1.0,
+            0.45
+          ]
+        }
+      ]
+    }
+  ],
+  "/Game/Stage3Integrated/Sections/L_Resolution": [
+    {
+      "name": "Resolution_StartFloor",
+      "cls": "StaticMeshActor",
+      "location": [
+        -135.0,
+        0.0,
+        -50.0
+      ],
+      "center": [
+        -135.0,
+        0.0,
+        -50.0
+      ],
+      "extent": [
+        455.0,
+        200.0,
+        50.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            -135.0,
+            0.0,
+            -50.0
+          ],
+          "scale": [
+            9.1,
+            4.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_EndFloor",
+      "cls": "StaticMeshActor",
+      "location": [
+        1570.0,
+        0.0,
+        -50.0
+      ],
+      "center": [
+        1570.0,
+        0.0,
+        -50.0
+      ],
+      "extent": [
+        450.0,
+        200.0,
+        50.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            1570.0,
+            0.0,
+            -50.0
+          ],
+          "scale": [
+            9.0,
+            4.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_BackWall",
+      "cls": "StaticMeshActor",
+      "location": [
+        680.0,
+        -300.0,
+        275.0
+      ],
+      "center": [
+        680.0,
+        -300.0,
+        275.0
+      ],
+      "extent": [
+        1200.0,
+        10.0,
+        325.0
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage1Generated/Meshes/M_Stone_Plum.M_Stone_Plum' (0x0000016671B49800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            680.0,
+            -300.0,
+            275.0
+          ],
+          "scale": [
+            24.0,
+            0.2,
+            6.5
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_Tile_1",
+      "cls": "BP_ResolutionTile_C",
+      "location": [
+        400.0,
+        0.0,
+        -12.0
+      ],
+      "center": [
+        400.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "Mesh",
+          "mesh": "/Game/ResolutionCorridor/SM_ResolutionTile.SM_ResolutionTile",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            400.0,
+            0.0,
+            -12.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_Tile_2",
+      "cls": "BP_ResolutionTile_C",
+      "location": [
+        560.0,
+        0.0,
+        -12.0
+      ],
+      "center": [
+        560.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "Mesh",
+          "mesh": "/Game/ResolutionCorridor/SM_ResolutionTile.SM_ResolutionTile",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            560.0,
+            0.0,
+            -12.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_Tile_3",
+      "cls": "BP_ResolutionTile_C",
+      "location": [
+        720.0,
+        0.0,
+        -12.0
+      ],
+      "center": [
+        720.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "Mesh",
+          "mesh": "/Game/ResolutionCorridor/SM_ResolutionTile.SM_ResolutionTile",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            720.0,
+            0.0,
+            -12.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_Tile_4",
+      "cls": "BP_ResolutionTile_C",
+      "location": [
+        880.0,
+        0.0,
+        -12.0
+      ],
+      "center": [
+        880.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "Mesh",
+          "mesh": "/Game/ResolutionCorridor/SM_ResolutionTile.SM_ResolutionTile",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "Custom",
+          "relative": [
+            880.0,
+            0.0,
+            -12.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_Tile_5",
+      "cls": "BP_ResolutionTile_C",
+      "location": [
+        1040.0,
+        0.0,
+        -12.0
+      ],
+      "center": [
+        1040.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "Mesh",
+          "mesh": "/Game/ResolutionCorridor/SM_ResolutionTile.SM_ResolutionTile",
+          "mat": [
+            "<Object '/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron' (0x0000016746FF3800) Class 'Material'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x0000016671B49000) Class 'MaterialInstanceConstant'>",
+            "<Object '/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim' (0x0000016671B48800) Class 'MaterialInstanceConstant'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            1040.0,
+            0.0,
+            -12.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_DotPattern_1",
+      "cls": "StaticMeshActor",
+      "location": [
+        400.0,
+        -230.0,
+        160.0
+      ],
+      "center": [
+        400.0,
+        -230.0,
+        160.0
+      ],
+      "extent": [
+        67.5,
+        1.25,
+        67.5
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/ResolutionCorridor/DotMarkers/M_Dots_Neutral.M_Dots_Neutral' (0x0000016746FF8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            400.0,
+            -230.0,
+            160.0
+          ],
+          "scale": [
+            1.35,
+            0.025,
+            1.35
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_DotPattern_2",
+      "cls": "StaticMeshActor",
+      "location": [
+        560.0,
+        -230.0,
+        160.0
+      ],
+      "center": [
+        560.0,
+        -230.0,
+        160.0
+      ],
+      "extent": [
+        67.5,
+        1.25,
+        67.5
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/ResolutionCorridor/DotMarkers/M_Dots_Neutral.M_Dots_Neutral' (0x0000016746FF8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            560.0,
+            -230.0,
+            160.0
+          ],
+          "scale": [
+            1.35,
+            0.025,
+            1.35
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_DotPattern_3",
+      "cls": "StaticMeshActor",
+      "location": [
+        720.0,
+        -230.0,
+        160.0
+      ],
+      "center": [
+        720.0,
+        -230.0,
+        160.0
+      ],
+      "extent": [
+        67.5,
+        1.25,
+        67.5
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/ResolutionCorridor/DotMarkers/M_Dots_Neutral.M_Dots_Neutral' (0x0000016746FF8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            720.0,
+            -230.0,
+            160.0
+          ],
+          "scale": [
+            1.35,
+            0.025,
+            1.35
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_DotPattern_4",
+      "cls": "StaticMeshActor",
+      "location": [
+        880.0,
+        -230.0,
+        160.0
+      ],
+      "center": [
+        880.0,
+        -230.0,
+        160.0
+      ],
+      "extent": [
+        67.5,
+        1.25,
+        67.5
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/ResolutionCorridor/DotMarkers/M_Dots_Neutral.M_Dots_Neutral' (0x0000016746FF8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            880.0,
+            -230.0,
+            160.0
+          ],
+          "scale": [
+            1.35,
+            0.025,
+            1.35
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Resolution_DotPattern_5",
+      "cls": "StaticMeshActor",
+      "location": [
+        1040.0,
+        -230.0,
+        160.0
+      ],
+      "center": [
+        1040.0,
+        -230.0,
+        160.0
+      ],
+      "extent": [
+        67.5,
+        1.25,
+        67.5
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/ResolutionCorridor/DotMarkers/M_Dots_Neutral.M_Dots_Neutral' (0x0000016746FF8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            1040.0,
+            -230.0,
+            160.0
+          ],
+          "scale": [
+            1.35,
+            0.025,
+            1.35
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Walkway Resolution_Tile_2",
+      "cls": "StaticMeshActor",
+      "location": [
+        560.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "center": [
+        560.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            560.0,
+            0.0,
+            -11.850000381469727
+          ],
+          "scale": [
+            1.5600001525878906,
+            2.8,
+            0.25299999237060544
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Archive Walkway Resolution_Tile_4",
+      "cls": "StaticMeshActor",
+      "location": [
+        880.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "center": [
+        880.0,
+        0.0,
+        -11.850000381469727
+      ],
+      "extent": [
+        78.00000762939453,
+        140.0,
+        12.649999618530273
+      ],
+      "components": [
+        {
+          "name": "StaticMeshComponent0",
+          "mesh": "/Engine/BasicShapes/Cube.Cube",
+          "mat": [
+            "<Object '/Game/Stage4Integrated/Theatre/M04_Porphyry.M04_Porphyry' (0x00000166861B8C00) Class 'Material'>"
+          ],
+          "collision": "BlockAll",
+          "relative": [
+            880.0,
+            0.0,
+            -11.850000381469727
+          ],
+          "scale": [
+            1.5600001525878906,
+            2.8,
+            0.25299999237060544
+          ]
+        }
+      ]
+    }
+  ]
+}

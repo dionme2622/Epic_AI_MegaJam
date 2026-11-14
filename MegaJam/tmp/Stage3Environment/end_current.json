@@ -1,0 +1,62 @@
+[
+ [
+  "Archive Stone Floor 5",
+  "StaticMeshActor",
+  "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_19",
+  [
+   7000.0,
+   0.0,
+   -0.8
+  ],
+  [
+   7491.312683105469,
+   6.499961853027344,
+   -77.80000071525575
+  ],
+  [
+   941.3126831054688,
+   149.50006866455078,
+   78.49999928474426
+  ]
+ ],
+ [
+  "Archive Exit Fill",
+  "PointLight",
+  "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.PointLight_4",
+  [
+   6850.0,
+   155.0,
+   270.0
+  ],
+  [
+   6850.0,
+   155.0,
+   270.0
+  ],
+  [
+   128.0,
+   128.0,
+   128.0
+  ]
+ ],
+ [
+  "Archive Empty Crate",
+  "Stage3StorageCrate",
+  "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.Stage3StorageCrate_0",
+  [
+   6860.0,
+   0.0,
+   0.0
+  ],
+  [
+   6860.0,
+   0.20000000000000284,
+   107.00000095367432
+  ],
+  [
+   72.5,
+   42.7,
+   85.00000095367432
+  ]
+ ]
+]

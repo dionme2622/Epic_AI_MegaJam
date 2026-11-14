@@ -1,0 +1,83 @@
+[
+ [
+  "Resolution_EndFloor",
+  "StaticMeshActor",
+  [
+   1570.0,
+   0.0,
+   -50.0
+  ],
+  [
+   1570.0,
+   0.0,
+   -50.0
+  ],
+  [
+   450.0,
+   200.0,
+   50.0
+  ],
+  [
+   [
+    "StaticMeshComponent0",
+    "<Object '/Engine/BasicShapes/Cube.Cube' (0x000001B551D52000) Class 'StaticMesh'>",
+    "<Object '/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone' (0x000001B5257F1000) Class 'MaterialInstanceConstant'>",
+    "BlockAll"
+   ]
+  ]
+ ],
+ [
+  "Resolution_ExitDoor",
+  "BP_S2_Door_C",
+  [
+   1350.0,
+   0.0,
+   150.0
+  ],
+  [
+   1350.0,
+   0.0,
+   150.0
+  ],
+  [
+   25.0,
+   150.0,
+   150.0
+  ],
+  [
+   [
+    "Mesh",
+    "<Object '/Engine/BasicShapes/Cube.Cube' (0x000001B551D52000) Class 'StaticMesh'>",
+    "<Object '/Engine/EngineMaterials/WorldGridMaterial.WorldGridMaterial' (0x000001B52FAA3800) Class 'Material'>",
+    "BlockAllDynamic"
+   ]
+  ]
+ ],
+ [
+  "Cube",
+  "StaticMeshActor",
+  [
+   1870.0,
+   -10.0,
+   50.000099999997474
+  ],
+  [
+   1870.0,
+   -10.0,
+   50.000099999997474
+  ],
+  [
+   50.0,
+   50.0,
+   50.0
+  ],
+  [
+   [
+    "StaticMeshComponent0",
+    "<Object '/Engine/BasicShapes/Cube.Cube' (0x000001B551D52000) Class 'StaticMesh'>",
+    "<Object '/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial' (0x000001B576C27E00) Class 'Material'>",
+    "BlockAll"
+   ]
+  ]
+ ]
+]

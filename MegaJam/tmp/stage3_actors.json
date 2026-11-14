@@ -1,0 +1,272 @@
+[
+  {
+    "label": "Focus_Floor",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_3",
+    "loc": [
+      450.0,
+      0.0,
+      -50.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Focus_ExitDoor",
+    "type": "BP_S2_Door_C",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.BP_S2_Door_C_1",
+    "loc": [
+      1150.0,
+      0.0,
+      150.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Stage3_Bloom",
+    "type": "LevelInstance",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.LevelInstance_0",
+    "loc": [
+      1900.0,
+      0.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Stage3_Resolution",
+    "type": "LevelInstance",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.LevelInstance_1",
+    "loc": [
+      5150.0,
+      0.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Wall 1",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_7",
+    "loc": [
+      -1575.0,
+      5.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Wall 2",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_8",
+    "loc": [
+      -305.0,
+      5.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Wall 3",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_9",
+    "loc": [
+      965.0,
+      5.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Wall 4",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_10",
+    "loc": [
+      2235.0,
+      5.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Wall 5",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_11",
+    "loc": [
+      3505.0,
+      5.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Wall 6",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_12",
+    "loc": [
+      4775.0,
+      5.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Masonry 1",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_13",
+    "loc": [
+      -450.0,
+      -8.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Masonry 2",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_14",
+    "loc": [
+      3270.0,
+      -8.0,
+      0.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Stone Floor 1",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_15",
+    "loc": [
+      0.0,
+      0.0,
+      -0.8
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Stone Floor 2",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_16",
+    "loc": [
+      1800.0,
+      0.0,
+      -0.8
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Stone Floor 3",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_17",
+    "loc": [
+      3300.0,
+      0.0,
+      -0.8
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Stone Floor 4",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_18",
+    "loc": [
+      4700.0,
+      0.0,
+      -0.8
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Stone Floor 5",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_19",
+    "loc": [
+      7000.0,
+      0.0,
+      -0.8
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Focus Curtains",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_20",
+    "loc": [
+      10.0,
+      -12.0,
+      24.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Prop Shelves",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_21",
+    "loc": [
+      920.0,
+      -4.0,
+      -4.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Archive Film Shelves",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_22",
+    "loc": [
+      3680.0,
+      -4.0,
+      -4.0
+    ],
+    "tags": []
+  },
+  {
+    "label": "Stage3 Film Scene 1",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_23",
+    "loc": [
+      2250.0,
+      -100.0,
+      343.0
+    ],
+    "tags": [
+      "Stage3FilmScene1"
+    ]
+  },
+  {
+    "label": "Stage3 Film Scene 2",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_24",
+    "loc": [
+      2800.0,
+      -100.0,
+      343.0
+    ],
+    "tags": [
+      "Stage3FilmScene2"
+    ]
+  },
+  {
+    "label": "Stage3 Film Scene 3",
+    "type": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.StaticMeshActor_25",
+    "loc": [
+      3350.0,
+      -100.0,
+      343.0
+    ],
+    "tags": [
+      "Stage3FilmScene3"
+    ]
+  },
+  {
+    "label": "Archive Exit Fill",
+    "type": "PointLight",
+    "path": "/Game/DirectorCut/Stage/Stage3_.Stage3_:PersistentLevel.PointLight_4",
+    "loc": [
+      6850.0,
+      155.0,
+      270.0
+    ],
+    "tags": []
+  }
+]

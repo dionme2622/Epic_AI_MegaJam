@@ -1,0 +1,426 @@
+{
+  "DirectionalLight": {
+    "type": "DirectionalLight",
+    "location": [
+      0.0,
+      0.0,
+      400.0
+    ],
+    "rotation": [
+      -69.0688705444336,
+      -80.48039245605469,
+      -88.78849792480469
+    ],
+    "intensity": "6.0",
+    "light_color": "<Struct 'Color' (0x0000019D97B1C8B8) {b: 255, g: 255, r: 255, a: 255}>",
+    "use_temperature": "True",
+    "temperature": "6500.0",
+    "cast_shadows": "True",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0",
+    "light_source_angle": "0.7357000112533569",
+    "light_source_soft_angle": "0.0",
+    "atmosphere_sun_light": "True",
+    "mobility": "<ComponentMobility.MOVABLE: 2>"
+  },
+  "West_Silhouette_Key": {
+    "type": "SpotLight",
+    "location": [
+      2325.0,
+      580.0,
+      309.0
+    ],
+    "rotation": [
+      -2.1017910967202624e-08,
+      -1.9225523471832275,
+      -80.87567138671875
+    ],
+    "intensity": "1000.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4E75B8) {b: 164, g: 212, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "True",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "East_Silhouette_Key": {
+    "type": "SpotLight",
+    "location": [
+      3710.0,
+      565.0,
+      291.0
+    ],
+    "rotation": [
+      -1.0076576018036576e-08,
+      -0.7383802533149719,
+      -100.9413070678711
+    ],
+    "intensity": "910.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4E7FB8) {b: 164, g: 212, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "True",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "West_WarmWing": {
+    "type": "PointLight",
+    "location": [
+      1674.0,
+      178.0,
+      232.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "95.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4EC5B8) {b: 139, g: 194, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "West_WorkLight": {
+    "type": "PointLight",
+    "location": [
+      2282.0,
+      92.0,
+      177.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "90.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4ECFB8) {b: 242, g: 197, r: 182, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Center_MarkLight": {
+    "type": "PointLight",
+    "location": [
+      3030.0,
+      76.0,
+      177.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "160.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4ED9B8) {b: 134, g: 196, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "East_WorkLight": {
+    "type": "PointLight",
+    "location": [
+      3731.0,
+      112.0,
+      164.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "95.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4EE3B8) {b: 239, g: 194, r: 188, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Exhibit_WarmWing": {
+    "type": "PointLight",
+    "location": [
+      7065.0,
+      158.0,
+      328.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "146.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4EEDB8) {b: 139, g: 173, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Understage_Fill": {
+    "type": "PointLight",
+    "location": [
+      3130.0,
+      138.0,
+      -210.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "78.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4EF7B8) {b: 211, g: 162, r: 177, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Shadow Rehearsal": {
+    "type": "Stage4ShadowTheatre",
+    "location": [
+      1670.0,
+      0.0,
+      0.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "90.0",
+    "light_color": "<Struct 'Color' (0x0000019ED34193B8) {b: 134, g: 197, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Ferry Amber": {
+    "type": "PointLight",
+    "location": [
+      5070.0,
+      160.0,
+      213.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "180.0",
+    "light_color": "<Struct 'Color' (0x0000019DE9AAA2B8) {b: 139, g: 189, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Ferry Far Fill": {
+    "type": "PointLight",
+    "location": [
+      5815.0,
+      155.0,
+      235.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "160.0",
+    "light_color": "<Struct 'Color' (0x0000019ED34161B8) {b: 246, g: 188, r: 203, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Switch Fill": {
+    "type": "PointLight",
+    "location": [
+      6180.0,
+      110.0,
+      191.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "135.0",
+    "light_color": "<Struct 'Color' (0x0000019ED34198B8) {b: 142, g: 196, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Display Fill": {
+    "type": "PointLight",
+    "location": [
+      6965.0,
+      141.0,
+      322.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "183.0",
+    "light_color": "<Struct 'Color' (0x0000019ED3418EB8) {b: 139, g: 189, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Ferry Projector": {
+    "type": "SpotLight",
+    "location": [
+      5025.0,
+      490.0,
+      192.0
+    ],
+    "rotation": [
+      -1.04491732599854e-07,
+      -11.250608444213867,
+      -69.1392822265625
+    ],
+    "intensity": "805.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4E89B8) {b: 162, g: 214, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Bridge Projector": {
+    "type": "SpotLight",
+    "location": [
+      5980.0,
+      470.0,
+      254.0
+    ],
+    "rotation": [
+      -1.420465309820429e-07,
+      -16.626075744628906,
+      -64.08812713623047
+    ],
+    "intensity": "830.0",
+    "light_color": "<Struct 'Color' (0x0000019D8C4E93B8) {b: 162, g: 214, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Vault Gallery Console Key": {
+    "type": "PointLight",
+    "location": [
+      3.0,
+      112.0,
+      229.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "72.0",
+    "light_color": "<Struct 'Color' (0x0000019F69E77AB8) {b: 164, g: 215, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Vault Gallery West Fill": {
+    "type": "PointLight",
+    "location": [
+      -355.0,
+      164.0,
+      326.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "68.0",
+    "light_color": "<Struct 'Color' (0x0000019F69E716B8) {b: 225, g: 177, r: 186, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Vault Gallery Reel Cabinet": {
+    "type": "PointLight",
+    "location": [
+      483.0,
+      125.0,
+      188.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "71.0",
+    "light_color": "<Struct 'Color' (0x0000019F69E75CB8) {b: 153, g: 200, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Vault Gallery Reel Spill": {
+    "type": "PointLight",
+    "location": [
+      648.0,
+      115.0,
+      304.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "60.0",
+    "light_color": "<Struct 'Color' (0x0000019F69E757B8) {b: 227, g: 166, r: 191, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  },
+  "Vault Gallery Gate Key": {
+    "type": "PointLight",
+    "location": [
+      1094.0,
+      140.0,
+      239.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "intensity": "66.0",
+    "light_color": "<Struct 'Color' (0x0000019F69E720B8) {b: 142, g: 203, r: 255, a: 255}>",
+    "use_temperature": "False",
+    "temperature": "6500.0",
+    "cast_shadows": "False",
+    "indirect_lighting_intensity": "1.0",
+    "volumetric_scattering_intensity": "1.0"
+  }
+}

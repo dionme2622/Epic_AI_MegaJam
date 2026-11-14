@@ -1,0 +1,42 @@
+[
+  {
+    "label": "Resolution_Tile_1",
+    "x": 400.0,
+    "safe": true,
+    "order": 0,
+    "component": "Mesh",
+    "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+  },
+  {
+    "label": "Resolution_Tile_2",
+    "x": 560.0,
+    "safe": false,
+    "order": 0,
+    "component": "Mesh",
+    "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+  },
+  {
+    "label": "Resolution_Tile_3",
+    "x": 720.0,
+    "safe": true,
+    "order": 1,
+    "component": "Mesh",
+    "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+  },
+  {
+    "label": "Resolution_Tile_4",
+    "x": 880.0,
+    "safe": false,
+    "order": 0,
+    "component": "Mesh",
+    "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+  },
+  {
+    "label": "Resolution_Tile_5",
+    "x": 1040.0,
+    "safe": true,
+    "order": 2,
+    "component": "Mesh",
+    "collision": "<CollisionEnabled.QUERY_AND_PHYSICS: 3>"
+  }
+]

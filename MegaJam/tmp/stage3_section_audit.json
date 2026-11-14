@@ -1,0 +1,359 @@
+{
+  "/Game/Stage3Integrated/Sections/L_Bloom": [
+    {
+      "name": "Bloom_Floor",
+      "type": "StaticMeshActor",
+      "x": 1050.0,
+      "y": 0.0,
+      "z": -50.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_7"
+    },
+    {
+      "name": "Bloom_Wall",
+      "type": "StaticMeshActor",
+      "x": 1050.0,
+      "y": -300.0,
+      "z": 300.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_8"
+    },
+    {
+      "name": "Bloom_Number_1",
+      "type": "TextRenderActor",
+      "x": 450.0,
+      "y": -140.0,
+      "z": 205.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.TextRenderActor_0"
+    },
+    {
+      "name": "Bloom_Number_2",
+      "type": "TextRenderActor",
+      "x": 1000.0,
+      "y": -140.0,
+      "z": 205.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.TextRenderActor_1"
+    },
+    {
+      "name": "Bloom_Number_3",
+      "type": "TextRenderActor",
+      "x": 1550.0,
+      "y": -140.0,
+      "z": 205.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.TextRenderActor_2"
+    },
+    {
+      "name": "Bloom_PostProcess",
+      "type": "PostProcessVolume",
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.PostProcessVolume_0"
+    },
+    {
+      "name": "Bloom_ExitDoor",
+      "type": "BP_S2_Door_C",
+      "x": 2300.0,
+      "y": 0.0,
+      "z": 150.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.BP_S2_Door_C_0"
+    },
+    {
+      "name": "Bloom_Controller",
+      "type": "BP_BloomController_C",
+      "x": 2000.0,
+      "y": 0.0,
+      "z": 70.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.BP_BloomController_C_0",
+      "FilmSources": "[]",
+      "FilmScenes": "[]",
+      "ExitDoor": "<Object '/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.BP_S2_Door_C_0' (0x0000023ED90D8700) Class 'BP_S2_Door_C'>"
+    },
+    {
+      "name": "Bloom_Instructions",
+      "type": "TextRenderActor",
+      "x": -170.0,
+      "y": -220.0,
+      "z": 225.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.TextRenderActor_4"
+    },
+    {
+      "name": "Bloom_ConsoleLabel",
+      "type": "TextRenderActor",
+      "x": 1900.0,
+      "y": -175.0,
+      "z": 220.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.TextRenderActor_5"
+    },
+    {
+      "name": "Bloom_Set_Wood_0",
+      "type": "StaticMeshActor",
+      "x": 0.0,
+      "y": 80.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_9"
+    },
+    {
+      "name": "Bloom_Set_Brass_0",
+      "type": "StaticMeshActor",
+      "x": 0.0,
+      "y": 70.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_10"
+    },
+    {
+      "name": "Bloom_Set_Curtain_0",
+      "type": "StaticMeshActor",
+      "x": 0.0,
+      "y": 110.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_11"
+    },
+    {
+      "name": "Bloom_Set_Wood_1",
+      "type": "StaticMeshActor",
+      "x": 1100.0,
+      "y": 80.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_12"
+    },
+    {
+      "name": "Bloom_Set_Brass_1",
+      "type": "StaticMeshActor",
+      "x": 1100.0,
+      "y": 70.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_13"
+    },
+    {
+      "name": "Bloom_Set_Curtain_1",
+      "type": "StaticMeshActor",
+      "x": 1100.0,
+      "y": 110.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.StaticMeshActor_14"
+    },
+    {
+      "name": "Bloom_Sign_Sun",
+      "type": "BP_BloomSign_C",
+      "x": 1450.0,
+      "y": -150.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.BP_BloomSign_C_2"
+    },
+    {
+      "name": "Bloom_Sign_Star",
+      "type": "BP_BloomSign_C",
+      "x": 350.0,
+      "y": -150.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.BP_BloomSign_C_0"
+    },
+    {
+      "name": "Bloom_Sign_Moon",
+      "type": "BP_BloomSign_C",
+      "x": 900.0,
+      "y": -150.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Bloom.L_Bloom:PersistentLevel.BP_BloomSign_C_1"
+    }
+  ],
+  "/Game/Stage3Integrated/Sections/L_Resolution": [
+    {
+      "name": "Resolution_StartFloor",
+      "type": "StaticMeshActor",
+      "x": -135.0,
+      "y": 0.0,
+      "z": -50.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_7"
+    },
+    {
+      "name": "Resolution_EndFloor",
+      "type": "StaticMeshActor",
+      "x": 1570.0,
+      "y": 0.0,
+      "z": -50.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_8"
+    },
+    {
+      "name": "Resolution_BackWall",
+      "type": "StaticMeshActor",
+      "x": 680.0,
+      "y": -300.0,
+      "z": 275.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_9"
+    },
+    {
+      "name": "Resolution_Tile_1",
+      "type": "BP_ResolutionTile_C",
+      "x": 400.0,
+      "y": 0.0,
+      "z": -12.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_ResolutionTile_C_0",
+      "bSafe": "True",
+      "SafeOrder": "0"
+    },
+    {
+      "name": "Resolution_Tile_2",
+      "type": "BP_ResolutionTile_C",
+      "x": 560.0,
+      "y": 0.0,
+      "z": -12.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_ResolutionTile_C_1",
+      "bSafe": "False",
+      "SafeOrder": "0"
+    },
+    {
+      "name": "Resolution_Tile_3",
+      "type": "BP_ResolutionTile_C",
+      "x": 720.0,
+      "y": 0.0,
+      "z": -12.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_ResolutionTile_C_2",
+      "bSafe": "True",
+      "SafeOrder": "1"
+    },
+    {
+      "name": "Resolution_Tile_4",
+      "type": "BP_ResolutionTile_C",
+      "x": 880.0,
+      "y": 0.0,
+      "z": -12.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_ResolutionTile_C_3",
+      "bSafe": "False",
+      "SafeOrder": "0"
+    },
+    {
+      "name": "Resolution_Tile_5",
+      "type": "BP_ResolutionTile_C",
+      "x": 1040.0,
+      "y": 0.0,
+      "z": -12.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_ResolutionTile_C_4",
+      "bSafe": "True",
+      "SafeOrder": "2"
+    },
+    {
+      "name": "Resolution_Guide_1",
+      "type": "StaticMeshActor",
+      "x": 400.0,
+      "y": -220.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_10"
+    },
+    {
+      "name": "Resolution_Guide_2",
+      "type": "StaticMeshActor",
+      "x": 720.0,
+      "y": -220.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_11"
+    },
+    {
+      "name": "Resolution_Guide_3",
+      "type": "StaticMeshActor",
+      "x": 1040.0,
+      "y": -220.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_12"
+    },
+    {
+      "name": "Resolution_ExitDoor",
+      "type": "BP_S2_Door_C",
+      "x": 1350.0,
+      "y": 0.0,
+      "z": 150.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_S2_Door_C_0"
+    },
+    {
+      "name": "Resolution_Controller",
+      "type": "BP_ResolutionCorridor_C",
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_ResolutionCorridor_C_0",
+      "GuidanceArrows": "[\"/Script/Engine.StaticMeshActor'/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_10'\", \"/Script/Engine.StaticMeshActor'/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_11'\", \"/Script/Engine.StaticMeshActor'/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_12'\"]",
+      "bUseLocalCheckpoint": "True",
+      "LocalCheckpointOffset": "<Struct 'Vector' (0x0000023EE106CAA0) {x: -400.000000, y: 0.000000, z: 92.000000}>",
+      "ExitDoor": "<Object '/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.BP_S2_Door_C_0' (0x0000023E85DF9600) Class 'BP_S2_Door_C'>"
+    },
+    {
+      "name": "Resolution_Portal_Post",
+      "type": "StaticMeshActor",
+      "x": 320.0,
+      "y": -270.0,
+      "z": 170.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_13"
+    },
+    {
+      "name": "Resolution_Portal_Post",
+      "type": "StaticMeshActor",
+      "x": 1120.0,
+      "y": -270.0,
+      "z": 170.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_14"
+    },
+    {
+      "name": "Resolution_NonblockingPit",
+      "type": "StaticMeshActor",
+      "x": 680.0,
+      "y": 0.0,
+      "z": -230.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_15"
+    },
+    {
+      "name": "Resolution_DotPattern_1",
+      "type": "StaticMeshActor",
+      "x": 400.0,
+      "y": -230.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_1"
+    },
+    {
+      "name": "Resolution_DotPattern_2",
+      "type": "StaticMeshActor",
+      "x": 560.0,
+      "y": -230.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_2"
+    },
+    {
+      "name": "Resolution_DotPattern_3",
+      "type": "StaticMeshActor",
+      "x": 720.0,
+      "y": -230.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_3"
+    },
+    {
+      "name": "Resolution_DotPattern_4",
+      "type": "StaticMeshActor",
+      "x": 880.0,
+      "y": -230.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_4"
+    },
+    {
+      "name": "Resolution_DotPattern_5",
+      "type": "StaticMeshActor",
+      "x": 1040.0,
+      "y": -230.0,
+      "z": 160.0,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_5"
+    },
+    {
+      "name": "Archive Walkway Resolution_Tile_2",
+      "type": "StaticMeshActor",
+      "x": 560.0,
+      "y": 0.0,
+      "z": -11.850000381469727,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_0"
+    },
+    {
+      "name": "Archive Walkway Resolution_Tile_4",
+      "type": "StaticMeshActor",
+      "x": 880.0,
+      "y": 0.0,
+      "z": -11.850000381469727,
+      "path": "/Game/Stage3Integrated/Sections/L_Resolution.L_Resolution:PersistentLevel.StaticMeshActor_6"
+    }
+  ]
+}

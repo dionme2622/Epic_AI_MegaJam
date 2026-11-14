@@ -1,0 +1,1042 @@
+[
+  {
+    "label": "DirectionalLight",
+    "class": "DirectionalLight",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.DirectionalLight_0",
+    "location": [
+      0.0,
+      0.0,
+      400.0
+    ],
+    "bounds": [
+      47.82205561136266,
+      0.0,
+      338.8323692598752
+    ],
+    "extent": [
+      175.82205561136266,
+      128.0,
+      189.16763074012482
+    ],
+    "folder": "Lighting",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "SkyAtmosphere",
+    "class": "SkyAtmosphere",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.SkyAtmosphere_0",
+    "location": [
+      0.0,
+      0.0,
+      -6000.0
+    ],
+    "bounds": [
+      56.0,
+      0.0,
+      -6000.0
+    ],
+    "extent": [
+      184.0,
+      128.0,
+      128.0
+    ],
+    "folder": "Lighting",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "SkyLight",
+    "class": "SkyLight",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.SkyLight_0",
+    "location": [
+      0.0,
+      0.0,
+      600.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      427.5
+    ],
+    "extent": [
+      256.0,
+      256.0,
+      428.5
+    ],
+    "folder": "Lighting",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "ExponentialHeightFog",
+    "class": "ExponentialHeightFog",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.ExponentialHeightFog_0",
+    "location": [
+      -5600.0,
+      -50.0,
+      -6850.0
+    ],
+    "bounds": [
+      -5600.0,
+      -50.0,
+      -6850.0
+    ],
+    "extent": [
+      128.0,
+      128.0,
+      128.0
+    ],
+    "folder": "Lighting",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "VolumetricCloud",
+    "class": "VolumetricCloud",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.VolumetricCloud_0",
+    "location": [
+      0.0,
+      0.0,
+      700.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      700.0
+    ],
+    "extent": [
+      128.0,
+      128.0,
+      128.0
+    ],
+    "folder": "Lighting",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "PlayerStart",
+    "class": "PlayerStart",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.PlayerStart_0",
+    "location": [
+      0.0,
+      0.0,
+      92.0
+    ],
+    "bounds": [
+      56.0,
+      0.0,
+      92.0
+    ],
+    "extent": [
+      184.0,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "SM_SkySphere",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_0",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extent": [
+      1638400.0,
+      1638400.0,
+      1638400.0
+    ],
+    "folder": "Lighting",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/EngineSky/SM_SkySphere.SM_SkySphere",
+        "loc": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          400.0,
+          400.0,
+          400.0
+        ],
+        "visible": true,
+        "collision": "NoCollision",
+        "materials": [
+          "/Engine/EngineSky/M_SimpleSkyDome.M_SimpleSkyDome"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_Ground",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_1",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      4500.0,
+      0.0,
+      22.5
+    ],
+    "extent": [
+      5700.0,
+      150.00010681152344,
+      237.5
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/Meshes/Stage1_Ground.Stage1_Ground",
+        "loc": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "BlockAll",
+        "materials": [
+          "/Game/Stage1Generated/Meshes/M_Stone_Mauve.M_Stone_Mauve",
+          "/Game/Stage1Generated/Meshes/M_Stone_Plum.M_Stone_Plum",
+          "/Game/Stage1Generated/Meshes/M_Floor_Stone.M_Floor_Stone",
+          "/Game/Stage1Generated/Meshes/M_Stone_Light.M_Stone_Light",
+          "/Game/Stage1Generated/Meshes/M_Stone_Dark.M_Stone_Dark",
+          "/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_Backdrop",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_2",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      4500.0,
+      -121.75003051757812,
+      430.00001525878906
+    ],
+    "extent": [
+      5700.0,
+      255.75003051757812,
+      549.9999847412109
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/Refined/Stage1_Backdrop_NoGate.Stage1_Backdrop_NoGate",
+        "loc": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "BlockAll",
+        "materials": [
+          "/Game/Stage1Generated/Refined/M_Stone_Mauve.M_Stone_Mauve",
+          "/Game/Stage1Generated/Refined/M_Stone_Light.M_Stone_Light",
+          "/Game/Stage1Generated/Refined/M_Stone_Plum.M_Stone_Plum",
+          "/Game/Stage1Generated/Refined/M_Wireframe_Cyan.M_Wireframe_Cyan",
+          "/Game/Stage1Generated/Refined/M_Painted_Backdrop.M_Painted_Backdrop",
+          "/Game/Stage1Generated/Refined/M_Stone_Dark.M_Stone_Dark",
+          "/Game/Stage1Generated/Refined/M_Brass_Trim.M_Brass_Trim",
+          "/Game/Stage1Generated/Refined/M_Backstage_Wood.M_Backstage_Wood",
+          "/Game/Stage1Generated/Refined/M_Lantern_Glow.M_Lantern_Glow",
+          "/Game/Stage1Generated/Refined/M_Theatre_Curtain.M_Theatre_Curtain",
+          "/Game/Stage1Generated/Refined/M_Dev_Paper.M_Dev_Paper"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_WheelHigh",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_3",
+    "location": [
+      440.0,
+      0.0,
+      149.0
+    ],
+    "bounds": [
+      440.0,
+      0.0,
+      149.0
+    ],
+    "extent": [
+      100.0,
+      40.400001525878906,
+      100.00000762939453
+    ],
+    "folder": "None",
+    "tags": [
+      "StageHigh",
+      "WheelPiece"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/RefinedMachinery/Wheel_Refined_High.Wheel_Refined_High",
+        "loc": [
+          440.0,
+          0.0,
+          149.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "NoCollision",
+        "materials": [
+          "/Game/Stage1Generated/RefinedMachinery/M_WheelStone.M_WheelStone",
+          "/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron",
+          "/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze",
+          "/Game/Stage1Generated/RefinedMachinery/M_WheelStoneLight.M_WheelStoneLight",
+          "/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_WheelLow",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_4",
+    "location": [
+      440.0,
+      0.0,
+      149.0
+    ],
+    "bounds": [
+      440.0,
+      0.0,
+      149.0
+    ],
+    "extent": [
+      98.50000762939453,
+      39.5,
+      98.50000762939453
+    ],
+    "folder": "None",
+    "tags": [
+      "StageLow",
+      "WheelPiece"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/RefinedMachinery/Wheel_Refined_Low.Wheel_Refined_Low",
+        "loc": [
+          440.0,
+          0.0,
+          149.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "NoCollision",
+        "materials": [
+          "/Game/Stage1Generated/RefinedMachinery/M_WheelStone.M_WheelStone",
+          "/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron",
+          "/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze",
+          "/Game/Stage1Generated/RefinedMachinery/M_WheelStoneLight.M_WheelStoneLight",
+          "/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_GearHigh",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_5",
+    "location": [
+      8200.0,
+      -153.0,
+      200.0
+    ],
+    "bounds": [
+      8200.0,
+      -153.0,
+      200.0
+    ],
+    "extent": [
+      108.54044342041016,
+      33.0,
+      108.8749771118164
+    ],
+    "folder": "None",
+    "tags": [
+      "StageHigh",
+      "GearHigh"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/RefinedMachinery/Gear_Refined_High.Gear_Refined_High",
+        "loc": [
+          8200.0,
+          -153.0,
+          200.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "BlockAllDynamic",
+        "materials": [
+          "/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze",
+          "/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron",
+          "/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_GearLow",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_6",
+    "location": [
+      8200.0,
+      -153.0,
+      200.0
+    ],
+    "bounds": [
+      8200.0,
+      -153.0,
+      200.0
+    ],
+    "extent": [
+      99.91812896728516,
+      33.0,
+      99.91812896728516
+    ],
+    "folder": "None",
+    "tags": [
+      "StageLow",
+      "GearLow"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/RefinedMachinery/Gear_Refined_Low.Gear_Refined_Low",
+        "loc": [
+          8200.0,
+          -153.0,
+          200.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "BlockAllDynamic",
+        "materials": [
+          "/Game/Stage1Generated/RefinedMachinery/M_AgedBronze.M_AgedBronze",
+          "/Game/Stage1Generated/RefinedMachinery/M_DarkIron.M_DarkIron",
+          "/Game/Stage1Generated/RefinedMachinery/M_PaleBrass.M_PaleBrass"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_Lift",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_7",
+    "location": [
+      8700.0,
+      0.0,
+      15.0
+    ],
+    "bounds": [
+      8700.0,
+      0.24999618530273438,
+      63.13493299484253
+    ],
+    "extent": [
+      150.00001525878906,
+      110.2500114440918,
+      63.134933948516846
+    ],
+    "folder": "None",
+    "tags": [
+      "LiftVisual"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/PivotReady/LiftPlatform.LiftPlatform",
+        "loc": [
+          8700.0,
+          0.0,
+          15.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "BlockAllDynamic",
+        "materials": [
+          "/Game/Stage1Generated/PivotReady/M_Backstage_Wood.M_Backstage_Wood",
+          "/Game/Stage1Generated/PivotReady/M_Brass_Trim.M_Brass_Trim",
+          "/Game/Stage1Generated/PivotReady/M_Stone_Mauve.M_Stone_Mauve"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_Camera",
+    "class": "CameraActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.CameraActor_0",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extent": [
+      1010.0,
+      1010.0,
+      1010.0
+    ],
+    "folder": "None",
+    "tags": [
+      "Stage1Camera"
+    ],
+    "meshes": [
+      {
+        "name": "CameraProxyMeshComponent_0",
+        "mesh": "/Engine/EditorMeshes/MatineeCam_SM.MatineeCam_SM",
+        "loc": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "NoCollision",
+        "materials": [
+          "/Engine/EditorMaterials/MatineeCam_mat.MatineeCam_mat"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_GateBarrier",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_8",
+    "location": [
+      1860.0,
+      0.0,
+      150.0
+    ],
+    "bounds": [
+      1860.0,
+      0.0,
+      150.0
+    ],
+    "extent": [
+      12.5,
+      140.0,
+      150.0
+    ],
+    "folder": "None",
+    "tags": [
+      "StageGate"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/BasicShapes/Cube.Cube",
+        "loc": [
+          1860.0,
+          0.0,
+          150.0
+        ],
+        "scale": [
+          0.25,
+          2.8,
+          3.0
+        ],
+        "visible": true,
+        "collision": "BlockAllDynamic",
+        "materials": [
+          "/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_LiftCollider",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_9",
+    "location": [
+      8700.0,
+      0.0,
+      22.0
+    ],
+    "bounds": [
+      8700.0,
+      0.0,
+      22.0
+    ],
+    "extent": [
+      150.0,
+      110.00000000000001,
+      8.0
+    ],
+    "folder": "None",
+    "tags": [
+      "LiftCollider"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/BasicShapes/Cube.Cube",
+        "loc": [
+          8700.0,
+          0.0,
+          22.0
+        ],
+        "scale": [
+          3.0,
+          2.2,
+          0.16
+        ],
+        "visible": true,
+        "collision": "BlockAllDynamic",
+        "materials": [
+          "/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_GateVisual",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_10",
+    "location": [
+      1860.0,
+      -164.0,
+      147.0
+    ],
+    "bounds": [
+      1860.0,
+      -157.0000033378601,
+      147.0
+    ],
+    "extent": [
+      115.0,
+      19.000007152557373,
+      146.0
+    ],
+    "folder": "None",
+    "tags": [
+      "StageGateVisual"
+    ],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Game/Stage1Generated/Refined/Stage1_GateVisual.Stage1_GateVisual",
+        "loc": [
+          1860.0,
+          -164.0,
+          147.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "visible": true,
+        "collision": "BlockAllDynamic",
+        "materials": [
+          "/Game/Stage1Generated/Refined/M_Brass_Trim.M_Brass_Trim",
+          "/Game/Stage1Generated/Refined/M_Backstage_Wood.M_Backstage_Wood",
+          "/Game/Stage1Generated/Refined/M_Door_Wood.M_Door_Wood"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_BackgroundFill",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_11",
+    "location": [
+      4500.0,
+      -500.0,
+      200.0
+    ],
+    "bounds": [
+      4500.0,
+      -500.0,
+      200.0
+    ],
+    "extent": [
+      7500.0,
+      2.5,
+      1250.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/BasicShapes/Cube.Cube",
+        "loc": [
+          4500.0,
+          -500.0,
+          200.0
+        ],
+        "scale": [
+          150.0,
+          0.05,
+          25.0
+        ],
+        "visible": true,
+        "collision": "BlockAll",
+        "materials": [
+          "/Game/Stage1Generated/Meshes/M_Painted_Backdrop.M_Painted_Backdrop"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Stage1_PuzzleDirector",
+    "class": "BP_Stage1Director_C",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.BP_Stage1Director_C_0",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extent": [
+      128.0,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "WheelTarget_Left",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_12",
+    "location": [
+      1110.0,
+      -165.0,
+      110.0
+    ],
+    "bounds": [
+      1110.0,
+      -165.0,
+      109.99999999999999
+    ],
+    "extent": [
+      3.0,
+      4.0,
+      110.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/BasicShapes/Cube.Cube",
+        "loc": [
+          1110.0,
+          -165.0,
+          110.0
+        ],
+        "scale": [
+          0.06,
+          0.08,
+          2.2
+        ],
+        "visible": true,
+        "collision": "BlockAll",
+        "materials": [
+          "/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "WheelTarget_Right",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_13",
+    "location": [
+      1320.0,
+      -165.0,
+      110.0
+    ],
+    "bounds": [
+      1320.0,
+      -165.0,
+      109.99999999999999
+    ],
+    "extent": [
+      3.0,
+      4.0,
+      110.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/BasicShapes/Cube.Cube",
+        "loc": [
+          1320.0,
+          -165.0,
+          110.0
+        ],
+        "scale": [
+          0.06,
+          0.08,
+          2.2
+        ],
+        "visible": true,
+        "collision": "BlockAll",
+        "materials": [
+          "/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "WheelTarget_Top",
+    "class": "StaticMeshActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.StaticMeshActor_14",
+    "location": [
+      1215.0,
+      -165.0,
+      220.0
+    ],
+    "bounds": [
+      1215.0,
+      -165.0,
+      220.0
+    ],
+    "extent": [
+      108.0,
+      4.0,
+      3.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": [
+      {
+        "name": "StaticMeshComponent0",
+        "mesh": "/Engine/BasicShapes/Cube.Cube",
+        "loc": [
+          1215.0,
+          -165.0,
+          220.0
+        ],
+        "scale": [
+          2.16,
+          0.08,
+          0.06
+        ],
+        "visible": true,
+        "collision": "BlockAll",
+        "materials": [
+          "/Game/Stage1Generated/Meshes/M_Brass_Trim.M_Brass_Trim"
+        ]
+      }
+    ]
+  },
+  {
+    "label": "Wheel_Control_Hint",
+    "class": "TextRenderActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.TextRenderActor_0",
+    "location": [
+      465.0,
+      -160.0,
+      350.0
+    ],
+    "bounds": [
+      528.4038543701172,
+      -160.0,
+      350.0
+    ],
+    "extent": [
+      191.4038543701172,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "Wheel_Target_Hint",
+    "class": "TextRenderActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.TextRenderActor_1",
+    "location": [
+      1100.0,
+      -160.0,
+      280.0
+    ],
+    "bounds": [
+      1123.576919555664,
+      -160.0,
+      280.0
+    ],
+    "extent": [
+      151.57691955566406,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "Gear_Control_Hint",
+    "class": "TextRenderActor",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.TextRenderActor_2",
+    "location": [
+      8270.0,
+      -160.0,
+      430.0
+    ],
+    "bounds": [
+      8338.846160888672,
+      -160.0,
+      430.0
+    ],
+    "extent": [
+      196.84616088867188,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "Stage1_EntryFade",
+    "class": "BP_StageFadeIn_C",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.BP_StageFadeIn_C_0",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extent": [
+      128.0,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "Stage2_To_Stage3_FadeExit",
+    "class": "BP_Stage2ToStage3_C",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.BP_Stage2ToStage3_C_0",
+    "location": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "bounds": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "extent": [
+      128.0,
+      128.0,
+      128.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  },
+  {
+    "label": "Stage1_Player",
+    "class": "BP_Stage1Dragon_C",
+    "path": "/Game/DirectorCut/Stage/Stage2.Stage2:PersistentLevel.BP_Stage1Dragon_C_0",
+    "location": [
+      -1000.0,
+      0.0,
+      160.0
+    ],
+    "bounds": [
+      -903.6206106185913,
+      -2.0599365228690658e-05,
+      160.0
+    ],
+    "extent": [
+      143.6206106185913,
+      88.1982421875,
+      88.0
+    ],
+    "folder": "None",
+    "tags": [],
+    "meshes": []
+  }
+]
