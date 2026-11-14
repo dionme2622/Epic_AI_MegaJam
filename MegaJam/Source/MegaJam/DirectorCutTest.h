@@ -19,6 +19,12 @@ public:
     virtual void Tick(float DeltaSeconds) override;
     virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
     virtual void Landed(const FHitResult& Hit) override;
+    void SetPuzzleRespawnPoint(const FVector& Location) { SpawnPoint = Location; }
+    void SetTheatreCameraFraming(float Amount, float FocusX)
+    {
+        TheatreCameraTarget = Amount;
+        TheatreCameraFocusX = FocusX;
+    }
 
 protected:
     virtual void BeginPlay() override;
@@ -59,6 +65,9 @@ private:
     float CameraZ = 0.f;
     float LandUntil = 0.f;
     float AirPhase = 0.f;
+    float TheatreCameraTarget = 0.f;
+    float TheatreCameraBlend = 0.f;
+    float TheatreCameraFocusX = 0.f;
 };
 
 UCLASS()

@@ -30,6 +30,7 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Color Signal") TObjectPtr<UCameraComponent> PuzzleCamera;
     UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Color Signal") TObjectPtr<AStage2ShadowDoor> ExitDoor;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Color Signal") float InteractDistance = 250.f;
+    UPROPERTY(EditInstanceOnly, Category="Color Signal|RGB") bool bUseRgbCalibration = false;
     UPROPERTY(BlueprintReadOnly, Category="Color Signal") bool bActive = false;
     UPROPERTY(BlueprintReadOnly, Category="Color Signal") bool bSolved = false;
     UPROPERTY(BlueprintReadOnly, Category="Color Signal") int32 FilterMode = 0;
@@ -42,6 +43,8 @@ public:
     UFUNCTION(BlueprintPure, Category="Color Signal") bool AreDialsAligned() const;
     UFUNCTION(BlueprintCallable, Category="Color Signal") void Submit();
     UFUNCTION(BlueprintImplementableEvent, Category="Color Signal") void OnSolved();
+    static constexpr int32 RgbChannelCount = 3;
+    static constexpr int32 RgbMaxLevel = 3;
 private:
     TWeakObjectPtr<AActor> PreviousView;
     TSharedPtr<SWidget> Overlay;

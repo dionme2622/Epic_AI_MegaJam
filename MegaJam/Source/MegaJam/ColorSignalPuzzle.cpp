@@ -1,4 +1,6 @@
 #include "ColorSignalPuzzle.h"
+#include "DirectorCutGraphics.h"
+#include "Stage4RgbPanel.h"
 #include "Stage2ShadowPrototype.h"
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -15,6 +17,11 @@
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Styling/CoreStyle.h"
+
+namespace
+{
+    constexpr int32 RgbTargets[AColorSignalPuzzle::RgbChannelCount] = {2, 1, 3};
+}
 
 AColorSignalPuzzle::AColorSignalPuzzle()
 {
@@ -45,7 +52,20 @@ AColorSignalPuzzle::AColorSignalPuzzle()
     PP.bOverride_AutoExposureApplyPhysicalCameraExposure=true;PP.AutoExposureApplyPhysicalCameraExposure=false;
     PP.bOverride_AutoExposureBias=true;PP.AutoExposureBias=0.f;
 }
-void AColorSignalPuzzle::BeginPlay(){Super::BeginPlay();ResetDials();SetFilter(0);}
+void AColorSignalPuzzle::BeginPlay()
+{
+    Super::BeginPlay();
+    ResetDials();
+    SetFilter(0);
+    if (bUseRgbCalibration)
+    {
+        SignalPanel->SetVisibility(false);
+        RecordBackground->SetVisibility(true);
+        RestoredRecord->SetText(FText::FromString(TEXT("RGB LIGHT PANEL")));
+        RestoredRecord->SetVisibility(true);
+        Dial4->SetVisibility(false);
+    }
+}
 void AColorSignalPuzzle::EndPlay(const EEndPlayReason::Type Reason){LeavePuzzle();Super::EndPlay(Reason);}
 FText AColorSignalPuzzle::GetHeaderText() const
 {
@@ -64,9 +84,16 @@ void AColorSignalPuzzle::EnterPuzzle()
     if (!PC || !Pawn || bActive || bSolved || FVector::Dist2D(Pawn->GetActorLocation(),GetActorLocation())>InteractDistance) return;
     PreviousView=PC->GetViewTarget();bActive=true;PC->SetIgnoreMoveInput(true);
     if (ACharacter* C=Cast<ACharacter>(Pawn)) C->GetCharacterMovement()->StopMovementImmediately();
-    PC->SetViewTarget(this);
+    if (bUseRgbCalibration) PC->SetViewTargetWithBlend(this, .22f);
+    else PC->SetViewTarget(this);
     if (GEngine && GEngine->GameViewport)
     {
+        if (bUseRgbCalibration)
+        {
+            Overlay = BuildStage4RgbPanel(*this);
+            GEngine->GameViewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 9);
+            return;
+        }
         Overlay=SNew(SOverlay)+SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(15)
         [ SNew(SBorder).Padding(12).BorderBackgroundColor(FLinearColor(.02f,.015f,.035f,.97f))
           [ SNew(SVerticalBox)
@@ -82,37 +109,74 @@ void AColorSignalPuzzle::LeavePuzzle()
     if (!bActive) return;
     if (APlayerController* PC=UGameplayStatics::GetPlayerController(this,0))
     {
-        PC->SetIgnoreMoveInput(false);if (PreviousView.IsValid()) PC->SetViewTarget(PreviousView.Get());else if (PC->GetPawn()) PC->SetViewTarget(PC->GetPawn());
+        PC->SetIgnoreMoveInput(false);
+        if (AActor* View = PreviousView.IsValid() ? PreviousView.Get() : PC->GetPawn())
+        {
+            if (bUseRgbCalibration && !IsActorBeingDestroyed()) PC->SetViewTargetWithBlend(View, .25f);
+            else PC->SetViewTarget(View);
+        }
     }
     if (Overlay.IsValid() && GEngine && GEngine->GameViewport) GEngine->GameViewport->RemoveViewportWidgetContent(Overlay.ToSharedRef());
     Overlay.Reset();bActive=false;
 }
 void AColorSignalPuzzle::SetFilter(int32 Mode)
 {
-    FilterMode=FMath::Clamp(Mode,0,3);
+    FilterMode=bUseRgbCalibration ? 0 : FMath::Clamp(Mode,0,3);
     const FVector4 Gain[]={FVector4(1,1,1,1),FVector4(1,0,0,1),FVector4(0,1,0,1),FVector4(0,0,1,1)};
     PuzzleCamera->PostProcessSettings.ColorGain=Gain[FilterMode];
 }
 void AColorSignalPuzzle::UpdateDialVisuals()
 {
     UStaticMeshComponent* Dials[]={Dial1.Get(),Dial2.Get(),Dial3.Get(),Dial4.Get()};
-    if (DialValues.Num()!=4) return;
-    for(int32 i=0;i<4;++i) Dials[i]->SetRelativeRotation(FRotator(90.f*DialValues[i],0,0));
+    for (int32 Index = 0; Index < DialValues.Num() && Index < UE_ARRAY_COUNT(Dials); ++Index)
+    {
+        Dials[Index]->SetRelativeRotation(FRotator(90.f * DialValues[Index], 0, 0));
+    }
 }
-void AColorSignalPuzzle::ResetDials(){if(bSolved)return;DialValues={0,1,0,2};bWrong=false;UpdateDialVisuals();}
+void AColorSignalPuzzle::ResetDials()
+{
+    if (bSolved) return;
+    if (bUseRgbCalibration) DialValues.Init(0, RgbChannelCount);
+    else DialValues = {0, 1, 0, 2};
+    bWrong = false;
+    MessageTime = 0.f;
+    UpdateDialVisuals();
+}
+
 void AColorSignalPuzzle::RotateDial(int32 Index)
 {
+    if (bUseRgbCalibration)
+    {
+        if (!bActive || bSolved || !DialValues.IsValidIndex(Index)) return;
+        DialValues[Index] = (DialValues[Index] + 1) % (RgbMaxLevel + 1);
+        UpdateDialVisuals();
+        if (AreDialsAligned()) Submit();
+        return;
+    }
     if(!bActive||bSolved||Index<0||Index>=4||DialValues.Num()!=4)return;
     DialValues[Index]=(DialValues[Index]+1)%4;
     bWrong=false;UpdateDialVisuals();
 }
 bool AColorSignalPuzzle::AreDialsAligned() const
 {
+    if (bUseRgbCalibration)
+    {
+        return DialValues.Num() == RgbChannelCount &&
+            DialValues[0] == RgbTargets[0] && DialValues[1] == RgbTargets[1] && DialValues[2] == RgbTargets[2];
+    }
     return DialValues.Num()==4 && DialValues[0]==2 && DialValues[1]==3 && DialValues[2]==1 && DialValues[3]==2;
 }
 void AColorSignalPuzzle::Submit()
 {
     if(!bActive||bSolved)return;
+    if (bUseRgbCalibration)
+    {
+        if (!AreDialsAligned()) return;
+        bSolved = true;
+        bCompleting = true;
+        FinishTime = 2.5f;
+        return;
+    }
     if(AreDialsAligned())
     {
         bSolved=true;bCompleting=true;FinishTime=2.f;SetFilter(0);
@@ -124,14 +188,37 @@ void AColorSignalPuzzle::Submit()
 void AColorSignalPuzzle::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);if(MessageTime>0)MessageTime=FMath::Max(0.f,MessageTime-DeltaSeconds);
-    if(bCompleting){FinishTime-=DeltaSeconds;if(FinishTime<=0){bCompleting=false;if(IsValid(ExitDoor))ExitDoor->OpenDoor();OnSolved();LeavePuzzle();}return;}
+    if (bCompleting)
+    {
+        FinishTime -= DeltaSeconds;
+        if (FinishTime <= 0.f)
+        {
+            bCompleting = false;
+            if (bUseRgbCalibration)
+            {
+                RestoredRecord->SetText(FText::FromString(TEXT("RGB SIGNAL RESTORED")));
+            }
+            if (IsValid(ExitDoor)) ExitDoor->OpenDoor();
+            OnSolved();
+            LeavePuzzle();
+        }
+        return;
+    }
     APlayerController* PC=UGameplayStatics::GetPlayerController(this,0);if(!PC)return;
+    if (bUseRgbCalibration)
+    {
+        const ADirectorCutPlayerController* Director = Cast<ADirectorCutPlayerController>(PC);
+        if (Director && Director->IsGraphicsMenuOpen()) return;
+    }
     if(PC->WasInputKeyJustPressed(EKeys::E)){if(bActive)LeavePuzzle();else EnterPuzzle();return;}if(!bActive)return;
-    if(PC->WasInputKeyJustPressed(EKeys::Q))SetFilter((FilterMode+1)%4);
-    if(PC->WasInputKeyJustPressed(EKeys::One))RotateDial(0);
-    if(PC->WasInputKeyJustPressed(EKeys::Two))RotateDial(1);
-    if(PC->WasInputKeyJustPressed(EKeys::Three))RotateDial(2);
-    if(PC->WasInputKeyJustPressed(EKeys::Four))RotateDial(3);
-    if(PC->WasInputKeyJustPressed(EKeys::R))ResetDials();
-    if(PC->WasInputKeyJustPressed(EKeys::SpaceBar) || PC->WasInputKeyJustPressed(EKeys::Enter))Submit();
+    if (PC->WasInputKeyJustPressed(EKeys::One)) RotateDial(0);
+    if (PC->WasInputKeyJustPressed(EKeys::Two)) RotateDial(1);
+    if (PC->WasInputKeyJustPressed(EKeys::Three)) RotateDial(2);
+    if (PC->WasInputKeyJustPressed(EKeys::R)) ResetDials();
+    if (!bUseRgbCalibration)
+    {
+        if (PC->WasInputKeyJustPressed(EKeys::Q)) SetFilter((FilterMode + 1) % 4);
+        if (PC->WasInputKeyJustPressed(EKeys::Four)) RotateDial(3);
+        if (PC->WasInputKeyJustPressed(EKeys::SpaceBar) || PC->WasInputKeyJustPressed(EKeys::Enter)) Submit();
+    }
 }

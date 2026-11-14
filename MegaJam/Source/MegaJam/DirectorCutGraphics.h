@@ -54,6 +54,7 @@ class ADirectorCutPlayerController : public APlayerController
 
 public:
     ADirectorCutPlayerController();
+    bool IsGraphicsMenuOpen() const { return bMenuOpen; }
 
 protected:
     virtual void BeginPlay() override;

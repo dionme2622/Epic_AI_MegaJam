@@ -1,4 +1,5 @@
 #include "DirectorCutTest.h"
+#include "Kismet/GameplayStatics.h"
 #include "DirectorCutGraphics.h"
 
 #include "Animation/AnimSequence.h"
@@ -71,6 +72,15 @@ ADirectorCutDragon::ADirectorCutDragon()
 void ADirectorCutDragon::BeginPlay()
 {
     Super::BeginPlay();
+    // Stage 3 is a broad theatre set.  Keep the dedicated focus-puzzle camera
+    // unchanged, but give the normal side view room for the arches and rigging.
+    if (UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_"))
+    {
+        CameraDistance = 1120.f;
+        CameraElevation = 320.f;
+        CameraPitch = -11.f;
+        CameraFieldOfView = 53.f;
+    }
     SpawnPoint = GetActorLocation();
     UpdateSideCamera(SpawnPoint.X);
     PlayMotion(IdleMotion, true);
@@ -203,15 +213,20 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
     }
 
     const FVector Position = GetActorLocation();
-    const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, Position.X, DeltaSeconds, 6.f);
+    TheatreCameraBlend = FMath::FInterpTo(TheatreCameraBlend, TheatreCameraTarget, DeltaSeconds, 3.5f);
+    const float TargetX = FMath::Lerp(static_cast<float>(Position.X), TheatreCameraFocusX, TheatreCameraBlend);
+    const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, TargetX, DeltaSeconds, 6.f);
     UpdateSideCamera(DesiredX);
 }
 
 void ADirectorCutDragon::UpdateSideCamera(float FollowX)
 {
-    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + CameraDistance, SpawnPoint.Z + CameraElevation));
-    SideCamera->SetWorldRotation(FRotator(CameraPitch, -90.f, 0.f));
-    SideCamera->SetFieldOfView(CameraFieldOfView);
+    const float Distance = FMath::Lerp(CameraDistance, 1310.f, TheatreCameraBlend);
+    const float Height = FMath::Lerp(CameraElevation, 305.f, TheatreCameraBlend);
+    const float Pitch = FMath::Lerp(CameraPitch, -6.f, TheatreCameraBlend);
+    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + Distance, SpawnPoint.Z + Height));
+    SideCamera->SetWorldRotation(FRotator(Pitch, -90.f, 0.f));
+    SideCamera->SetFieldOfView(FMath::Lerp(CameraFieldOfView, 61.f, TheatreCameraBlend));
 }
 
 ADirectorCutTestMode::ADirectorCutTestMode()
