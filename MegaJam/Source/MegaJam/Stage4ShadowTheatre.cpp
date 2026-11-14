@@ -27,7 +27,7 @@
 
 namespace
 {
-    constexpr float WallY = -273.f;
+    constexpr float TheatreWallY = -273.f;
     constexpr float ExhibitX = 2885.f;
     constexpr float SetEnd = 3140.f;
     constexpr float RecoveryDuration = 3.1f;
@@ -66,7 +66,7 @@ namespace
 
     FVector ProjectToWall(const FVector& Point, const FVector& Source)
     {
-        const double Stretch = (WallY - Source.Y) / (Point.Y - Source.Y);
+        const double Stretch = (TheatreWallY - Source.Y) / (Point.Y - Source.Y);
         return Source + (Point - Source) * Stretch;
     }
 
@@ -218,7 +218,7 @@ void AStage4ShadowTheatre::InitializeDecks(UStaticMesh* Cube)
         {
             const bool bHorizontal = Edge < 2;
             const float Side = Edge % 2 ? 1.f : -1.f;
-            const FVector Position(X + (bHorizontal ? 0.f : Side * Width * .5f), WallY + 3.f,
+            const FVector Position(X + (bHorizontal ? 0.f : Side * Width * .5f), TheatreWallY + 3.f,
                 Z + (bHorizontal ? Side * 10.f : 0.f));
             PreviewOutlines[Index * 4 + Edge] = Mark(Position, bHorizontal ? FVector(Width, 2.5f, 3.5f) : FVector(3.5f, 2.5f, 20.f));
         }
@@ -248,7 +248,7 @@ void AStage4ShadowTheatre::InitializeCues(UStaticMesh* Cube)
                 Cue->RegisterComponent();
             }
             FVector Position = ProjectToWall(CuePoint(Rig), LampPosition(bWest, Angle));
-            Position.Y = WallY + 5.f;
+            Position.Y = TheatreWallY + 5.f;
             Cue->SetRelativeLocation(Position);
             Cue->SetRelativeScale3D(FVector(.71f));
             AngleCues[Lane * 2 + Angle] = Cue;
@@ -296,7 +296,7 @@ void AStage4ShadowTheatre::UpdateLamp(FRetake& Retake, USpotLightComponent* Lamp
     }
     if (Lamp)
     {
-        const FVector Aim(Point.X, WallY, Point.Z + 25.f);
+        const FVector Aim(Point.X, TheatreWallY, Point.Z + 25.f);
         Lamp->SetWorldLocationAndRotation(GetActorTransform().TransformPosition(Source),
             GetActorTransform().TransformVectorNoScale(Aim - Source).Rotation());
     }
@@ -392,9 +392,9 @@ void AStage4ShadowTheatre::UpdateProjection(TObjectPtr<UStaticMeshComponent>& Pr
     // This keeps the cue readable even when the renderer falls back to low-res
     // shadow maps. The visible castle and its hit envelope use the same motion.
     const FVector RigPosition = Rig.GetRelativeLocation();
-    const double Stretch = (WallY - SourcePosition.Y) / (RigPosition.Y - SourcePosition.Y);
+    const double Stretch = (TheatreWallY - SourcePosition.Y) / (RigPosition.Y - SourcePosition.Y);
     FVector Projected = SourcePosition + (RigPosition - SourcePosition) * Stretch;
-    Projected.Y = WallY;
+    Projected.Y = TheatreWallY;
     FVector Scale = Rig.GetRelativeScale3D() * Stretch;
     Scale.Y = .018;
     Projection->SetRelativeTransform(FTransform(FQuat::Identity, Projected, Scale));

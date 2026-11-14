@@ -1,10 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DirectorCutStoryData.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "DirectorCutPlayHUD.generated.h"
 
 class AStage4ShadowTheatre;
+class AColorSignalPuzzle;
+class AFocusPropPuzzle;
 class SOverlay;
 
 UCLASS()
@@ -26,12 +29,13 @@ private:
 
     TSharedPtr<SOverlay> Overlay;
     TWeakObjectPtr<AStage4ShadowTheatre> FinalTheatre;
+    TWeakObjectPtr<AColorSignalPuzzle> ColorConsole;
+    TWeakObjectPtr<AFocusPropPuzzle> FocusPuzzle;
     FName MapName;
     TSet<int32> PlayedStoryCues;
     FText SubtitleKorean;
     FText SubtitleEnglish;
-    FText HintKorean;
-    FText HintEnglish;
+    FDirectorCutPuzzleGuide Guide;
     FText PromptKey;
     FText PromptKorean;
     FText PromptEnglish;
@@ -43,5 +47,6 @@ private:
     bool bPromptVisible = false;
     bool bHasPrompt = false;
     bool bMenuOpen = false;
+    bool bGuideVisible = false;
     bool bEndingShown = false;
 };

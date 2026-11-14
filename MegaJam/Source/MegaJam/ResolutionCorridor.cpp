@@ -71,6 +71,7 @@ void AResolutionCorridor::BeginPlay()
     }
     if(GEngine && GEngine->GameViewport)
     {
+        const bool bCampaignBridge = bUseProjectedBridge && UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_");
         Overlay=SNew(SOverlay).Visibility_Lambda([this]()
           {
               if (!Player.IsValid()) return EVisibility::Collapsed;
@@ -80,7 +81,7 @@ void AResolutionCorridor::BeginPlay()
               if (bUseProjectedBridge && Controller && Controller->IsGraphicsMenuOpen()) return EVisibility::Collapsed;
               return EVisibility::SelfHitTestInvisible;
           })
-        +SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(14)
+        +SOverlay::Slot().HAlign(HAlign_Center).VAlign(bCampaignBridge ? VAlign_Bottom : VAlign_Top).Padding(14)
         [SNew(SBorder).Padding(11).BorderBackgroundColor(FLinearColor(.02f,.025f,.04f,.88f))
          [SNew(SVerticalBox)
           +SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)
@@ -98,14 +99,23 @@ FText AResolutionCorridor::StatusText() const
     {
         if (bCompleted) return FText::FromString(TEXT("BRIDGE LOCKED  |  CROSS TO PROP STORAGE"));
         if (!bBridgeConfigured) return FText::FromString(TEXT("PROJECTOR UNAVAILABLE"));
+        if (UGameplayStatics::GetCurrentLevelName(this, true) != TEXT("Stage3_"))
+        {
+            if (!bBridgeConsoleOpen)
+            {
+                return FText::FromString(IsAtBridgeConsole()
+                    ? TEXT("E: OPERATE FILM DESK  |  GRAPHICS: LOW RESOLUTION TO READ THE SCREEN")
+                    : TEXT("FIND THE FILM DESK AT THE EDGE OF THE BRIDGE"));
+            }
+            const TCHAR* Hint = bProjectionReadable ? TEXT("JOIN THE THREE FIXED LINES") : TEXT("LOWER RESOLUTION IN GRAPHICS TO READ THE SCREEN");
+            return FText::FromString(FString::Printf(TEXT("%s  |  1 / 2: SELECT CLIP  |  UP / DOWN: SLIDE  |  E: LEAVE"), Hint));
+        }
         if (!bBridgeConsoleOpen)
         {
-            return FText::FromString(IsAtBridgeConsole()
-                ? TEXT("E: OPERATE FILM DESK  |  GRAPHICS: LOW RESOLUTION TO READ THE SCREEN")
-                : TEXT("FIND THE FILM DESK AT THE EDGE OF THE BRIDGE"));
+            return FText::FromString(bProjectionReadable ? TEXT("PROJECTION READY") : TEXT("PROJECTION OBSCURED"));
         }
-        const TCHAR* Hint = bProjectionReadable ? TEXT("JOIN THE THREE FIXED LINES") : TEXT("LOWER RESOLUTION IN GRAPHICS TO READ THE SCREEN");
-        return FText::FromString(FString::Printf(TEXT("%s  |  1 / 2: SELECT CLIP  |  UP / DOWN: SLIDE  |  E: LEAVE"), Hint));
+        return FText::FromString(FString::Printf(TEXT("%s  |  CLIP %d"),
+            bProjectionReadable ? TEXT("PROJECTION READY") : TEXT("PROJECTION OBSCURED"), ActiveBridgeClip + 1));
     }
     if (bUseReelHunt)
     {

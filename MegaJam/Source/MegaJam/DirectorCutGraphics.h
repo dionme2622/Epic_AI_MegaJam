@@ -34,6 +34,8 @@ public:
     UFUNCTION(BlueprintCallable, Category="Director Cut|Graphics")
     void SetHigh(EDirectorCutGraphicsOption Option, bool bHigh);
 
+    bool CanSet(EDirectorCutGraphicsOption Option) const;
+
     UPROPERTY(BlueprintAssignable, Category="Director Cut|Graphics")
     FDirectorCutGraphicsChanged OnGraphicsChanged;
 
@@ -42,7 +44,7 @@ private:
     virtual void OnWorldBeginPlay(UWorld& InWorld) override;
     virtual void Deinitialize() override;
 
-    bool bModelHigh = true;
+    bool bModelHigh = false;
     bool bResolutionHigh = true;
     bool bShadowsHigh = true;
 };
@@ -57,12 +59,19 @@ public:
     bool IsGraphicsMenuOpen() const { return bMenuOpen; }
 
 protected:
+    virtual void SetupInputComponent() override;
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
     void SetMenuOpen(bool bOpen);
+    void ToggleMenu();
+    void SelectLowModelDetail();
+    void SelectHighModelDetail();
+    void ToggleShadows();
+
     bool bMenuOpen = false;
+    bool bWorkshop = false;
     TSharedPtr<SWidget> SettingsOverlay;
     FSlateBrush StoneBrush;
 

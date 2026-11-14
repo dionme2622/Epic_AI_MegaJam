@@ -48,6 +48,11 @@ void AFocusPropPuzzle::EndPlay(const EEndPlayReason::Type Reason) { LeavePuzzle(
 FText AFocusPropPuzzle::GetStatusText() const
 {
     if (bCompleting) return FText::FromString(TEXT("KEY ALIGNED  -  OPENING THE EXIT"));
+    if (UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_"))
+    {
+        if (IsAligned()) return FText::FromString(TEXT("KEY ALIGNED"));
+        return FText::FromString(bNearSelected ? TEXT("NEAR PIECE SELECTED") : TEXT("FAR PIECE SELECTED"));
+    }
     if (IsAligned()) return FText::FromString(TEXT("KEY ALIGNED  |  ENTER: CONFIRM   R: RESET   E: LEAVE"));
     return FText::FromString(bNearSelected ? TEXT("NEAR  |  A/D: MOVE   SHIFT: FINE   Q: FOCUS   R: RESET   E: LEAVE") : TEXT("FAR  |  A/D: MOVE   SHIFT: FINE   Q: FOCUS   R: RESET   E: LEAVE"));
 }
@@ -68,8 +73,14 @@ void AFocusPropPuzzle::EnterPuzzle()
     SelectNear(true);
     if (GEngine && GEngine->GameViewport)
     {
+        const bool bCampaign = UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_");
         Overlay = SNew(SOverlay)
-        + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(15)
+        .Visibility_Lambda([this]
+        {
+            const auto* Director = Cast<ADirectorCutPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+            return Director && Director->IsGraphicsMenuOpen() ? EVisibility::Collapsed : EVisibility::HitTestInvisible;
+        })
+        + SOverlay::Slot().HAlign(HAlign_Center).VAlign(bCampaign ? VAlign_Bottom : VAlign_Top).Padding(15)
         [ SNew(SBorder).Padding(14).BorderBackgroundColor(FLinearColor(.025f,.018f,.04f,.94f))
           [ SNew(SVerticalBox)
             + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0,0,0,7)

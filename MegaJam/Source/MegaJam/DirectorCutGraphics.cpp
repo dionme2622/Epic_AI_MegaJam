@@ -1,5 +1,9 @@
 ﻿#include "DirectorCutGraphics.h"
+#include "DirectorCutInteractionData.h"
 #include "DirectorCutTest.h"
+#include "Components/InputComponent.h"
+#include "InputCoreTypes.h"
+#include "Kismet/GameplayStatics.h"
 #include "Engine/Texture2D.h"
 #include "Widgets/Images/SImage.h"
 #include "Widgets/Layout/SScaleBox.h"
@@ -55,7 +59,7 @@ bool UDirectorCutGraphicsSubsystem::IsHigh(EOption Option) const
 
 void UDirectorCutGraphicsSubsystem::SetHigh(EOption Option, bool bHigh)
 {
-    if (IsHigh(Option) == bHigh)
+    if (!CanSet(Option) || IsHigh(Option) == bHigh)
     {
         return;
     }
@@ -75,6 +79,11 @@ void UDirectorCutGraphicsSubsystem::SetHigh(EOption Option, bool bHigh)
     }
     Apply(Option);
     OnGraphicsChanged.Broadcast(Option, bHigh);
+}
+
+bool UDirectorCutGraphicsSubsystem::CanSet(EOption Option) const
+{
+    return Option != EOption::ModelDetail || CanChangeDirectorCutWorkshopDetail(*GetWorld());
 }
 
 void UDirectorCutGraphicsSubsystem::OnWorldBeginPlay(UWorld& InWorld)
@@ -104,6 +113,7 @@ void UDirectorCutGraphicsSubsystem::Apply(EOption Option) const
     {
         case EOption::ModelDetail:
         {
+            ApplyDirectorCutWorkshopDetail(*GetWorld(), bHigh);
             if (const auto* Mode = GetWorld()->GetAuthGameMode<ADirectorCutTestMode>())
             {
                 Mode->ApplyModelDetail(bHigh);
@@ -125,6 +135,21 @@ ADirectorCutPlayerController::ADirectorCutPlayerController()
     static ConstructorHelpers::FObjectFinder<UTexture2D> Stone(
         TEXT("/Game/DirectorCut/Environment/T_Castle_Wall_BaseColor.T_Castle_Wall_BaseColor"));
     SettingsPanelTexture = Stone.Object;
+}
+
+void ADirectorCutPlayerController::SetupInputComponent()
+{
+    Super::SetupInputComponent();
+    bWorkshop = UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage2")
+        && GetWorld()->GetOutermost()->GetName().Contains(TEXT("/DirectorCut/Stage/"));
+    if (bWorkshop && InputComponent)
+    {
+        InputComponent->BindKey(EKeys::Escape, IE_Pressed, this, &ADirectorCutPlayerController::ToggleMenu);
+        InputComponent->BindKey(EKeys::M, IE_Pressed, this, &ADirectorCutPlayerController::ToggleMenu);
+        InputComponent->BindKey(EKeys::One, IE_Pressed, this, &ADirectorCutPlayerController::SelectLowModelDetail);
+        InputComponent->BindKey(EKeys::Two, IE_Pressed, this, &ADirectorCutPlayerController::SelectHighModelDetail);
+        InputComponent->BindKey(EKeys::Three, IE_Pressed, this, &ADirectorCutPlayerController::ToggleShadows);
+    }
 }
 
 void ADirectorCutPlayerController::BeginPlay()
@@ -149,6 +174,7 @@ void ADirectorCutPlayerController::BeginPlay()
         const FText Text = bHigh ? LOCTEXT("High", "높음") : LOCTEXT("Low", "낮음");
         return SNew(SButton)
             .HAlign(HAlign_Center)
+            .IsEnabled_Lambda([this, Option] { return GetWorld()->GetSubsystem<UDirectorCutGraphicsSubsystem>()->CanSet(Option); })
             .ContentPadding(FMargin(25.f, 14.f))
             .ButtonColorAndOpacity_Lambda([this, Option, bHigh]
             {
@@ -197,8 +223,13 @@ void ADirectorCutPlayerController::BeginPlay()
                                 .BorderBackgroundColor(FLinearColor(.025f,.039f,.059f,.82f)).Padding(FMargin(37, 27))
                                 [
                                     SNew(SVerticalBox)
-                                    + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,25)
+                                    + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,bWorkshop ? 5 : 25)
                                         [Label(LOCTEXT("Title", "그래픽 설정"), 38, AccentColor)]
+                                    + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,bWorkshop ? 14 : 0)
+                                    [
+                                        SNew(SBox).Visibility(bWorkshop ? EVisibility::HitTestInvisible : EVisibility::Collapsed)
+                                        [Label(LOCTEXT("WorkshopKeys", "1 낮음   2 높음   3 그림자 전환   Esc / M 닫기"), 17)]
+                                    ]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,15)
                                         [MakeRow(EOption::ModelDetail, LOCTEXT("Model", "모델 디테일"))]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,15)
@@ -224,7 +255,7 @@ void ADirectorCutPlayerController::BeginPlay()
             SNew(SButton).HAlign(HAlign_Center).ContentPadding(FMargin(15, 8))
             .ToolTipText(LOCTEXT("SettingsTooltip", "그래픽 설정"))
             .ButtonColorAndOpacity(PanelColor)
-            .OnClicked_Lambda([this] { SetMenuOpen(!bMenuOpen); return FReply::Handled(); })
+            .OnClicked_Lambda([this] { ToggleMenu(); return FReply::Handled(); })
             [Label(FText::FromString(TEXT("\u2699")), 27, AccentColor)]
         ];
     Viewport->AddViewportWidgetContent(SettingsOverlay.ToSharedRef(), 10);
@@ -238,6 +269,10 @@ void ADirectorCutPlayerController::SetMenuOpen(bool bOpen)
         SetIgnoreMoveInput(bOpen);
     }
     bMenuOpen = bOpen;
+    if (bWorkshop)
+    {
+        SetDirectorCutWorkshopMenuOpen(*GetWorld(), bOpen);
+    }
     bShowMouseCursor = true;
     FInputModeGameAndUI Mode;
     Mode.SetHideCursorDuringCapture(false);
@@ -247,6 +282,30 @@ void ADirectorCutPlayerController::SetMenuOpen(bool bOpen)
         Mode.SetWidgetToFocus(GetWorld()->GetGameViewport()->GetGameViewportWidget());
     }
     SetInputMode(Mode);
+}
+
+void ADirectorCutPlayerController::ToggleMenu()
+{
+    SetMenuOpen(!bMenuOpen);
+}
+
+void ADirectorCutPlayerController::SelectLowModelDetail()
+{
+    if (bMenuOpen) GetWorld()->GetSubsystem<UDirectorCutGraphicsSubsystem>()->SetHigh(EOption::ModelDetail, false);
+}
+
+void ADirectorCutPlayerController::SelectHighModelDetail()
+{
+    if (bMenuOpen) GetWorld()->GetSubsystem<UDirectorCutGraphicsSubsystem>()->SetHigh(EOption::ModelDetail, true);
+}
+
+void ADirectorCutPlayerController::ToggleShadows()
+{
+    if (bMenuOpen)
+    {
+        auto* Graphics = GetWorld()->GetSubsystem<UDirectorCutGraphicsSubsystem>();
+        Graphics->SetHigh(EOption::Shadows, !Graphics->IsHigh(EOption::Shadows));
+    }
 }
 
 void ADirectorCutPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)

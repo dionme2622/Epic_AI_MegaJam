@@ -15,6 +15,7 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SConstraintCanvas.h"
 #include "Widgets/Layout/SScaleBox.h"
+#include "Widgets/SBoxPanel.h"
 #include "Widgets/SLeafWidget.h"
 #include "Widgets/SOverlay.h"
 #include "Widgets/Text/STextBlock.h"
@@ -38,6 +39,7 @@ namespace
     };
     const FSlateRoundedBoxBrush Jewel(FLinearColor::White, 10.f);
     const FSlateRoundedBoxBrush StatusPlate(FLinearColor(FColor::FromHex(TEXT("372015"))), 10.f, Brass, 1.f);
+    const FSlateRoundedBoxBrush Keycap(Brass, 5.f);
 
     using FPuzzleRef = TWeakObjectPtr<AColorSignalPuzzle>;
 
@@ -279,11 +281,30 @@ namespace
         return Style;
     }
 
+    TSharedRef<SWidget> InstructionKey(const FText& Key, const FText& Label)
+    {
+        return SNew(SHorizontalBox)
+            + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
+            [
+                SNew(SBorder).BorderImage(&Keycap).Padding(FMargin(8.f, 1.f))
+                [
+                    SNew(STextBlock).Text(Key).Font(FCoreStyle::GetDefaultFontStyle("Bold", 19))
+                    .ColorAndOpacity(FLinearColor(FColor::FromHex(TEXT("291708"))))
+                ]
+            ]
+            + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(8.f, 0.f, 0.f, 0.f)
+            [
+                SNew(STextBlock).Text(Label).Font(FCoreStyle::GetDefaultFontStyle("Regular", 21))
+                .ColorAndOpacity(Brass)
+            ];
+    }
+
     void AddControl(SConstraintCanvas& Canvas, FPuzzleRef Puzzle, FMargin Bounds, FText Label,
         TFunction<void(AColorSignalPuzzle&)> Action, bool bShowLabel)
     {
         Canvas.AddSlot()
         .Anchors(FAnchors(0.f, 0.f))
+        .Alignment(FVector2D::ZeroVector)
         .Offset(Bounds)
         [
             SNew(SButton)
@@ -333,23 +354,45 @@ TSharedRef<SWidget> BuildStage4RgbPanel(AColorSignalPuzzle& Puzzle)
 
     Controls->AddSlot()
     .Anchors(FAnchors(0.f, 0.f))
-    .Offset(FMargin(335.f, 718.f, 1002.f, 62.f))
+    .Alignment(FVector2D::ZeroVector)
+    .Offset(FMargin(220.f, 707.f, 1232.f, 88.f))
     [
         SNew(SBorder).BorderImage(&StatusPlate).HAlign(HAlign_Center).VAlign(VAlign_Center)
-        .Visibility_Lambda([State, bHasArtwork = ArtworkTexture != nullptr]
-        {
-            return (State.IsValid() && State->bSolved) || !bHasArtwork ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
-        })
+        .Visibility(EVisibility::HitTestInvisible)
         [
-            SNew(STextBlock)
-            .Text_Lambda([State]
-            {
-                return State.IsValid() && State->bSolved
-                    ? LOCTEXT("Unlocked", "VAULT UNLOCKED")
-                    : LOCTEXT("Clue", "Blue leads. Red is one step above green. No channel is dark.");
-            })
-            .Font(FCoreStyle::GetDefaultFontStyle("Bold", 26))
-            .ColorAndOpacity(Brass)
+            SNew(SVerticalBox)
+            + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)
+            [
+                SNew(STextBlock)
+                .Text_Lambda([State]
+                {
+                    return State.IsValid() && State->bSolved
+                        ? LOCTEXT("Unlocked", "VAULT UNLOCKED")
+                        : LOCTEXT("Clue", "Blue leads. Red is one step above green. No channel is dark.");
+                })
+                .Font(FCoreStyle::GetDefaultFontStyle("Bold", 30))
+                .ColorAndOpacity(Brass)
+            ]
+            + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 3.f, 0.f, 0.f)
+            [
+                SNew(SHorizontalBox)
+                .Visibility_Lambda([State]
+                {
+                    return State.IsValid() && State->bSolved ? EVisibility::Collapsed : EVisibility::HitTestInvisible;
+                })
+                + SHorizontalBox::Slot().AutoWidth().Padding(0.f, 0.f, 25.f, 0.f)
+                [InstructionKey(LOCTEXT("ChannelKeys", "1 / 2 / 3"), LOCTEXT("ChangeChannels", "Step each color or click its dial"))]
+                + SHorizontalBox::Slot().AutoWidth().Padding(0.f, 0.f, 25.f, 0.f)
+                [InstructionKey(LOCTEXT("ResetKey", "R"), LOCTEXT("Reset", "Reset"))]
+                + SHorizontalBox::Slot().AutoWidth().Padding(0.f, 0.f, 25.f, 0.f)
+                [InstructionKey(LOCTEXT("ExitKey", "E"), LOCTEXT("Exit", "Exit"))]
+                + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
+                [
+                    SNew(STextBlock).Text(LOCTEXT("AutomaticCheck", "Checks after each change"))
+                    .Font(FCoreStyle::GetDefaultFontStyle("Regular", 21))
+                    .ColorAndOpacity(Brass)
+                ]
+            ]
         ]
     ];
 
@@ -375,8 +418,7 @@ TSharedRef<SWidget> BuildStage4RgbPanel(AColorSignalPuzzle& Puzzle)
                     [
                         SNew(SVaultConsoleArtwork)
                         .Visibility(EVisibility::HitTestInvisible)
-                        .AccessibleText(LOCTEXT("ArtworkDescription",
-                            "Vault Light Console. Blue leads. Red is one step above green. No channel is dark."))
+                        .AccessibleText(LOCTEXT("ArtworkDescription", "Vault Light Console"))
                         .ForceVolatile(true)
                         .Puzzle(State)
                         .Texture(ArtworkTexture)

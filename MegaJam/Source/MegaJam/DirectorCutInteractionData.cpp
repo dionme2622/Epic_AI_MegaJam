@@ -19,6 +19,11 @@
 
 namespace
 {
+    // These bounds match the workshop Blueprints' gate and lift triggers.
+    constexpr double WheelBayMinX = 1110.;
+    constexpr double WheelBayMaxX = 1320.;
+    constexpr double LiftFullHeight = 230.;
+
     template <typename ActorType>
     const ActorType* FindFirst(UWorld& World)
     {
@@ -46,6 +51,14 @@ namespace
         return Property && Property->GetPropertyValue_InContainer(&Actor);
     }
 
+    void WriteBlueprintFlag(AActor& Actor, FName Name, bool bValue)
+    {
+        if (const auto* Property = FindFProperty<FBoolProperty>(Actor.GetClass(), Name))
+        {
+            Property->SetPropertyValue_InContainer(&Actor, bValue);
+        }
+    }
+
     double ReadBlueprintNumber(const AActor& Actor, FName Name)
     {
         const FNumericProperty* Property = FindFProperty<FNumericProperty>(Actor.GetClass(), Name);
@@ -53,29 +66,58 @@ namespace
             ? Property->GetFloatingPointPropertyValue(Property->ContainerPtrToValuePtr<void>(&Actor)) : 0.;
     }
 
-    bool GetWorkshopPrompt(UWorld& World, const FVector& Player, bool bStage2, FDirectorCutInteractionPrompt& Out)
+    AActor* FindWorkshopDirector(FName MapName, UWorld& World)
     {
-        const TCHAR* DirectorClassPath = bStage2
+        if (MapName != TEXT("Stage1") && MapName != TEXT("Stage2")) return nullptr;
+
+        const TCHAR* DirectorClassPath = MapName == TEXT("Stage2")
             ? TEXT("/Game/Stage2Workshop/BP_Stage2WorkshopDirector.BP_Stage2WorkshopDirector_C")
             : TEXT("/Game/Stage1Generated/BP_Stage1Director.BP_Stage1Director_C");
         UClass* DirectorClass = FindObject<UClass>(nullptr, DirectorClassPath);
-        if (!DirectorClass) return false;
+        if (!DirectorClass) return nullptr;
 
         TActorIterator<AActor> It(&World, DirectorClass);
-        if (!It) return false;
-        const AActor& Director = **It;
+        return It ? *It : nullptr;
+    }
+
+    bool GetWorkshopPrompt(FName MapName, UWorld& World, const FVector& Player, FDirectorCutInteractionPrompt& Out)
+    {
+        const AActor* WorkshopDirector = FindWorkshopDirector(MapName, World);
+        if (!WorkshopDirector) return false;
+
+        const AActor& Director = *WorkshopDirector;
+        const bool bStage2 = MapName == TEXT("Stage2");
         if (ReadBlueprintFlag(Director, TEXT("MenuOpen")) || ReadBlueprintFlag(Director, TEXT("LiftActive"))) return false;
 
         const double WheelX = ReadBlueprintNumber(Director, TEXT("WheelX"));
         if (bStage2 && !ReadBlueprintFlag(Director, TEXT("WheelSolved")) && Player.Z > 0. && Player.Z < 310.
             && FMath::Abs(Player.X - WheelX) < 220.)
         {
+            const FVector Anchor(WheelX, -30., 312.);
+            if (ReadBlueprintFlag(Director, TEXT("IsLow")))
+            {
+                if (WheelX > WheelBayMinX && WheelX < WheelBayMaxX) return false;
+                Out = MakePrompt(TEXT("Esc"), LOCTEXT("UnlockWheelKo", "설정에서 2로 모델 품질 높음 선택"),
+                    LOCTEXT("UnlockWheelEn", "Choose 2 for High model quality in Settings"), Anchor);
+                return true;
+            }
+
             const double PushTarget = ReadBlueprintNumber(Director, TEXT("WheelPushTarget"));
-            const bool bCanPush = FMath::Abs(PushTarget - WheelX) < 4.
-                && (Player.X <= WheelX ? WheelX < 1420. : WheelX > 440.);
-            if (!bCanPush) return false;
-            Out = MakePrompt(TEXT("E"), LOCTEXT("PushWheelKo", "바퀴 밀기"), LOCTEXT("PushWheelEn", "Push the wheel"),
-                FVector(WheelX, -30., 312.));
+            if (FMath::Abs(PushTarget - WheelX) >= 4.) return false;
+
+            if (WheelX > WheelBayMinX && WheelX < WheelBayMaxX)
+            {
+                Out = MakePrompt(TEXT("Esc"), LOCTEXT("ParkWheelKo", "설정에서 1로 모델 품질 낮음 선택"),
+                    LOCTEXT("ParkWheelEn", "Choose 1 for Low model quality in Settings"), Anchor);
+                return true;
+            }
+
+            const bool bPushRight = Player.X <= WheelX;
+            if (bPushRight ? WheelX >= 1420. : WheelX <= 440.) return false;
+
+            Out = MakePrompt(TEXT("E"),
+                bPushRight ? LOCTEXT("PushWheelRightKo", "바퀴를 오른쪽으로 밀기") : LOCTEXT("PushWheelLeftKo", "바퀴를 왼쪽으로 밀기"),
+                bPushRight ? LOCTEXT("PushWheelRightEn", "Push the wheel right") : LOCTEXT("PushWheelLeftEn", "Push the wheel left"), Anchor);
             return true;
         }
         if (!bStage2 && Player.X >= 180. && Player.X <= 1600. && !ReadBlueprintFlag(Director, TEXT("WheelSolved")))
@@ -94,11 +136,27 @@ namespace
         if (!bOnLift) return false;
 
         const bool bLow = ReadBlueprintFlag(Director, TEXT("IsLow"));
-        Out = bLow
-            ? MakePrompt(bStage2 ? TEXT("Esc") : TEXT("Q"), LOCTEXT("LiftHighKo", "모델 디테일을 높음으로"), LOCTEXT("LiftHighEn", "Set model detail to High"),
-                FVector(8700., -30., LiftHeight + 210.))
-            : MakePrompt(TEXT("E"), LOCTEXT("UseLiftKo", "승강기 작동"), LOCTEXT("UseLiftEn", "Operate the lift"),
-                FVector(8700., -30., LiftHeight + 210.));
+        const FVector Anchor(8700., -30., LiftHeight + 210.);
+        if (bLow && bStage2)
+        {
+            Out = MakePrompt(TEXT("Esc"), LOCTEXT("WorkshopLiftHighKo", "설정에서 2로 모델 품질 높음 선택"),
+                LOCTEXT("WorkshopLiftHighEn", "Choose 2 for High model quality in Settings"), Anchor);
+        }
+        else if (bLow)
+        {
+            Out = MakePrompt(TEXT("Q"), LOCTEXT("LiftHighKo", "모델 디테일을 높음으로"),
+                LOCTEXT("LiftHighEn", "Set model detail to High"), Anchor);
+        }
+        else if (bStage2 && LiftHeight > 115.)
+        {
+            Out = MakePrompt(TEXT("E"), LOCTEXT("LowerLiftKo", "승강기 내리기"),
+                LOCTEXT("LowerLiftEn", "Lower the lift"), Anchor);
+        }
+        else
+        {
+            Out = MakePrompt(TEXT("E"), LOCTEXT("UseLiftKo", "승강기 작동"),
+                LOCTEXT("UseLiftEn", "Operate the lift"), Anchor);
+        }
         return true;
     }
 
@@ -193,6 +251,74 @@ namespace
     }
 }
 
+EDirectorCutWorkshopPhase GetDirectorCutWorkshopPhase(FName MapName, UWorld& World, const FVector& Player)
+{
+    using EPhase = EDirectorCutWorkshopPhase;
+    const AActor* Director = FindWorkshopDirector(MapName, World);
+    if (!Director) return EPhase::Unavailable;
+
+    const bool bLow = ReadBlueprintFlag(*Director, TEXT("IsLow"));
+    if (Player.X >= 8260.)
+    {
+        if (ReadBlueprintFlag(*Director, TEXT("LiftActive"))) return EPhase::LiftMoving;
+
+        const double LiftHeight = ReadBlueprintNumber(*Director, TEXT("LiftAlpha"));
+        if ((Player.X >= 8800. && Player.Z >= 300.) || LiftHeight >= LiftFullHeight) return EPhase::Exit;
+
+        return bLow ? EPhase::LiftNeedsHigh : EPhase::LiftReady;
+    }
+    if (Player.X < 2100. && !ReadBlueprintFlag(*Director, TEXT("WheelSolved")))
+    {
+        if (MapName != TEXT("Stage2")) return EPhase::Wheel;
+        if (bLow) return EPhase::WheelNeedsHigh;
+
+        const double WheelX = ReadBlueprintNumber(*Director, TEXT("WheelX"));
+        const double PushTarget = ReadBlueprintNumber(*Director, TEXT("WheelPushTarget"));
+        const bool bParked = WheelX > WheelBayMinX && WheelX < WheelBayMaxX && FMath::Abs(WheelX - PushTarget) < 4.;
+        return bParked ? EPhase::WheelNeedsLow : EPhase::Wheel;
+    }
+    return EPhase::Hall;
+}
+
+bool IsDirectorCutWorkshopMenuOpen(FName MapName, UWorld& World)
+{
+    const AActor* Director = FindWorkshopDirector(MapName, World);
+    return Director && ReadBlueprintFlag(*Director, TEXT("MenuOpen"));
+}
+
+void SetDirectorCutWorkshopMenuOpen(UWorld& World, bool bOpen)
+{
+    if (AActor* Director = FindWorkshopDirector(TEXT("Stage2"), World))
+    {
+        WriteBlueprintFlag(*Director, TEXT("MenuOpen"), bOpen);
+    }
+}
+
+bool CanChangeDirectorCutWorkshopDetail(UWorld& World)
+{
+    const AActor* Director = FindWorkshopDirector(TEXT("Stage2"), World);
+    return !Director || !ReadBlueprintFlag(*Director, TEXT("LiftActive"));
+}
+
+void ApplyDirectorCutWorkshopDetail(UWorld& World, bool bHigh)
+{
+    AActor* Director = FindWorkshopDirector(TEXT("Stage2"), World);
+    if (!Director) return;
+
+    WriteBlueprintFlag(*Director, TEXT("IsLow"), !bHigh);
+    for (TActorIterator<AActor> It(&World); It; ++It)
+    {
+        if (It->ActorHasTag(TEXT("StageHigh")))
+        {
+            It->SetActorHiddenInGame(!bHigh);
+        }
+        else if (It->ActorHasTag(TEXT("StageLow")))
+        {
+            It->SetActorHiddenInGame(bHigh);
+        }
+    }
+}
+
 bool GetDirectorCutInteractionPrompt(FName MapName, APlayerController& Controller, FDirectorCutInteractionPrompt& Out)
 {
     Out = {};
@@ -203,7 +329,7 @@ bool GetDirectorCutInteractionPrompt(FName MapName, APlayerController& Controlle
 
     if (MapName == TEXT("Stage1") || MapName == TEXT("Stage2"))
     {
-        return GetWorkshopPrompt(*World, Pawn->GetActorLocation(), MapName == TEXT("Stage2"), Out);
+        return GetWorkshopPrompt(MapName, *World, Pawn->GetActorLocation(), Out);
     }
     if (MapName == TEXT("Stage3_"))
     {

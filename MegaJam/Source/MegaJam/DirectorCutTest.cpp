@@ -74,7 +74,8 @@ void ADirectorCutDragon::BeginPlay()
     Super::BeginPlay();
     // Stage 3 is a broad theatre set.  Keep the dedicated focus-puzzle camera
     // unchanged, but give the normal side view room for the arches and rigging.
-    if (UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_"))
+    const FString LevelName = UGameplayStatics::GetCurrentLevelName(this, true);
+    if (LevelName == TEXT("Stage3_"))
     {
         CameraDistance = 1120.f;
         CameraElevation = 320.f;
@@ -84,7 +85,9 @@ void ADirectorCutDragon::BeginPlay()
     SpawnPoint = GetActorLocation();
     UpdateSideCamera(SpawnPoint.X);
     PlayMotion(IdleMotion, true);
-    if (IsLocallyControlled() && GEngine)
+    if (IsLocallyControlled() && GEngine && LevelName != TEXT("Stage3_") && LevelName != TEXT("Stage4")
+        && LevelName != TEXT("L_Stage1")
+        && !(LevelName == TEXT("Stage1") && GetWorld()->GetOutermost()->GetName().Contains(TEXT("/DirectorCut/Stage/"))))
     {
         GEngine->AddOnScreenDebugMessage(-1, 9.f, FColor::White,
             TEXT("A / D or Left / Right: Move     Space: Jump"));
