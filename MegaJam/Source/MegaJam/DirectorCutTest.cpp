@@ -1,6 +1,7 @@
 #include "DirectorCutTest.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutDragonAnimInstance.h"
+#include "DirectorCutWheelchair.h"
 
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimSingleNodeInstance.h"
@@ -14,11 +15,11 @@
 #include "EngineUtils.h"
 #include "Engine/SkeletalMesh.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
 namespace
 {
-    constexpr float CartWheelRadius = 17.5f;
     constexpr float CartDeckHeight = 31.9f;
     constexpr float MeshHeightOffset = 53.f;
     // Frames 1–8 are anticipation. Frames 9–28 are takeoff through contact.
@@ -56,6 +57,13 @@ ADirectorCutDragon::ADirectorCutDragon()
     JumpMotion = Jump.Object;
     LandMotion = Land.Object;
 
+    static ConstructorHelpers::FObjectFinder<UAnimSequence> UpperIdle(
+        TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Idle.SK_Dragon_UpperArmature_Idle"));
+    static ConstructorHelpers::FObjectFinder<UAnimSequence> UpperJump(
+        TEXT("/Game/DirectorCut/Dragon/Upper/SK_Dragon_UpperArmature_Jump.SK_Dragon_UpperArmature_Jump"));
+    UnmountedCartIdleMotion = UpperIdle.Object;
+    UnmountedCartJumpMotion = UpperJump.Object;
+
     auto* Movement = GetCharacterMovement();
     PrimaryActorTick.AddPrerequisite(Movement, Movement->PrimaryComponentTick);
     Movement->bOrientRotationToMovement = false;
@@ -71,17 +79,11 @@ ADirectorCutDragon::ADirectorCutDragon()
     CartBody->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
     CartBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
-    const FVector WheelCenters[] = {
-        FVector(-37.62f, -35.64f, CartWheelRadius),
-        FVector(-37.62f, 35.64f, CartWheelRadius),
-        FVector(36.63f, -34.32f, CartWheelRadius),
-        FVector(36.63f, 34.32f, CartWheelRadius),
-    };
-    for (int32 Index = 0; Index < UE_ARRAY_COUNT(WheelCenters); ++Index)
+    for (int32 Index = 0; Index < UE_ARRAY_COUNT(DirectorCutCart::WheelCenters); ++Index)
     {
         auto* Wheel = CreateDefaultSubobject<UStaticMeshComponent>(*FString::Printf(TEXT("RideCartWheel%d"), Index + 1));
         Wheel->SetupAttachment(CartBody);
-        Wheel->SetRelativeLocation(WheelCenters[Index]);
+        Wheel->SetRelativeLocation(DirectorCutCart::WheelCenters[Index]);
         Wheel->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     }
 
@@ -96,34 +98,70 @@ ADirectorCutDragon::ADirectorCutDragon()
 void ADirectorCutDragon::BeginPlay()
 {
     Super::BeginPlay();
+    const FString LevelName = UGameplayStatics::GetCurrentLevelName(this, true);
+    if (LevelName == TEXT("Stage3_"))
+    {
+        CameraDistance = 1120.f;
+        CameraElevation = 320.f;
+        CameraPitch = -11.f;
+        CameraFieldOfView = 53.f;
+    }
     SpawnPoint = GetActorLocation();
     UpdateSideCamera(SpawnPoint.X);
-    GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
-    bRideCart = bRideCart && CartRiderMesh && CartMotion && CartBody->GetStaticMesh();
-    if (bRideCart)
+    const bool bStartMounted = bRideCart && !bAwaitWheelchair;
+    bRideCart = false;
+    if (bAwaitWheelchair && CartRiderMesh && CartMotion)
     {
-        // Resolve the instantiated components after Blueprint construction and PIE duplication.
-        for (USceneComponent* Child : CartBody->GetAttachChildren())
-        {
-            if (auto* Wheel = Cast<UStaticMeshComponent>(Child); Wheel && Wheel->GetStaticMesh())
-            {
-                CartWheels.Add(Wheel);
-            }
-        }
         GetMesh()->SetSkeletalMesh(CartRiderMesh);
-        LastCartLocation = GetActorLocation();
-        UpdateCart(0.f);
+        IdleMotion = UnmountedCartIdleMotion ? UnmountedCartIdleMotion.Get() : CartMotion.Get();
+        RunMotion = CartMotion;
+        JumpMotion = UnmountedCartJumpMotion ? UnmountedCartJumpMotion.Get() : CartMotion.Get();
+        LandMotion = nullptr;
     }
-    CartBody->SetVisibility(bRideCart, true);
-    if (!bRideCart)
+    CartBody->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
+    GetMesh()->SetAnimInstanceClass(UDirectorCutDragonAnimInstance::StaticClass());
+    if (!bStartMounted || !MountCart())
     {
+        CartBody->SetVisibility(false, true);
         PlayMotion(IdleMotion, 0.f, 0.f);
     }
-    if (IsLocallyControlled() && GEngine)
+    if (IsLocallyControlled() && GEngine && !bAwaitWheelchair
+        && LevelName != TEXT("Stage3_") && LevelName != TEXT("Stage4") && LevelName != TEXT("L_Stage1")
+        && !(LevelName == TEXT("Stage1") && GetWorld()->GetOutermost()->GetName().Contains(TEXT("/DirectorCut/Stage/"))))
     {
         GEngine->AddOnScreenDebugMessage(-1, 9.f, FColor::White,
             TEXT("A / D or Left / Right: Move     Space: Jump"));
     }
+}
+
+bool ADirectorCutDragon::CanMountCart() const
+{
+    return !bRideCart && CartRiderMesh && CartMotion && CartBody->GetStaticMesh();
+}
+
+bool ADirectorCutDragon::MountCart()
+{
+    if (!CanMountCart())
+    {
+        return false;
+    }
+
+    for (USceneComponent* Child : CartBody->GetAttachChildren())
+    {
+        if (auto* Wheel = Cast<UStaticMeshComponent>(Child); Wheel && Wheel->GetStaticMesh())
+        {
+            CartWheels.Add(Wheel);
+        }
+    }
+    if (GetMesh()->GetSkeletalMeshAsset() != CartRiderMesh)
+    {
+        GetMesh()->SetSkeletalMesh(CartRiderMesh);
+    }
+    bRideCart = true;
+    LastCartLocation = GetActorLocation();
+    CartBody->SetVisibility(true, true);
+    UpdateCart(0.f);
+    return true;
 }
 
 void ADirectorCutDragon::SetupPlayerInputComponent(UInputComponent* Input)
@@ -255,7 +293,7 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
         BufferedJumpUntil = -1.0;
         LandingElapsed = LandingDuration;
         AirPhase = 0.f;
-        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
+        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
     }
 
     if (bRideCart)
@@ -268,7 +306,7 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
     }
     else
     {
-        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
+        GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
         const float Speed = FMath::Abs(GetVelocity().X);
         const bool bMoving = Speed > 12.f || !FMath::IsNearlyZero(MoveInput);
         if (!bMoving && LandMotion && LandingElapsed < LandingDuration)
@@ -294,7 +332,9 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
     }
 
     const FVector Position = GetActorLocation();
-    const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, Position.X, DeltaSeconds, 6.f);
+    TheatreCameraBlend = FMath::FInterpTo(TheatreCameraBlend, TheatreCameraTarget, DeltaSeconds, 3.5f);
+    const float TargetX = FMath::Lerp(static_cast<float>(Position.X), TheatreCameraFocusX, TheatreCameraBlend);
+    const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, TargetX, DeltaSeconds, 6.f);
     UpdateSideCamera(DesiredX);
 }
 
@@ -305,7 +345,7 @@ void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
     if (bGrounded && bCartWasGrounded)
     {
         const double Distance = Position.X - LastCartLocation.X;
-        WheelAngle = FMath::UnwindDegrees(WheelAngle - FMath::RadiansToDegrees(Distance / CartWheelRadius));
+        WheelAngle = FMath::UnwindDegrees(WheelAngle - FMath::RadiansToDegrees(Distance / DirectorCutCart::WheelRadius));
         for (UStaticMeshComponent* Wheel : CartWheels)
         {
             Wheel->SetRelativeRotation(FRotator(WheelAngle, 0.f, 0.f));
@@ -318,7 +358,7 @@ void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
     const FVector SeatAnchor(14.1f, 0.f, 30.f);
     const FRotator Facing(0.f, GetMesh()->GetRelativeRotation().Yaw, 0.f);
     GetMesh()->SetRelativeRotation(Facing);
-    const FVector DeckCenter(0.f, 0.f, CartDeckHeight - MeshHeightOffset);
+    const FVector DeckCenter = CartBody->GetRelativeLocation() + FVector(0.f, 0.f, CartDeckHeight);
     GetMesh()->SetRelativeLocation(DeckCenter - Facing.RotateVector(SeatAnchor * GetMesh()->GetRelativeScale3D()));
     const float Speed = FMath::Abs(GetVelocity().X);
     bCartDriving = Speed > (bCartDriving ? 9.f : 18.f);
@@ -342,9 +382,12 @@ void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
 
 void ADirectorCutDragon::UpdateSideCamera(float FollowX)
 {
-    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + CameraDistance, SpawnPoint.Z + CameraElevation));
-    SideCamera->SetWorldRotation(FRotator(CameraPitch, -90.f, 0.f));
-    SideCamera->SetFieldOfView(CameraFieldOfView);
+    const float Distance = FMath::Lerp(CameraDistance, 1310.f, TheatreCameraBlend);
+    const float Height = FMath::Lerp(CameraElevation, 305.f, TheatreCameraBlend);
+    const float Pitch = FMath::Lerp(CameraPitch, -6.f, TheatreCameraBlend);
+    SideCamera->SetWorldLocation(FVector(FollowX, SpawnPoint.Y + Distance, SpawnPoint.Z + Height));
+    SideCamera->SetWorldRotation(FRotator(Pitch, -90.f, 0.f));
+    SideCamera->SetFieldOfView(FMath::Lerp(CameraFieldOfView, 61.f, TheatreCameraBlend));
 }
 
 ADirectorCutTestMode::ADirectorCutTestMode()

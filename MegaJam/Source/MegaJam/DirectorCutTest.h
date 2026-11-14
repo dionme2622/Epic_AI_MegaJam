@@ -23,6 +23,17 @@ public:
     virtual void Landed(const FHitResult& Hit) override;
     virtual void CheckJumpInput(float DeltaTime) override;
 
+    bool IsRidingCart() const { return bRideCart; }
+    bool CanMountCart() const;
+    bool MountCart();
+
+    void SetPuzzleRespawnPoint(const FVector& Location) { SpawnPoint = Location; }
+    void SetTheatreCameraFraming(float Amount, float FocusX)
+    {
+        TheatreCameraTarget = Amount;
+        TheatreCameraFocusX = FocusX;
+    }
+
 protected:
     virtual void BeginPlay() override;
 
@@ -36,6 +47,9 @@ private:
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     bool bRideCart = false;
+
+    UPROPERTY(EditInstanceOnly, Category="Ride Cart")
+    bool bAwaitWheelchair = false;
 
     UPROPERTY(VisibleAnywhere, Category="Ride Cart")
     TObjectPtr<UStaticMeshComponent> CartBody;
@@ -54,6 +68,12 @@ private:
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     TObjectPtr<UAnimSequence> CartDriveMotion;
+
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> UnmountedCartIdleMotion;
+
+    UPROPERTY()
+    TObjectPtr<UAnimSequence> UnmountedCartJumpMotion;
 
     float CartMotionTime = 0.f;
     bool bCartDriving = false;
@@ -93,6 +113,9 @@ private:
     float GroundMotionTime = 0.f;
     float MoveInput = 0.f;
     float AirPhase = 0.f;
+    float TheatreCameraTarget = 0.f;
+    float TheatreCameraBlend = 0.f;
+    float TheatreCameraFocusX = 0.f;
 };
 
 UCLASS()

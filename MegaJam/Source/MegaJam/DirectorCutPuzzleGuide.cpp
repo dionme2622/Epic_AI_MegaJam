@@ -3,6 +3,8 @@
 #include "ColorSignalPuzzle.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutInteractionData.h"
+#include "DirectorCutTest.h"
+#include "DirectorCutWheelchair.h"
 #include "EngineUtils.h"
 #include "FocusPropPuzzle.h"
 #include "GameFramework/Character.h"
@@ -328,9 +330,17 @@ FDirectorCutPuzzleGuide GetDirectorCutPuzzleGuide(FName MapName, APlayerControll
     if (!World || !Pawn) return {};
     if (MapName == TEXT("L_Stage1"))
     {
+        const auto* Dragon = Cast<ADirectorCutDragon>(Pawn);
+        if (Dragon && !Dragon->IsRidingCart() && FindPuzzle<ADirectorCutWheelchair>(*World))
+        {
+            return {LOCTEXT("ChairTitleKo", "작업용 휠체어"), LOCTEXT("ChairTitle", "Workshop wheelchair"),
+                LOCTEXT("ChairGoalKo", "앞에 놓인 휠체어로 다가가 E를 눌러 장착하세요."),
+                LOCTEXT("ChairGoal", "Approach the wheelchair ahead and press E to equip it."),
+                {MoveControl, {TEXT("E"), LOCTEXT("ChairEquipKo", "휠체어 장착"), LOCTEXT("ChairEquip", "Equip wheelchair")}}};
+        }
         return {LOCTEXT("CastleTitleKo", "제작소로 가는 길"), LOCTEXT("CastleTitle", "To the workshop"),
-            LOCTEXT("CastleGoalKo", "횃불을 따라 오른쪽 끝의 제작소 입구로 가세요."),
-            LOCTEXT("CastleGoal", "Follow the torches to the workshop entrance on the right."),
+            LOCTEXT("CastleGoalKo", "오른쪽 끝의 붉은 커튼을 지나 제작소로 들어가세요."),
+            LOCTEXT("CastleGoal", "Pass through the red curtain on the right to enter the workshop."),
             {MoveControl, {TEXT("← / →"), LOCTEXT("ArrowsKo", "이동"), LOCTEXT("Arrows", "Move")}}};
     }
     if (MapName == TEXT("Stage1") || MapName == TEXT("Stage2"))

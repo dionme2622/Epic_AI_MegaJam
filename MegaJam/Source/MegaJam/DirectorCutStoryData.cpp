@@ -15,14 +15,14 @@ namespace
         {-530.f, -275.f,
             LOCTEXT("CastleResolveKo", "용: 다리는 테스트 구역으로 옮겼다고? 그럼 내가 직접 찾으러 가지."),
             LOCTEXT("CastleResolveEn", "Dragon: They moved my legs to the test area? I'll go find them myself.")},
-        {1080.f, 1340.f,
+        {1050.f, 1480.f,
             LOCTEXT("CastleWorkshopKo", "용: 커튼 너머에서 기계 소리가 나. 저쪽이 제작소인가 봐."),
             LOCTEXT("CastleWorkshopEn", "Dragon: I hear machinery past the curtain. That must be the workshop.")},
     };
     const FDirectorCutStoryCue WorkshopStory[] = {
         {-1300.f, -670.f,
-            LOCTEXT("WorkshopArrivalKo", "용: 작업용 휠체어라니. 덕분에 여기선 좀 빨리 움직일 수 있겠어."),
-            LOCTEXT("WorkshopArrivalEn", "Dragon: A workshop wheelchair. I can get around a little faster now.")},
+            LOCTEXT("WorkshopArrivalKo", "용: 다리 운반 기록이 여기 어딘가에 있겠지. 저 바퀴부터 살펴보자."),
+            LOCTEXT("WorkshopArrivalEn", "Dragon: The transfer record must be here somewhere. Let's start with that wheel.")},
         {7600.f, 8050.f,
             LOCTEXT("WorkshopReelsKo", "용: 운반 기록은 위층 편집실에 있겠군. 이 승강기를 써 보자."),
             LOCTEXT("WorkshopReelsEn", "Dragon: The transfer records must be in the editing room upstairs. Let's try the lift.")},

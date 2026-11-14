@@ -27,11 +27,11 @@
 
 namespace
 {
-    const FLinearColor PanelColor(.019f, .012f, .022f, .97f);
-    const FLinearColor Gold(.97f, .75f, .40f);
-    const FLinearColor Ivory(.96f, .94f, .89f);
+    const FLinearColor HudPanelColor(.019f, .012f, .022f, .97f);
+    const FLinearColor HudGold(.97f, .75f, .40f);
+    const FLinearColor HudIvory(.96f, .94f, .89f);
     const FLinearColor SoftIvory(.81f, .76f, .72f);
-    const FLinearColor Brass(.31f, .19f, .075f);
+    const FLinearColor HudBrass(.31f, .19f, .075f);
     const FLinearColor Ink(.065f, .036f, .019f);
     constexpr int32 MaxGuideControls = 6;
 
@@ -248,14 +248,14 @@ void UDirectorCutPlayHUD::BuildOverlay()
                             SNew(SHorizontalBox)
                             + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(0.f, 0.f, 6.f, 0.f)
                             [
-                                SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(Gold).Padding(FMargin(5.f, 3.f))
+                                SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudGold).Padding(FMargin(5.f, 3.f))
                                 [Line(ControlText([](const FDirectorCutGuideControl& Control) { return FText::FromString(Control.Key); }), 12, Ink, true)]
                             ]
                             + SHorizontalBox::Slot().FillWidth(1.f).VAlign(VAlign_Center)
                             [
                                 SNew(SVerticalBox)
                                 + SVerticalBox::Slot().AutoHeight()
-                                [Line(ControlText([](const FDirectorCutGuideControl& Control) { return Control.Korean; }), 12, Ivory, true)]
+                                [Line(ControlText([](const FDirectorCutGuideControl& Control) { return Control.Korean; }), 12, HudIvory, true)]
                                 + SVerticalBox::Slot().AutoHeight()
                                 [Line(ControlText([](const FDirectorCutGuideControl& Control) { return Control.English; }), 10, SoftIvory, false, ETextJustify::Left, 94.f)]
                             ]
@@ -290,17 +290,17 @@ void UDirectorCutPlayHUD::BuildOverlay()
                     [
                         SNew(SBox).WidthOverride(CardWidth)
                         [
-                            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(Brass).Padding(FMargin(3.f, 1.f, 1.f, 1.f))
+                            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudBrass).Padding(FMargin(3.f, 1.f, 1.f, 1.f))
                             [
-                                SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(PanelColor).Padding(FMargin(12.f, 9.f))
+                                SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudPanelColor).Padding(FMargin(12.f, 9.f))
                                 [
                                     SNew(SVerticalBox)
-                                    + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleKorean, 20, Gold, true)]
+                                    + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleKorean, 20, HudGold, true)]
                                     + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleEnglish, 12, SoftIvory, true)]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0.f, 7.f, 0.f, 7.f)
-                                    [SNew(SBox).HeightOverride(1.f)[SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(Brass)]]
+                                    [SNew(SBox).HeightOverride(1.f)[SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudBrass)]]
                                     + SVerticalBox::Slot().AutoHeight()
-                                    [Line(Guide.Korean, 16, Ivory, true, ETextJustify::Left, CardWidth - 30.f)]
+                                    [Line(Guide.Korean, 16, HudIvory, true, ETextJustify::Left, CardWidth - 30.f)]
                                     + SVerticalBox::Slot().AutoHeight().Padding(0.f, 3.f, 0.f, 0.f)
                                     [Line(Guide.English, 13, SoftIvory, false, ETextJustify::Left, CardWidth - 30.f)]
                                     + SVerticalBox::Slot().AutoHeight()[MakeGuideControls(bFocusLayout ? 3 : 2)]
@@ -328,18 +328,18 @@ void UDirectorCutPlayHUD::BuildOverlay()
                 SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .69f); })
                 .Visibility_Lambda([this] { return bPromptVisible ? EVisibility::HitTestInvisible : EVisibility::Collapsed; })
                 [
-                    SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(PanelColor).Padding(FMargin(8.f, 6.f, 12.f, 6.f))
+                    SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudPanelColor).Padding(FMargin(8.f, 6.f, 12.f, 6.f))
                     [
                         SNew(SHorizontalBox)
                         + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(0.f, 0.f, 9.f, 0.f)
                         [
-                            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(Gold).Padding(FMargin(9.f, 5.f))
+                            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudGold).Padding(FMargin(9.f, 5.f))
                             [Line(PromptKey, 21, Ink, true)]
                         ]
                         + SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center)
                         [
                             SNew(SVerticalBox)
-                            + SVerticalBox::Slot().AutoHeight()[Line(PromptKorean, 17, Ivory, true)]
+                            + SVerticalBox::Slot().AutoHeight()[Line(PromptKorean, 17, HudIvory, true)]
                             + SVerticalBox::Slot().AutoHeight()[Line(PromptEnglish, 13, SoftIvory)]
                         ]
                     ]
@@ -348,7 +348,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
         ]
         + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(20.f, 0.f, 20.f, 84.f)
         [
-            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(PanelColor).Padding(FMargin(24.f, 12.f))
+            SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudPanelColor).Padding(FMargin(24.f, 12.f))
             .Visibility_Lambda([this]
             {
                 return !bMenuOpen && SubtitleRemaining > 0.f
@@ -358,7 +358,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
             [
                 SNew(SVerticalBox)
                 + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[Line(SubtitleKorean, 24, FLinearColor::White, true, ETextJustify::Center, 650.f)]
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[Line(SubtitleEnglish, 18, Ivory, false, ETextJustify::Center, 650.f)]
+                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[Line(SubtitleEnglish, 18, HudIvory, false, ETextJustify::Center, 650.f)]
             ]
         ];
     Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 65);

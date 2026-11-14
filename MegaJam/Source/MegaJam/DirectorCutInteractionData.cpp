@@ -4,6 +4,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutTest.h"
+#include "DirectorCutWheelchair.h"
 #include "EngineUtils.h"
 #include "FocusPropPuzzle.h"
 #include "GameFramework/Character.h"
@@ -327,6 +328,16 @@ bool GetDirectorCutInteractionPrompt(FName MapName, APlayerController& Controlle
     const auto* Director = Cast<ADirectorCutPlayerController>(&Controller);
     if (!Pawn || !World || (Director && Director->IsGraphicsMenuOpen())) return false;
 
+    if (MapName == TEXT("L_Stage1"))
+    {
+        const auto* Dragon = Cast<ADirectorCutDragon>(Pawn);
+        const auto* Chair = FindFirst<ADirectorCutWheelchair>(*World);
+        if (!Dragon || !Chair || !Chair->CanEquip(*Dragon)) return false;
+
+        Out = MakePrompt(TEXT("E"), LOCTEXT("EquipChairKo", "휠체어 장착"),
+            LOCTEXT("EquipChairEn", "Equip wheelchair"), Chair->GetPromptAnchor());
+        return true;
+    }
     if (MapName == TEXT("Stage1") || MapName == TEXT("Stage2"))
     {
         return GetWorkshopPrompt(MapName, *World, Pawn->GetActorLocation(), Out);
