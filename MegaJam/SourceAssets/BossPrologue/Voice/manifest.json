@@ -13,9 +13,9 @@
   },
   {
     "name": "03_Dragon_MissingLegs",
-    "text": "...Where did my legs go?",
+    "text": "Wait... Where did my legs go?",
     "voice": "en-US-ChristopherNeural",
-    "duration_seconds": 2.328
+    "duration_seconds": 3.864
   },
   {
     "name": "04_Dragon_Protest",
