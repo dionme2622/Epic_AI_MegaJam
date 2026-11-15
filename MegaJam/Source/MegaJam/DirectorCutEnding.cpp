@@ -141,6 +141,60 @@ UAnimSequence* ADirectorCutEnding::BuildAwkwardWalkAnimation()
 #endif
 }
 
+UAnimSequence* ADirectorCutEnding::BuildHeroLegsScurryAnimation()
+{
+#if WITH_EDITOR
+    USkeletalMesh* Mesh = LoadObject<USkeletalMesh>(nullptr, TEXT("/Game/DirectorCut/Dragon/KnightLegs/SK_Knight_LowerBody.SK_Knight_LowerBody"));
+    if (!Mesh) return nullptr;
+    UPackage* Package = CreatePackage(TEXT("/Game/DirectorCut/Ending/Animation/A_HeroLegs_Scurry"));
+    UAnimSequence* Animation = FindObject<UAnimSequence>(Package, TEXT("A_HeroLegs_Scurry"));
+    if (!Animation) Animation = NewObject<UAnimSequence>(Package, TEXT("A_HeroLegs_Scurry"), RF_Public | RF_Standalone | RF_Transactional);
+    Animation->SetSkeleton(Mesh->GetSkeleton());
+    Animation->SetPreviewMesh(Mesh);
+    IAnimationDataController& Controller = Animation->GetController();
+    Controller.OpenBracket(LOCTEXT("BuildScurry", "Build smooth little-leg walk"), false);
+    Controller.InitializeModel();
+    Controller.SetFrameRate(FFrameRate(24, 1), false);
+    Controller.SetNumberOfFrames(FFrameNumber(24), false);
+    const FReferenceSkeleton& Ref = Mesh->GetRefSkeleton();
+    const TArray<FTransform>& Pose = Ref.GetRefBonePose();
+    TArray<FTransform> ComponentPose;
+    for (int32 Bone = 0; Bone < Ref.GetNum(); ++Bone)
+    {
+        const int32 Parent = Ref.GetParentIndex(Bone);
+        ComponentPose.Add(Parent == INDEX_NONE ? Pose[Bone] : Pose[Bone] * ComponentPose[Parent]);
+    }
+    for (int32 Bone = 0; Bone < Ref.GetNum(); ++Bone)
+    {
+        const FName Name = Ref.GetBoneName(Bone);
+        Controller.AddBoneCurve(Name, false);
+        TArray<FVector> Positions, Scales;
+        TArray<FQuat> Rotations;
+        const FString BoneName = Name.ToString();
+        const bool bLeft = BoneName.StartsWith(TEXT("Left"));
+        for (int32 Frame = 0; Frame <= 24; ++Frame)
+        {
+            FTransform Local = Pose[Bone];
+            const float Phase = 2.f * PI * Frame / 24.f + (bLeft ? 0.f : PI);
+            float Angle = 0.f;
+            if (Name == TEXT("LeftUpLeg") || Name == TEXT("RightUpLeg")) Angle = 22.f * FMath::Sin(Phase);
+            if (Name == TEXT("LeftLeg") || Name == TEXT("RightLeg")) Angle = -28.f * FMath::Square(FMath::Max(0.f, FMath::Sin(Phase)));
+            if (Name == TEXT("LeftFoot") || Name == TEXT("RightFoot")) Angle = 4.f * FMath::Sin(Phase);
+            const FVector Axis = ComponentPose[Bone].GetRotation().UnrotateVector(FVector::ForwardVector);
+            Local.SetRotation(Local.GetRotation() * FQuat(Axis, FMath::DegreesToRadians(Angle)));
+            Positions.Add(Local.GetTranslation()); Rotations.Add(Local.GetRotation()); Scales.Add(Local.GetScale3D());
+        }
+        Controller.SetBoneTrackKeys(Name, Positions, Rotations, Scales, false);
+    }
+    Controller.NotifyPopulated();
+    Controller.CloseBracket(false);
+    Animation->MarkPackageDirty();
+    return Animation;
+#else
+    return nullptr;
+#endif
+}
+
 void ADirectorCutEnding::BeginPlay()
 {
     Super::BeginPlay();
@@ -184,6 +238,11 @@ void ADirectorCutEnding::BeginPlay()
 
 FText ADirectorCutEnding::GetCurrentSubtitle() const
 {
+    if (EndingState == EDirectorCutEndingState::HeroLegsScene && HeroLegsSequenceActor && HeroLegsSequenceActor->GetSequencePlayer())
+    {
+        const double Time = HeroLegsSequenceActor->GetSequencePlayer()->GetCurrentTime().AsSeconds();
+        return Time >= 3.5 && Time < 6.5 ? LOCTEXT("HeroLegsQuestion", "왜 내 다리가 저기 있는거야?") : FText::GetEmpty();
+    }
     if (EndingState == EDirectorCutEndingState::CartScene && CartSequenceActor && CartSequenceActor->GetSequencePlayer())
     {
         const double Time = CartSequenceActor->GetSequencePlayer()->GetCurrentTime().AsSeconds();
@@ -211,6 +270,7 @@ FText ADirectorCutEnding::GetCurrentSubtitle() const
 FText ADirectorCutEnding::GetCurrentEnglishSubtitle() const
 {
     if (GetCurrentSubtitle().IsEmpty()) return FText::GetEmpty();
+    if (EndingState == EDirectorCutEndingState::HeroLegsScene) return LOCTEXT("HeroLegsQuestionEnglish", "Why are my legs over there?");
     if (EndingState == EDirectorCutEndingState::CartScene)
     {
         const double Time = CartSequenceActor->GetSequencePlayer()->GetCurrentTime().AsSeconds();
@@ -233,6 +293,7 @@ FText ADirectorCutEnding::GetCurrentEnglishSubtitle() const
 
 FText ADirectorCutEnding::GetCurrentSpeaker() const
 {
+    if (EndingState == EDirectorCutEndingState::HeroLegsScene) return LOCTEXT("Hero", "용사");
     if (EndingState == EDirectorCutEndingState::CartScene) return LOCTEXT("Dragon", "드래곤");
     if (EndingState == EDirectorCutEndingState::OriginalLegsScene && OriginalLegsSequenceActor && OriginalLegsSequenceActor->GetSequencePlayer())
     {
@@ -279,6 +340,13 @@ void ADirectorCutEnding::ChooseLowerBody(int32 OptionIndex)
 void ADirectorCutEnding::ApplyLowerBody(int32 OptionIndex)
 {
     const bool bOriginal = OptionIndex == 0;
+    if (UpperDragon)
+    {
+        AActor* Rig = OptionIndex == 1 && CartBody ? CartBody->GetAttachParentActor() :
+            (OptionIndex == 2 && HeroLegs ? HeroLegs->GetAttachParentActor() : nullptr);
+        UpperDragon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+        if (Rig) UpperDragon->AttachToActor(Rig, FAttachmentTransformRules::KeepWorldTransform);
+    }
     SetModelVisible(FullDragon, bOriginal);
     SetModelVisible(UpperDragon, !bOriginal || !FullDragon);
     SetModelVisible(DragonLowerBody, bOriginal && !FullDragon);
@@ -315,12 +383,20 @@ void ADirectorCutEnding::FinishReveal()
         Player->Play();
         return;
     }
+    if (SelectedLowerBody == 2 && HeroLegsSequenceActor && HeroLegsSequenceActor->GetSequencePlayer())
+    {
+        EndingState = EDirectorCutEndingState::HeroLegsScene;
+        ULevelSequencePlayer* Player = HeroLegsSequenceActor->GetSequencePlayer();
+        Player->OnFinished.AddUniqueDynamic(this, &ADirectorCutEnding::FinishBranchScene);
+        Player->Play();
+        return;
+    }
     FinishBranchScene();
 }
 
 void ADirectorCutEnding::FinishBranchScene()
 {
-    if (EndingState != EDirectorCutEndingState::Revealing && EndingState != EDirectorCutEndingState::OriginalLegsScene && EndingState != EDirectorCutEndingState::CartScene) return;
+    if (EndingState != EDirectorCutEndingState::Revealing && EndingState != EDirectorCutEndingState::OriginalLegsScene && EndingState != EDirectorCutEndingState::CartScene && EndingState != EDirectorCutEndingState::HeroLegsScene) return;
     EndingState = EDirectorCutEndingState::ReadyForContinuation;
     if (APlayerController* Controller = LocalController.Get(); Controller && EndingCamera)
     {
@@ -508,6 +584,10 @@ void ADirectorCutEnding::EndPlay(const EEndPlayReason::Type EndPlayReason)
     if (RevealSequenceActor && RevealSequenceActor->GetSequencePlayer())
     {
         RevealSequenceActor->GetSequencePlayer()->OnFinished.RemoveDynamic(this, &ADirectorCutEnding::FinishReveal);
+    }
+    if (HeroLegsSequenceActor && HeroLegsSequenceActor->GetSequencePlayer())
+    {
+        HeroLegsSequenceActor->GetSequencePlayer()->OnFinished.RemoveDynamic(this, &ADirectorCutEnding::FinishBranchScene);
     }
     if (Overlay.IsValid())
     {

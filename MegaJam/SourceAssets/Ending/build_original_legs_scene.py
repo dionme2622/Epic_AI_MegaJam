@@ -76,3 +76,6 @@ unreal.log('ORIGINAL_LEGS_BUILD_PASS')
 voice_script=Path(unreal.Paths.project_dir())/'SourceAssets'/'Ending'/'install_original_legs_voices.py'
 if voice_script.exists() and (voice_script.parent/'Voice'/'S_OriginalLegs_Hero.wav').exists():
     exec(compile(voice_script.read_text(encoding='utf-8-sig'),str(voice_script),'exec'),{'__name__':'__main__'})
+
+fade_installer=Path(unreal.Paths.project_dir())/"SourceAssets"/"Ending"/"configure_branch_fades.py"
+exec(compile(fade_installer.read_text(encoding="utf-8-sig"),str(fade_installer),"exec"))

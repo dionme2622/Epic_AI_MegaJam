@@ -28,7 +28,8 @@ enum class EDirectorCutEndingState : uint8
     Revealing,
     ReadyForContinuation,
     OriginalLegsScene,
-    CartScene
+    CartScene,
+    HeroLegsScene
 };
 
 /** Runtime bridge between the editable ending sequences and the player's choice. */
@@ -43,6 +44,9 @@ public:
     /** Rebuild the deliberately unfinished, stiff-legged walk from the existing dragon rig. */
     UFUNCTION(BlueprintCallable, Category="Director Cut|Ending|Editor")
     static UAnimSequence* BuildAwkwardWalkAnimation();
+
+    UFUNCTION(BlueprintCallable, Category="Director Cut|Ending|Editor")
+    static UAnimSequence* BuildHeroLegsScurryAnimation();
 
     /** 0 = original dragon, 1 = cart, 2 = hero's legs. Only accepted at the choice. */
     UFUNCTION(BlueprintCallable, Category="Director Cut|Ending")
@@ -69,6 +73,9 @@ public:
 
     UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Ending|Sequences")
     TObjectPtr<ALevelSequenceActor> CartSequenceActor;
+
+    UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Ending|Sequences")
+    TObjectPtr<ALevelSequenceActor> HeroLegsSequenceActor;
 
     /** Ramp scenery is shown only for the runaway-cart branch. */
     UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category="Ending|Sequences")

@@ -1,0 +1,18 @@
+{
+  "fps": 24,
+  "voices": [
+    {
+      "name": "S_Ending_Cart_Brakes",
+      "start_frame": 18,
+      "end_frame": 78,
+      "duration": 2.496
+    },
+    {
+      "name": "S_Ending_Cart_Scream",
+      "start_frame": 79,
+      "end_frame": 120,
+      "duration": 1.704
+    }
+  ],
+  "subtitles": "Existing subtitles preserved; none added"
+}
