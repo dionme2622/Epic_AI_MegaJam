@@ -1,0 +1,22 @@
+{
+  "UI_Select": {
+    "source": "ui-classic-hover-high-tonal-08.wav",
+    "source_onset_seconds": 0.19,
+    "duration": 0.22797916666666668
+  },
+  "Original_Footstep": {
+    "source": "foley-step-giant-footsteps-05.wav",
+    "source_onset_seconds": 0.16,
+    "duration": 0.48
+  },
+  "Cart_Roll": {
+    "source": "object-shopping-cart-modern-drive-sequence-inhouse-03.wav",
+    "source_onset_seconds": 0.28,
+    "duration": 5.25
+  },
+  "Hero_Footstep": {
+    "source": "foley-step-ice-quick-foot-scrape-single-01.wav",
+    "source_onset_seconds": 0.16,
+    "duration": 0.25
+  }
+}

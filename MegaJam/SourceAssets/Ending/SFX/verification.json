@@ -1,0 +1,34 @@
+[
+  {
+    "sequence": "LS_BossEnding_Cart",
+    "sfx_sections": 1,
+    "voices_preserved": [
+      "S_Ending_Cart_Brakes",
+      "S_Ending_Cart_Scream"
+    ],
+    "passed": true
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sfx_sections": 6,
+    "voices_preserved": [
+      "S_HeroLegs_Hero"
+    ],
+    "passed": true
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sfx_sections": 6,
+    "voices_preserved": [
+      "S_OriginalLegs_Hero",
+      "S_OriginalLegs_Dragon"
+    ],
+    "passed": true
+  },
+  {
+    "sequence": "LS_BossEnding_Reveal",
+    "sfx_sections": 1,
+    "voices_preserved": [],
+    "passed": true
+  }
+]

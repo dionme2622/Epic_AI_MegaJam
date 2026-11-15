@@ -1,0 +1,114 @@
+[
+  {
+    "sequence": "LS_BossEnding_Reveal",
+    "sound": "UI_Select",
+    "frame": 0,
+    "end": 6,
+    "seconds": 0.0,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sound": "Original_Footstep",
+    "frame": 58,
+    "end": 70,
+    "seconds": 2.4166666666666665,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sound": "Original_Footstep",
+    "frame": 70,
+    "end": 82,
+    "seconds": 2.9166666666666665,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sound": "Original_Footstep",
+    "frame": 77,
+    "end": 89,
+    "seconds": 3.2083333333333335,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sound": "Original_Footstep",
+    "frame": 106,
+    "end": 118,
+    "seconds": 4.416666666666667,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sound": "Original_Footstep",
+    "frame": 118,
+    "end": 130,
+    "seconds": 4.916666666666667,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_OriginalLegs",
+    "sound": "Original_Footstep",
+    "frame": 125,
+    "end": 137,
+    "seconds": 5.208333333333333,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sound": "Hero_Footstep",
+    "frame": 15,
+    "end": 21,
+    "seconds": 0.625,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sound": "Hero_Footstep",
+    "frame": 25,
+    "end": 31,
+    "seconds": 1.0416666666666667,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sound": "Hero_Footstep",
+    "frame": 35,
+    "end": 41,
+    "seconds": 1.4583333333333333,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sound": "Hero_Footstep",
+    "frame": 45,
+    "end": 51,
+    "seconds": 1.875,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sound": "Hero_Footstep",
+    "frame": 55,
+    "end": 61,
+    "seconds": 2.2916666666666665,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_HeroLegs",
+    "sound": "Hero_Footstep",
+    "frame": 65,
+    "end": 71,
+    "seconds": 2.7083333333333335,
+    "volume": 0.45
+  },
+  {
+    "sequence": "LS_BossEnding_Cart",
+    "sound": "Cart_Roll",
+    "frame": 18,
+    "end": 144,
+    "seconds": 0.75,
+    "volume": 0.22
+  }
+]
