@@ -661,8 +661,18 @@ void ADirectorCutEnding::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
     if (EndingCardStartedAt < 0.) return;
     const float Age = float(GetWorld()->GetTimeSeconds() - EndingCardStartedAt);
-    if (EndingCardPhoto) EndingCardPhoto->SetRenderOpacity(FMath::Clamp((Age - .65f) / .22f, 0.f, 1.f));
-    if (EndingCardTitle) EndingCardTitle->SetRenderOpacity(FMath::Clamp((Age - 1.65f) / .65f, 0.f, 1.f));
+    // The title finishes appearing at 2.3s. Hold the completed snapshot for five
+    // seconds, fade the print and title together, then travel on a black frame.
+    const float FadeOut = 1.f - FMath::Clamp((Age - 7.3f) / .6f, 0.f, 1.f);
+    if (EndingCardPhoto) EndingCardPhoto->SetRenderOpacity(FMath::Clamp((Age - .65f) / .22f, 0.f, 1.f) * FadeOut);
+    if (EndingCardTitle) EndingCardTitle->SetRenderOpacity(FMath::Clamp((Age - 1.65f) / .65f, 0.f, 1.f) * FadeOut);
+    if (Age >= 8.1f)
+    {
+        EndingCardStartedAt = -1.; // Travel is requested once, including on a slow frame.
+        UE_LOG(LogTemp, Display, TEXT("ENDING_SNAPSHOT_RETURN_TO_LOBBY: branch=%d"), SelectedLowerBody);
+        UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/DirectorCut/Lobby/L_DirectorCutLobby")));
+        return;
+    }
 }
 
 void ADirectorCutEnding::EndPlay(const EEndPlayReason::Type EndPlayReason)
