@@ -35,11 +35,11 @@ ADirectorCutEndingMode::ADirectorCutEndingMode()
 
 namespace
 {
-    const FLinearColor Gold(.92f, .71f, .35f);
-    const FLinearColor Ink(.018f, .026f, .037f, .98f);
-    const FLinearColor Ivory(.95f, .94f, .87f);
+    const FLinearColor EndingGold(.92f, .71f, .35f);
+    const FLinearColor EndingInk(.018f, .026f, .037f, .98f);
+    const FLinearColor EndingIvory(.95f, .94f, .87f);
 
-    TSharedRef<STextBlock> EndingText(FText Text, int32 Size, FLinearColor Color = Ivory)
+    TSharedRef<STextBlock> EndingText(FText Text, int32 Size, FLinearColor Color = EndingIvory)
     {
         return SNew(STextBlock).Text(Text)
             .Font(FCoreStyle::GetDefaultFontStyle("Regular", Size))
@@ -455,15 +455,15 @@ void ADirectorCutEnding::CreateOverlay()
                 SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
                 .BorderBackgroundColor_Lambda([WeakThis, Index]
                 {
-                    return WeakThis.IsValid() && WeakThis->FocusedOption == Index ? Gold : FLinearColor(.19f, .23f, .27f);
+                    return WeakThis.IsValid() && WeakThis->FocusedOption == Index ? EndingGold : FLinearColor(.19f, .23f, .27f);
                 }).Padding(2)
                 [
                     SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-                    .BorderBackgroundColor(Ink).Padding(FMargin(14, 16))
+                    .BorderBackgroundColor(EndingInk).Padding(FMargin(14, 16))
                     [
                         SNew(SVerticalBox)
                         + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 12)
-                            [EndingText(FText::AsNumber(Index + 1), 19, Gold)]
+                            [EndingText(FText::AsNumber(Index + 1), 19, EndingGold)]
                         + SVerticalBox::Slot().AutoHeight()
                         [
                             SNew(SBox).WidthOverride(360).HeightOverride(290)
@@ -502,7 +502,7 @@ void ADirectorCutEnding::CreateOverlay()
                     [
                         SNew(SVerticalBox)
                         + SVerticalBox::Slot().AutoHeight()
-                            [EndingText(LOCTEXT("ChoiceEyebrow", "THE FINAL TAKE"), 16, Gold)]
+                            [EndingText(LOCTEXT("ChoiceEyebrow", "THE FINAL TAKE"), 16, EndingGold)]
                         + SVerticalBox::Slot().AutoHeight().Padding(0, 12, 0, 32)
                             [EndingText(LOCTEXT("ChoiceTitle", "Choose Your Lower Body"), 42)]
                         + SVerticalBox::Slot().AutoHeight()
@@ -545,12 +545,12 @@ void ADirectorCutEnding::CreateOverlay()
                         + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 9)
                         [
                             SNew(STextBlock).Text_Lambda([WeakThis] { return WeakThis.IsValid() ? WeakThis->GetCurrentSpeaker() : FText::GetEmpty(); })
-                            .Font(FCoreStyle::GetDefaultFontStyle("Bold", 20)).ColorAndOpacity(Gold).Justification(ETextJustify::Center)
+                            .Font(FCoreStyle::GetDefaultFontStyle("Bold", 20)).ColorAndOpacity(EndingGold).Justification(ETextJustify::Center)
                         ]
                         + SVerticalBox::Slot().AutoHeight()
                         [
                             SNew(STextBlock).Text_Lambda([WeakThis] { return WeakThis.IsValid() ? WeakThis->GetCurrentSubtitle() : FText::GetEmpty(); })
-                            .Font(FCoreStyle::GetDefaultFontStyle("Regular", 30)).ColorAndOpacity(Ivory)
+                            .Font(FCoreStyle::GetDefaultFontStyle("Regular", 30)).ColorAndOpacity(EndingIvory)
                             .Justification(ETextJustify::Center).WrapTextAt(1260)
                         ]
                         + SVerticalBox::Slot().AutoHeight().Padding(0, 8, 0, 0)
