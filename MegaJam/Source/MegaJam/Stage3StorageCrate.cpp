@@ -144,11 +144,8 @@ void AStage3StorageCrate::BeginTransition(APlayerController& Controller)
 
 void AStage3StorageCrate::ShowTransferNotice()
 {
-    if (auto* HUD = GetWorld()->GetSubsystem<UDirectorCutPlayHUD>())
-    {
-        HUD->ShowSubtitle(LOCTEXT("LegsTransferredKo", "보관 기록: 원래 다리는 최종 보관소로 옮겼습니다."),
-            LOCTEXT("LegsTransferredEn", "Storage log: The real legs were moved to the final vault."), TransferNoticeDuration);
-    }
+    // The transfer record is now presented by the in-world paper note.
+    // Keep the reading interval without displaying or voicing the old HUD notice.
     GetWorldTimerManager().SetTimer(TransitionTimer, this, &AStage3StorageCrate::FadeOut, TransferNoticeDuration);
 }
 

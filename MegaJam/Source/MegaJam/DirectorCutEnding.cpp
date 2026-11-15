@@ -241,7 +241,7 @@ FText ADirectorCutEnding::GetCurrentSubtitle() const
     if (EndingState == EDirectorCutEndingState::HeroLegsScene && HeroLegsSequenceActor && HeroLegsSequenceActor->GetSequencePlayer())
     {
         const double Time = HeroLegsSequenceActor->GetSequencePlayer()->GetCurrentTime().AsSeconds();
-        return Time >= 3.5 && Time < 6.5 ? LOCTEXT("HeroLegsQuestion", "왜 내 다리가 저기 있는거야?") : FText::GetEmpty();
+        return Time >= 3.5 && Time < 6.85 ? LOCTEXT("HeroLegsQuestion", "왜 내 다리가 저기 있는거야?") : FText::GetEmpty();
     }
     if (EndingState == EDirectorCutEndingState::CartScene && CartSequenceActor && CartSequenceActor->GetSequencePlayer())
     {
@@ -293,16 +293,16 @@ FText ADirectorCutEnding::GetCurrentEnglishSubtitle() const
 
 FText ADirectorCutEnding::GetCurrentSpeaker() const
 {
-    if (EndingState == EDirectorCutEndingState::HeroLegsScene) return LOCTEXT("Hero", "용사");
-    if (EndingState == EDirectorCutEndingState::CartScene) return LOCTEXT("Dragon", "드래곤");
+    if (EndingState == EDirectorCutEndingState::HeroLegsScene) return LOCTEXT("Hero", "용사 (Hero)");
+    if (EndingState == EDirectorCutEndingState::CartScene) return LOCTEXT("Dragon", "드래곤 (Dragon)");
     if (EndingState == EDirectorCutEndingState::OriginalLegsScene && OriginalLegsSequenceActor && OriginalLegsSequenceActor->GetSequencePlayer())
     {
         const double Time = OriginalLegsSequenceActor->GetSequencePlayer()->GetCurrentTime().AsSeconds();
-        return Time < 10.1 ? LOCTEXT("Hero", "용사") : LOCTEXT("Dragon", "드래곤");
+        return Time < 10.1 ? LOCTEXT("Hero", "용사 (Hero)") : LOCTEXT("Dragon", "드래곤 (Dragon)");
     }
     if (!IntroSequenceActor || !IntroSequenceActor->GetSequencePlayer()) return FText::GetEmpty();
     const double Time = IntroSequenceActor->GetSequencePlayer()->GetCurrentTime().AsSeconds();
-    return Time < DragonSubtitleStart ? LOCTEXT("Hero", "용사") : LOCTEXT("Dragon", "드래곤");
+    return Time < DragonSubtitleStart ? LOCTEXT("Hero", "용사 (Hero)") : LOCTEXT("Dragon", "드래곤 (Dragon)");
 }
 
 void ADirectorCutEnding::ShowChoice()
@@ -539,10 +539,10 @@ void ADirectorCutEnding::CreateOverlay()
                 SNew(SBox).WidthOverride(1350)
                 [
                     SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
-                    .BorderBackgroundColor(FLinearColor(.005f, .01f, .018f, .85f)).Padding(FMargin(36, 20))
+                    .BorderBackgroundColor(FLinearColor(.005f, .01f, .018f, .85f)).Padding(FMargin(36, 12))
                     [
                         SNew(SVerticalBox)
-                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 9)
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 0, 0, 6)
                         [
                             SNew(STextBlock).Text_Lambda([WeakThis] { return WeakThis.IsValid() ? WeakThis->GetCurrentSpeaker() : FText::GetEmpty(); })
                             .Font(FCoreStyle::GetDefaultFontStyle("Bold", 20)).ColorAndOpacity(EndingGold).Justification(ETextJustify::Center)
@@ -553,7 +553,7 @@ void ADirectorCutEnding::CreateOverlay()
                             .Font(FCoreStyle::GetDefaultFontStyle("Regular", 30)).ColorAndOpacity(EndingIvory)
                             .Justification(ETextJustify::Center).WrapTextAt(1260)
                         ]
-                        + SVerticalBox::Slot().AutoHeight().Padding(0, 8, 0, 0)
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 5, 0, 0)
                         [
                             SNew(STextBlock).Text_Lambda([WeakThis] { return WeakThis.IsValid() ? WeakThis->GetCurrentEnglishSubtitle() : FText::GetEmpty(); })
                             .Font(FCoreStyle::GetDefaultFontStyle("Regular", 23))

@@ -1,0 +1,95 @@
+P01 | Brick
+[bold, heroic, loudly challenging, emphasizing “드래곤”] 각오해라, 드래곤!!!
+
+P02 | Hades
+[booming villainous laughter, theatrical, arrogantly delighted, threatening] 크하하!! 통구이로 만들어주지!!!!!!
+
+P03 | Hades
+[startled, confused, dropping the villain act, brief pause after “잠깐”] 잠깐… 내 다리는 어디 갔지?
+
+P04 | Hades
+[incredulous, offended, slightly indignant, dry comic timing] 화면에 안 나온다고 다리를 떼어 가?
+
+CastleResolve | Hades
+[questioning, mildly annoyed, then resolute and determined] 다리는 테스트 구역으로 옮겼다고? 그럼 내가 직접 찾으러 가지.
+
+CastleChair | Hades
+[curious, thinking aloud, brightening with a practical idea] 저 의자엔 바퀴가 달렸네. 앞발만 있어도 움직일 수 있겠어.
+
+CastleWorkshop | Hades
+[attentive, curious, quietly drawing a conclusion] 커튼 너머에서 기계 소리가 나. 저쪽이 제작소인가 봐.
+
+WorkshopArrival | Hades
+[focused, searching, mildly impatient, conversational] 다리 운반 기록이 여기 어딘가에 있겠지.
+
+WorkshopLift | Hades
+[puzzled, technically frustrated, thoughtful pause between sentences] 톱니끼리 닿지도 않네. 원래 모형에는 저 틈에도 톱니가 있었을 텐데.
+
+WorkshopLegs | Hades
+[surprised recognition, then amused and matter-of-fact] 용사의 다리잖아! 내 다리를 찾을 때까지만 빌려 쓰자.
+
+EditingArrival | Hades
+[calm, focused, determined, thinking aloud] 여기가 편집실이군. 운반 기록을 따라 내 다리가 든 상자를 찾자.
+
+EditingCrate | Hades
+[relieved, quietly excited, satisfied pause before the final sentence] 운반 기록에 나온 상자야. 드디어 찾았네.
+
+VaultArrival | Hades
+[determined, then observant and curious] 진짜 다리는 이 보관소에 있어. 조명대 오른쪽에 메모지가 붙어 있네.
+
+VaultExhibit | Hades
+[cautiously relieved, quietly excited, emphasizing “진짜”] 저 유리 보관함 안에 내 다리가 있어. 이번엔 진짜야.
+
+StorageLog | Hades
+[neutral, factual, dry bureaucratic delivery, brief pause after the heading] 보관 기록: 원래 다리는 최종 보관소로 옮겼습니다.
+
+FinalTake | Hades
+[calm, firm, quietly satisfied, dry humor, emphasizing “끝까지”] 이번 컷은 끝까지 찍어.
+
+E01 | Brick
+[friendly, confident, expectant, relieved to resume filming] 준비됐어? 이제 제대로 마지막 전투를 찍을 수 있겠네.
+
+E02 | Hades
+[gently interrupting, composed, slightly fussy, thoughtful pause after “잠깐”] 잠깐. 나는 어떤 모습으로 나갈지 아직 안 정했어.
+
+E03 | Brick
+[hesitant, baffled, understated concern, awkward pause before speaking] …너 원래 그렇게 걸었어?
+
+E04 | Hades
+[sighing, weary, exasperated, muttering, dry deadpan delivery] 하... 애니메이션은 또 왜 이래.
+
+E05 | Hades
+[concerned, increasingly panicked, accelerating delivery, abruptly cut off mid-sentence] 잠깐. 이거 브레이크는 어디—
+
+E06 | Hades
+[screaming in sudden panic, sustained open vowel, comic alarm] 으아아!!!
+
+E07 | Brick
+[confused, incredulous, slightly indignant, emphasizing “내 다리”] 왜 내 다리가 저기 있는거야?
+
+Note_Wheel | Hades
+[reading a production note, clear, practical, measured, brief pauses between instructions] 그래픽 설정의 Model Detail에 따라 바퀴 모양이 달라짐. 둥근 원본은 잘 굴러감. 각진 검수본은 황동 받침 위에서 미끄러지지 않음.
+
+Note_Lens | Hades
+[reading a production note, clear, thoughtful, measured] 소품은 두 조각으로 제작. 카메라에서 봤을 땐 열쇠 하나처럼 보여야 함.
+
+Note_TwoTakes | Hades
+[reading a production note, precise, matter-of-fact, emphasizing keeping the first take] 두 표시등이 한 프레임에 켜져야 함. 첫 번째 테이크는 지우지 말 것.
+
+Note_Projection | Hades
+[reading a production note, clear, practical, measured, brief pause between sentences] 그래픽 설정의 Resolution에 따라 같은 필름도 다르게 보인다. 작은 검수본에선 잔흠집이 묻혀 이어 붙인 자리가 더 잘 보인다.
+
+Note_Lighting | Hades
+[reading a production note, precise, measured, emphasizing the color comparisons] 파란 조명이 가장 밝다. 빨강은 초록보다 한 칸 위. 모든 조명은 켜둔다.
+
+Note_Retake | Hades
+[reading a production note, reflective, clear, matter-of-fact] 지난 테이크에선 성벽 그림자의 윤곽이 벽에 그린 선과 딱 맞았다.
+
+Note_Ferry | Hades
+[reading a production note, clear, practical, measured, brief pause between sentences] 스위치는 배우 대신 그림자에 반응한다. 대기 신호가 남아 있으면 발판도 정지 상태.
+
+Note_UpperSwitch | Hades
+[reading a production note, precise, measured, emphasizing the signal returning] 위쪽 스위치의 촬영 기록은 신호가 끊겼다 돌아올 때 갱신된다.
+
+P_Note | Hades
+[reading a development memo, neutral, bureaucratic, dry seriousness, pauses between sentences] 개발 메모. 최종 보스 하체 — 테스트 구역으로 이동. 현재 카메라에 잡히지 않으므로 임시 제거.

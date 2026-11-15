@@ -6,6 +6,9 @@
 #include "DirectorCutInteractionData.h"
 #include "DirectorCutStoryData.h"
 #include "DirectorCutWallNote.h"
+#include "DirectorCutVoiceLookup.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundBase.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/UserInterfaceSettings.h"
 #include "Engine/World.h"
@@ -130,6 +133,7 @@ TStatId UDirectorCutPlayHUD::GetStatId() const
 
 void UDirectorCutPlayHUD::Deinitialize()
 {
+    if (IsValid(SubtitleVoice)) SubtitleVoice->Stop();
     if (UGameViewportClient* Viewport = GetWorld()->GetGameViewport(); Viewport && Overlay)
     {
         Viewport->RemoveViewportWidgetContent(Overlay.ToSharedRef());
@@ -138,16 +142,40 @@ void UDirectorCutPlayHUD::Deinitialize()
     Super::Deinitialize();
 }
 
-void UDirectorCutPlayHUD::ShowSubtitle(const FText& Korean, const FText& English, float Duration)
+float UDirectorCutPlayHUD::ShowSubtitle(const FText& Korean, const FText& English, float Duration)
 {
     if (!Overlay) BuildOverlay();
-    SubtitleKorean = Korean;
-    SubtitleEnglish = English;
+    FString Ko = Korean.ToString(), En = English.ToString();
+    FString KoSpeaker, EnSpeaker, KoLine, EnLine;
+    const bool bKoSpeaker = Ko.Split(TEXT(":"), &KoSpeaker, &KoLine);
+    const bool bEnSpeaker = En.Split(TEXT(":"), &EnSpeaker, &EnLine);
+    SubtitleSpeaker = FText::FromString(bKoSpeaker
+        ? (bEnSpeaker ? KoSpeaker.TrimStartAndEnd() + TEXT(" (") + EnSpeaker.TrimStartAndEnd() + TEXT(")") : KoSpeaker.TrimStartAndEnd())
+        : TEXT("드래곤 (Dragon)"));
+    SubtitleKorean = FText::FromString(bKoSpeaker ? KoLine.TrimStartAndEnd() : Ko);
+    SubtitleEnglish = FText::FromString(bEnSpeaker ? EnLine.TrimStartAndEnd() : En);
+    if (IsValid(SubtitleVoice)) SubtitleVoice->Stop();
+    SubtitleVoice = nullptr;
+    if (const TCHAR* VoicePath = FindDirectorCutVoice(En))
+    {
+        if (USoundBase* Sound = LoadObject<USoundBase>(nullptr, VoicePath))
+        {
+            Duration = FMath::Max(Duration, Sound->GetDuration() + .25f);
+            SubtitleVoice = UGameplayStatics::SpawnSound2D(this, Sound);
+        }
+        else
+        {
+            UE_LOG(LogTemp, Error, TEXT("Missing subtitle voice: %s"), VoicePath);
+        }
+    }
     SubtitleRemaining = Duration;
+    return Duration;
 }
 
 void UDirectorCutPlayHUD::ClearSubtitle()
 {
+    if (IsValid(SubtitleVoice)) SubtitleVoice->Stop();
+    SubtitleVoice = nullptr;
     SubtitleRemaining = 0.f;
 }
 
@@ -200,6 +228,10 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
     const auto* Director = Cast<ADirectorCutPlayerController>(Controller);
     bMenuOpen = Director ? Director->IsGraphicsMenuOpen() : IsDirectorCutWorkshopMenuOpen(MapName, *GetWorld());
     const bool bRgbActive = ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive;
+    if (IsValid(SubtitleVoice))
+    {
+        SubtitleVoice->SetPaused(bMenuOpen || bRgbActive || OpenWallNote.IsValid());
+    }
     if (!bMenuOpen && !bRgbActive && !OpenWallNote.IsValid())
     {
         SubtitleRemaining = FMath::Max(0.f, SubtitleRemaining - DeltaTime);
@@ -210,7 +242,7 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
         if (RecoveryElapsed >= 2.1f && !bEndingShown)
         {
             bEndingShown = true;
-            ShowSubtitle(LOCTEXT("EndingKo", "용: 이번 컷은 끝까지 찍어."),
+            ShowSubtitle(LOCTEXT("EndingKo", "드래곤: 이번 컷은 끝까지 찍어."),
                 LOCTEXT("EndingEn", "Dragon: Keep the camera rolling to the end of this take."), 5.5f);
         }
         // Let the leg recovery and the final gameplay line finish before the cinematic.
@@ -468,22 +500,33 @@ void UDirectorCutPlayHUD::BuildOverlay()
                     ]
                 ]
             ]
-        ]
-        + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Bottom).Padding(20.f, 0.f, 20.f, 84.f)
-        [
-            SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .79f); })
-            .Visibility_Lambda([this]
-            {
-                return !bMenuOpen && !OpenWallNote.IsValid() && SubtitleRemaining > 0.f
-                    && !(ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive)
-                    ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
-            })
-            [
-                SNew(SVerticalBox)
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center)[SubtitleLine(SubtitleKorean, 21, true)]
-                + SVerticalBox::Slot().AutoHeight().HAlign(HAlign_Center).Padding(0.f, 4.f, 0.f, 0.f)[SubtitleLine(SubtitleEnglish, 16, false)]
-            ]
         ];
+    auto GameplaySubtitleLine = [](const FText& Text, int32 Size, FLinearColor Color)
+    {
+        return SNew(STextBlock).Text_Lambda([Source = &Text] { return *Source; })
+            .Font(FCoreStyle::GetDefaultFontStyle("Regular", Size)).ColorAndOpacity(Color)
+            .AutoWrapText(false).Justification(ETextJustify::Center);
+    };
+    Overlay->AddSlot().HAlign(HAlign_Fill).VAlign(VAlign_Top).Padding(70, 55, 70, 0)
+    [
+        SNew(SScaleBox).Stretch(EStretch::ScaleToFit).StretchDirection(EStretchDirection::DownOnly)
+        .Visibility_Lambda([this] { return !bMenuOpen && !OpenWallNote.IsValid() && SubtitleRemaining > 0.f ? EVisibility::HitTestInvisible : EVisibility::Collapsed; })
+        [
+            SNew(SBox).MinDesiredWidth(1350)
+            [
+                SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+                .BorderBackgroundColor(FLinearColor(.005f,.01f,.018f,.85f)).Padding(FMargin(36,12))
+                [
+                    SNew(SVerticalBox)
+                    + SVerticalBox::Slot().AutoHeight().Padding(0,0,0,6)
+                    [SNew(STextBlock).Text_Lambda([this] { return SubtitleSpeaker; })
+                        .Font(FCoreStyle::GetDefaultFontStyle("Regular",20)).ColorAndOpacity(FLinearColor(.92f,.71f,.35f)).Justification(ETextJustify::Center)]
+                    + SVerticalBox::Slot().AutoHeight()[GameplaySubtitleLine(SubtitleKorean,30,FLinearColor(.95f,.94f,.87f))]
+                    + SVerticalBox::Slot().AutoHeight().Padding(0,5,0,0)[GameplaySubtitleLine(SubtitleEnglish,23,FLinearColor(.82f,.85f,.88f))]
+                ]
+            ]
+        ]
+    ];
     Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 65);
 }
 

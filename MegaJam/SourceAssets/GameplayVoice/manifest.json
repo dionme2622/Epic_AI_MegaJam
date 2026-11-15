@@ -1,0 +1,98 @@
+[
+  {
+    "id": "CastleResolve",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-03-55.mp3",
+    "english": "They moved my legs to the test area? I'll go find them myself.",
+    "duration": 5.112,
+    "peak": 26840,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_CastleResolve"
+  },
+  {
+    "id": "CastleChair",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-13.mp3",
+    "english": "That chair has wheels. I could move it with just my front paws.",
+    "duration": 5.256,
+    "peak": 16722,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_CastleChair"
+  },
+  {
+    "id": "CastleWorkshop",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-27.mp3",
+    "english": "I hear machinery past the curtain. That must be the workshop.",
+    "duration": 5.304,
+    "peak": 10666,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_CastleWorkshop"
+  },
+  {
+    "id": "WorkshopArrival",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-39.mp3",
+    "english": "The transfer record must be here somewhere.",
+    "duration": 3.792,
+    "peak": 12635,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_WorkshopArrival"
+  },
+  {
+    "id": "WorkshopLift",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-53.mp3",
+    "english": "Those teeth don't even touch. The original gear must have had teeth in those gaps.",
+    "duration": 6.48,
+    "peak": 17395,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_WorkshopLift"
+  },
+  {
+    "id": "WorkshopLegs",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-05-13.mp3",
+    "english": "The hero’s legs! I’ll borrow them until I find mine.",
+    "duration": 3.936,
+    "peak": 23682,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_WorkshopLegs"
+  },
+  {
+    "id": "EditingArrival",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-05-27.mp3",
+    "english": "This is the editing room. I'll follow the transfer record to my crate.",
+    "duration": 5.136,
+    "peak": 13299,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_EditingArrival"
+  },
+  {
+    "id": "EditingCrate",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-05-43.mp3",
+    "english": "That's the crate from the transfer record. I finally found it.",
+    "duration": 5.424,
+    "peak": 19549,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_EditingCrate"
+  },
+  {
+    "id": "StorageLog",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-00.mp3",
+    "english": "Storage log: The real legs were moved to the final vault.",
+    "duration": 4.704,
+    "peak": 18908,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_StorageLog"
+  },
+  {
+    "id": "VaultArrival",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-19.mp3",
+    "english": "My legs are in this vault. There's a note to the right of the lighting console.",
+    "duration": 6.288,
+    "peak": 11450,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_VaultArrival"
+  },
+  {
+    "id": "VaultExhibit",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-41.mp3",
+    "english": "My legs are inside that glass case. This time they're real.",
+    "duration": 4.2,
+    "peak": 23746,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_VaultExhibit"
+  },
+  {
+    "id": "FinalTake",
+    "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-55.mp3",
+    "english": "Keep the camera rolling to the end of this take.",
+    "duration": 4.2,
+    "peak": 15049,
+    "asset": "/Game/DirectorCut/GameplayVoice/S_FinalTake"
+  }
+]

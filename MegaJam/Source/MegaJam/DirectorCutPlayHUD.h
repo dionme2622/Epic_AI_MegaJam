@@ -13,6 +13,7 @@ class ADirectorCutWallNote;
 class APlayerController;
 class APawn;
 class SOverlay;
+class UAudioComponent;
 
 UCLASS()
 class UDirectorCutPlayHUD : public UTickableWorldSubsystem
@@ -25,7 +26,7 @@ public:
     virtual void Tick(float DeltaTime) override;
     virtual TStatId GetStatId() const override;
 
-    void ShowSubtitle(const FText& Korean, const FText& English, float Duration);
+    float ShowSubtitle(const FText& Korean, const FText& English, float Duration);
     void ClearSubtitle();
 
 private:
@@ -33,6 +34,8 @@ private:
     ADirectorCutWallNote* UpdateWallNote(const FVector& Position, bool bCanRead, bool bInteract);
 
     TSharedPtr<SOverlay> Overlay;
+    UPROPERTY(Transient)
+    TObjectPtr<UAudioComponent> SubtitleVoice;
     TWeakObjectPtr<AStage4ShadowTheatre> FinalTheatre;
     TWeakObjectPtr<AColorSignalPuzzle> ColorConsole;
     TWeakObjectPtr<AFocusPropPuzzle> FocusPuzzle;
@@ -40,6 +43,7 @@ private:
     TWeakObjectPtr<ADirectorCutWallNote> OpenWallNote;
     FName MapName;
     TSet<int32> PlayedStoryCues;
+    FText SubtitleSpeaker;
     FText SubtitleKorean;
     FText SubtitleEnglish;
     FText WallNoteKorean;
@@ -57,6 +61,7 @@ private:
     bool bPromptVisible = false;
     bool bMenuOpen = false;
     bool bGuideVisible = false;
+
     bool bEndingShown = false;
     bool bEndingTravelStarted = false;
 };

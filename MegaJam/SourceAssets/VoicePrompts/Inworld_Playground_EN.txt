@@ -1,0 +1,95 @@
+P01 | Brick
+[bold, heroic, loudly challenging, emphasizing “dragon”] Prepare yourself, dragon!
+
+P02 | Hades
+[booming villainous laughter, theatrical, arrogantly delighted, threatening] Ha ha ha! I'll roast you alive!
+
+P03 | Hades
+[startled, confused, dropping the villain act, brief pause after “Wait”] Wait... Where did my legs go?
+
+P04 | Hades
+[incredulous, offended, slightly indignant, dry comic timing] You took my legs because they were off camera?
+
+CastleResolve | Hades
+[questioning, mildly annoyed, then resolute and determined] They moved my legs to the test area? I'll go find them myself.
+
+CastleChair | Hades
+[curious, thinking aloud, brightening with a practical idea] That chair has wheels. I could move it with just my front paws.
+
+CastleWorkshop | Hades
+[attentive, curious, quietly drawing a conclusion] I hear machinery past the curtain. That must be the workshop.
+
+WorkshopArrival | Hades
+[focused, searching, mildly impatient, conversational] The transfer record must be here somewhere.
+
+WorkshopLift | Hades
+[puzzled, technically frustrated, thoughtful pause between sentences] Those teeth don't even touch. The original gear must have had teeth in those gaps.
+
+WorkshopLegs | Hades
+[surprised recognition, then amused and matter-of-fact] The hero’s legs! I’ll borrow them until I find mine.
+
+EditingArrival | Hades
+[calm, focused, determined, thinking aloud] This is the editing room. I'll follow the transfer record to my crate.
+
+EditingCrate | Hades
+[relieved, quietly excited, satisfied pause before the final sentence] That's the crate from the transfer record. I finally found it.
+
+VaultArrival | Hades
+[determined, then observant and curious] My legs are in this vault. There's a note to the right of the lighting console.
+
+VaultExhibit | Hades
+[cautiously relieved, quietly excited, emphasizing “real”] My legs are inside that glass case. This time they're real.
+
+StorageLog | Hades
+[neutral, factual, dry bureaucratic delivery, brief pause after the heading] Storage log: The real legs were moved to the final vault.
+
+FinalTake | Hades
+[calm, firm, quietly satisfied, dry humor, emphasizing “to the end”] Keep the camera rolling to the end of this take.
+
+E01 | Brick
+[friendly, confident, expectant, relieved to resume filming] Ready? Now we can finally film the final battle properly.
+
+E02 | Hades
+[gently interrupting, composed, slightly fussy, thoughtful pause after “Wait”] Wait. I haven't decided what I want to look like yet.
+
+E03 | Brick
+[hesitant, baffled, understated concern, awkward pause before speaking] ...Have you always walked like that?
+
+E04 | Hades
+[sighing, weary, exasperated, muttering, dry deadpan delivery] What's wrong with the animation now?
+
+E05 | Hades
+[concerned, increasingly panicked, accelerating delivery, abruptly cut off mid-sentence] Wait. Where are the brakes on this—
+
+E06 | Hades
+[screaming in sudden panic, sustained open vowel, comic alarm] Aaaah!!!
+
+E07 | Brick
+[confused, incredulous, slightly indignant, emphasizing “MY legs”] Why are MY legs over there?!
+
+Note_Wheel | Hades
+[reading a production note, clear, practical, measured, brief pauses between instructions] The wheel changes shape with Model Detail. The round master rolls freely. The angular proof holds on the brass cradle.
+
+Note_Lens | Hades
+[reading a production note, clear, thoughtful, measured] The prop comes in two pieces. Through the lens it should look like a single key.
+
+Note_TwoTakes | Hades
+[reading a production note, precise, matter-of-fact, emphasizing keeping the first take] Both lamps need to show in the same frame. Keep the first take.
+
+Note_Projection | Hades
+[reading a production note, clear, practical, measured, brief pause between sentences] The same film looks different at each Resolution setting. Fine scratches vanish on the small proof, making the splices easier to see.
+
+Note_Lighting | Hades
+[reading a production note, precise, measured, emphasizing the color comparisons] Blue gets top billing. Red sits one notch above green. Every lamp stays lit.
+
+Note_Retake | Hades
+[reading a production note, reflective, clear, matter-of-fact] In the last take, the castle shadow fit the outline painted on the wall.
+
+Note_Ferry | Hades
+[reading a production note, clear, practical, measured, brief pause between sentences] The switches respond to shadows. As long as the hold signal stays lit, so does the ferry brake.
+
+Note_UpperSwitch | Hades
+[reading a production note, precise, measured, emphasizing the signal returning] The upper switch logs a new take when it sees the signal return.
+
+P_Note | Hades
+[reading a development memo, neutral, bureaucratic, dry seriousness, pauses between sentences] Development note. Final boss lower body — moved to the test area. Temporarily removed because it is outside the camera frame.

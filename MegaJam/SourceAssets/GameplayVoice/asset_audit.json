@@ -1,0 +1,247 @@
+{
+  "gameplay": [
+    {
+      "id": "CastleResolve",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-03-55.mp3",
+      "english": "They moved my legs to the test area? I'll go find them myself.",
+      "duration": 5.112,
+      "peak": 26840,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_CastleResolve",
+      "imported_duration": 5.111999988555908
+    },
+    {
+      "id": "CastleChair",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-13.mp3",
+      "english": "That chair has wheels. I could move it with just my front paws.",
+      "duration": 5.256,
+      "peak": 16722,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_CastleChair",
+      "imported_duration": 5.25600004196167
+    },
+    {
+      "id": "CastleWorkshop",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-27.mp3",
+      "english": "I hear machinery past the curtain. That must be the workshop.",
+      "duration": 5.304,
+      "peak": 10666,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_CastleWorkshop",
+      "imported_duration": 5.303999900817871
+    },
+    {
+      "id": "WorkshopArrival",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-39.mp3",
+      "english": "The transfer record must be here somewhere.",
+      "duration": 3.792,
+      "peak": 12635,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_WorkshopArrival",
+      "imported_duration": 3.7920000553131104
+    },
+    {
+      "id": "WorkshopLift",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-04-53.mp3",
+      "english": "Those teeth don't even touch. The original gear must have had teeth in those gaps.",
+      "duration": 6.48,
+      "peak": 17395,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_WorkshopLift",
+      "imported_duration": 6.480000019073486
+    },
+    {
+      "id": "WorkshopLegs",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-05-13.mp3",
+      "english": "The hero’s legs! I’ll borrow them until I find mine.",
+      "duration": 3.936,
+      "peak": 23682,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_WorkshopLegs",
+      "imported_duration": 3.936000108718872
+    },
+    {
+      "id": "EditingArrival",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-05-27.mp3",
+      "english": "This is the editing room. I'll follow the transfer record to my crate.",
+      "duration": 5.136,
+      "peak": 13299,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_EditingArrival",
+      "imported_duration": 5.136000156402588
+    },
+    {
+      "id": "EditingCrate",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-05-43.mp3",
+      "english": "That's the crate from the transfer record. I finally found it.",
+      "duration": 5.424,
+      "peak": 19549,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_EditingCrate",
+      "imported_duration": 5.423999786376953
+    },
+    {
+      "id": "StorageLog",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-00.mp3",
+      "english": "Storage log: The real legs were moved to the final vault.",
+      "duration": 4.704,
+      "peak": 18908,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_StorageLog",
+      "imported_duration": 4.703999996185303
+    },
+    {
+      "id": "VaultArrival",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-19.mp3",
+      "english": "My legs are in this vault. There's a note to the right of the lighting console.",
+      "duration": 6.288,
+      "peak": 11450,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_VaultArrival",
+      "imported_duration": 6.288000106811523
+    },
+    {
+      "id": "VaultExhibit",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-41.mp3",
+      "english": "My legs are inside that glass case. This time they're real.",
+      "duration": 4.2,
+      "peak": 23746,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_VaultExhibit",
+      "imported_duration": 4.199999809265137
+    },
+    {
+      "id": "FinalTake",
+      "source": "inworld-tts-2_Hades_English_11-15-2026 22-06-55.mp3",
+      "english": "Keep the camera rolling to the end of this take.",
+      "duration": 4.2,
+      "peak": 15049,
+      "asset": "/Game/DirectorCut/GameplayVoice/S_FinalTake",
+      "imported_duration": 4.199999809265137
+    }
+  ],
+  "cinematics": [
+    {
+      "sequence": "/Game/DirectorCut/Prologue/LS_BossPrologue_Cinematic",
+      "audio": [
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/01_Hero_Challenge.01_Hero_Challenge",
+          "duration": 1.8240000009536743,
+          "start": 12,
+          "end": 58
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/02_Dragon_Threat.02_Dragon_Threat",
+          "duration": 3.4800000190734863,
+          "start": 76,
+          "end": 162
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/03_Dragon_MissingLegs.03_Dragon_MissingLegs",
+          "duration": 3.9119999408721924,
+          "start": 282,
+          "end": 378
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/04_Dragon_Protest.04_Dragon_Protest",
+          "duration": 4.320000171661377,
+          "start": 405,
+          "end": 511
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/SFX/S_DragonBreath_AiryFireWave.S_DragonBreath_AiryFireWave",
+          "duration": 5.918979167938232,
+          "start": 200,
+          "end": 258
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/Music/S_RooftopChase.S_RooftopChase",
+          "duration": 67.5,
+          "start": 0,
+          "end": 282
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/SFX/S_KnightSwordDraw.S_KnightSwordDraw",
+          "duration": 0.9419999718666077,
+          "start": 188,
+          "end": 211
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/SFX/S_DragonHandContact.S_DragonHandContact",
+          "duration": 0.6800000071525574,
+          "start": 492,
+          "end": 508
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/SFX/S_DragonHandContact.S_DragonHandContact",
+          "duration": 0.6800000071525574,
+          "start": 527,
+          "end": 543
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/SFX/S_DragonHandContact.S_DragonHandContact",
+          "duration": 0.6800000071525574,
+          "start": 562,
+          "end": 578
+        },
+        {
+          "sound": "/Game/DirectorCut/Prologue/Cinematic/Audio/SFX/S_DragonHandContact.S_DragonHandContact",
+          "duration": 0.6800000071525574,
+          "start": 600,
+          "end": 616
+        }
+      ]
+    },
+    {
+      "sequence": "/Game/DirectorCut/Ending/LS_BossEnding_Dialogue",
+      "audio": [
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_Ending_Hero.S_Ending_Hero",
+          "duration": 4.631999969482422,
+          "start": 14,
+          "end": 126
+        },
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_Ending_Dragon.S_Ending_Dragon",
+          "duration": 4.607999801635742,
+          "start": 130,
+          "end": 241
+        }
+      ]
+    },
+    {
+      "sequence": "/Game/DirectorCut/Ending/LS_BossEnding_Cart",
+      "audio": [
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_Ending_Cart_Brakes.S_Ending_Cart_Brakes",
+          "duration": 2.496000051498413,
+          "start": 18,
+          "end": 78
+        },
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_Ending_Cart_Scream.S_Ending_Cart_Scream",
+          "duration": 1.7039999961853027,
+          "start": 79,
+          "end": 120
+        }
+      ]
+    },
+    {
+      "sequence": "/Game/DirectorCut/Ending/LS_BossEnding_HeroLegs",
+      "audio": [
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_HeroLegs_Hero.S_HeroLegs_Hero",
+          "duration": 3.2880001068115234,
+          "start": 84,
+          "end": 163
+        }
+      ]
+    },
+    {
+      "sequence": "/Game/DirectorCut/Ending/LS_BossEnding_OriginalLegs",
+      "audio": [
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_OriginalLegs_Hero.S_OriginalLegs_Hero",
+          "duration": 3.1440000534057617,
+          "start": 156,
+          "end": 232
+        },
+        {
+          "sound": "/Game/DirectorCut/Ending/Voice/S_OriginalLegs_Dragon.S_OriginalLegs_Dragon",
+          "duration": 4.199999809265137,
+          "start": 243,
+          "end": 344
+        }
+      ]
+    }
+  ]
+}
