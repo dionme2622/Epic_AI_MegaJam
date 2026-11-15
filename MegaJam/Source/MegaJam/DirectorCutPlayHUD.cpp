@@ -1,6 +1,7 @@
 #include "DirectorCutPlayHUD.h"
 
 #include "ColorSignalPuzzle.h"
+#include "Camera/PlayerCameraManager.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutInteractionData.h"
 #include "DirectorCutStoryData.h"
@@ -203,14 +204,34 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
     {
         SubtitleRemaining = FMath::Max(0.f, SubtitleRemaining - DeltaTime);
     }
-    if (FinalTheatre.IsValid() && FinalTheatre->bRecovered && !bEndingShown)
+    if (FinalTheatre.IsValid() && FinalTheatre->bRecovered)
     {
         RecoveryElapsed += DeltaTime;
-        if (RecoveryElapsed >= 2.1f)
+        if (RecoveryElapsed >= 2.1f && !bEndingShown)
         {
             bEndingShown = true;
             ShowSubtitle(LOCTEXT("EndingKo", "용: 이번 컷은 끝까지 찍어."),
                 LOCTEXT("EndingEn", "Dragon: Keep the camera rolling to the end of this take."), 5.5f);
+        }
+        // Let the leg recovery and the final gameplay line finish before the cinematic.
+        if (RecoveryElapsed >= 7.6f && !bEndingTravelStarted)
+        {
+            bEndingTravelStarted = true;
+            Controller->SetIgnoreMoveInput(true);
+            Controller->SetIgnoreLookInput(true);
+            OpenWallNote.Reset();
+            ClearSubtitle();
+            if (Controller->PlayerCameraManager)
+            {
+                Controller->PlayerCameraManager->StartCameraFade(0.f, 1.f, .5f, FLinearColor::Black, false, true);
+            }
+        }
+        if (RecoveryElapsed >= 8.1f)
+        {
+            // Clear the completion source immediately so travel can only be requested once.
+            FinalTheatre.Reset();
+            UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/DirectorCut/Ending/L_BossEnding")));
+            return;
         }
     }
     const double X = Pawn->GetActorLocation().X;

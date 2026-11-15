@@ -58,4 +58,5 @@ private:
     bool bMenuOpen = false;
     bool bGuideVisible = false;
     bool bEndingShown = false;
+    bool bEndingTravelStarted = false;
 };
