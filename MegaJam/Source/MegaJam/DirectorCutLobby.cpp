@@ -14,6 +14,9 @@
 #include "Widgets/Images/SImage.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/Texture2D.h"
+#include "Sound/SoundBase.h"
+#include "Components/AudioComponent.h"
+#include "TimerManager.h"
 #include "Widgets/Layout/SSpacer.h"
 #include "Widgets/SBoxPanel.h"
 #include "Widgets/SOverlay.h"
@@ -88,6 +91,12 @@ ADirectorCutLobbyController::ADirectorCutLobbyController()
     static ConstructorHelpers::FObjectFinder<UTexture2D> KeyArt(
         TEXT("/Game/DirectorCut/Lobby/T_Lobby_KeyArt.T_Lobby_KeyArt"));
     LobbyKeyArt = KeyArt.Object;
+    static ConstructorHelpers::FObjectFinder<USoundBase> Music(
+        TEXT("/Game/DirectorCut/Audio/S_Gameplay_ProcessingPower.S_Gameplay_ProcessingPower"));
+    static ConstructorHelpers::FObjectFinder<USoundBase> Click(
+        TEXT("/Game/DirectorCut/Ending/SFX/S_UI_Select.S_UI_Select"));
+    LobbyMusic = Music.Object;
+    ButtonClickSound = Click.Object;
 }
 
 void ADirectorCutLobbyController::BeginPlay()
@@ -108,20 +117,18 @@ void ADirectorCutLobbyController::BeginPlay()
         }
     }
 
+    if (LobbyMusic) LobbyMusicComponent = UGameplayStatics::SpawnSound2D(this, LobbyMusic, .40f);
+
     const TSharedRef<SButton> Start = Button(LOCTEXT("Start", "Start Game"), FText::FromString(TEXT(">")), true,
         FOnClicked::CreateWeakLambda(this, [this]
         {
-            if (!bStarting)
-            {
-                bStarting = true;
-                UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/DirectorCut/Prologue/L_BossPrologue")));
-            }
+            StartLobbyAction(false);
             return FReply::Handled();
         }));
     const TSharedRef<SButton> Quit = Button(LOCTEXT("Quit", "Quit"), FText::GetEmpty(), false,
         FOnClicked::CreateWeakLambda(this, [this]
         {
-            UKismetSystemLibrary::QuitGame(this, this, EQuitPreference::Quit, false);
+            StartLobbyAction(true);
             return FReply::Handled();
         }));
 
@@ -183,8 +190,25 @@ void ADirectorCutLobbyController::BeginPlay()
     SetInputMode(Mode);
 }
 
+void ADirectorCutLobbyController::StartLobbyAction(bool bQuit)
+{
+    if (bStarting) return;
+    bStarting = true;
+    if (ButtonClickSound) UGameplayStatics::PlaySound2D(this, ButtonClickSound, .45f);
+    // Let the same short selection sound finish before travel or application exit.
+    const float Delay = ButtonClickSound ? FMath::Max(.05f, ButtonClickSound->GetDuration() + .02f) : .05f;
+    GetWorldTimerManager().SetTimer(LobbyActionTimer, FTimerDelegate::CreateWeakLambda(this, [this, bQuit]
+    {
+        if (bQuit) UKismetSystemLibrary::QuitGame(this, this, EQuitPreference::Quit, false);
+        else UGameplayStatics::OpenLevel(this, FName(TEXT("/Game/DirectorCut/Prologue/L_BossPrologue")));
+    }), Delay, false);
+}
+
 void ADirectorCutLobbyController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+    GetWorldTimerManager().ClearTimer(LobbyActionTimer);
+    if (IsValid(LobbyMusicComponent)) LobbyMusicComponent->Stop();
+    LobbyMusicComponent = nullptr;
     if (Lobby.IsValid())
     {
         if (UGameViewportClient* Viewport = GetWorld()->GetGameViewport())

@@ -1,0 +1,7 @@
+{
+  "music": "/Game/DirectorCut/Audio/S_Gameplay_ProcessingPower.S_Gameplay_ProcessingPower",
+  "looping": true,
+  "click": "/Game/DirectorCut/Ending/SFX/S_UI_Select.S_UI_Select",
+  "click_duration": 0.2279791682958603,
+  "passed": true
+}

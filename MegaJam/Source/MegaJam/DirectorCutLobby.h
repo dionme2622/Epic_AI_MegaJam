@@ -4,10 +4,13 @@
 #include "GameFramework/GameModeBase.h"
 #include "GameFramework/PlayerController.h"
 #include "Styling/SlateBrush.h"
+#include "TimerManager.h"
 #include "DirectorCutLobby.generated.h"
 
 class SWidget;
 class UTexture2D;
+class USoundBase;
+class UAudioComponent;
 
 UCLASS()
 class ADirectorCutLobbyController : public APlayerController
@@ -22,6 +25,15 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 private:
+    void StartLobbyAction(bool bQuit);
+    UPROPERTY()
+    TObjectPtr<USoundBase> LobbyMusic;
+    UPROPERTY()
+    TObjectPtr<USoundBase> ButtonClickSound;
+    UPROPERTY(Transient)
+    TObjectPtr<UAudioComponent> LobbyMusicComponent;
+    FTimerHandle LobbyActionTimer;
+
     UPROPERTY()
     TObjectPtr<UTexture2D> LobbyKeyArt;
 
