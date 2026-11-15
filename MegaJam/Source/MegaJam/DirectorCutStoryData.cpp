@@ -22,17 +22,23 @@ namespace
             LOCTEXT("CastleWorkshopKo", "드래곤: 커튼 너머에서 기계 소리가 나. 저쪽이 제작소인가 봐."),
             LOCTEXT("CastleWorkshopEn", "Dragon: I hear machinery past the curtain. That must be the workshop.")},
     };
-    const FDirectorCutStoryCue WorkshopStory[] = {
-        {-1300.f, -670.f,
-            LOCTEXT("WorkshopArrivalKo", "드래곤: 다리 운반 기록이 여기 어딘가에 있겠지."),
-            LOCTEXT("WorkshopArrivalEn", "Dragon: The transfer record must be here somewhere.")},
-        {7500.f, 8890.f,
-            LOCTEXT("WorkshopLiftKo", "드래곤: 톱니끼리 닿지도 않네. 원래 모형에는 저 틈에도 톱니가 있었을 텐데."),
-            LOCTEXT("WorkshopLiftEn", "Dragon: Those teeth don't even touch. The original gear must have had teeth in those gaps.")},
-        {9080.f, 9900.f,
-            LOCTEXT("WorkshopLegsKo", "드래곤: 용사의 다리잖아! 내 다리를 찾을 때까지만 빌려 쓰자."),
-            LOCTEXT("WorkshopLegsEn", "Dragon: The hero’s legs! I’ll borrow them until I find mine.")},
-    };
+    TArray<FDirectorCutStoryCue> MakeWorkshopStory(float LiftStartX, float LiftEndX, float LegsStartX, float LegsEndX)
+    {
+        return {
+            {-1300.f, -670.f,
+                LOCTEXT("WorkshopArrivalKo", "드래곤: 다리 운반 기록이 여기 어딘가에 있겠지."),
+                LOCTEXT("WorkshopArrivalEn", "Dragon: The transfer record must be here somewhere.")},
+            {LiftStartX, LiftEndX,
+                LOCTEXT("WorkshopLiftKo", "드래곤: 톱니끼리 닿지도 않네. 원래 모형에는 저 틈에도 톱니가 있었을 텐데."),
+                LOCTEXT("WorkshopLiftEn", "Dragon: Those teeth don't even touch. The original gear must have had teeth in those gaps.")},
+            {LegsStartX, LegsEndX,
+                LOCTEXT("WorkshopLegsKo", "드래곤: 용사의 다리잖아! 내 다리를 찾을 때까지만 빌려 쓰자."),
+                LOCTEXT("WorkshopLegsEn", "Dragon: The hero’s legs! I’ll borrow them until I find mine.")},
+        };
+    }
+
+    const auto WorkshopStory = MakeWorkshopStory(6350.f, 7690.f, 7880.f, 8700.f);
+    const auto LegacyWorkshopStory = MakeWorkshopStory(7500.f, 8890.f, 9080.f, 9900.f);
     const FDirectorCutStoryCue EditingRoomStory[] = {
         {-140.f, 350.f,
             LOCTEXT("EditingArrivalKo", "드래곤: 여기가 편집실이군. 운반 기록을 따라 내 다리가 든 상자를 찾자."),
@@ -54,7 +60,8 @@ namespace
 TConstArrayView<FDirectorCutStoryCue> GetDirectorCutStoryCues(FName MapName)
 {
     if (MapName == CastleMap) return MakeArrayView(CastleStory);
-    if (MapName == WorkshopMap || MapName == LegacyWorkshopMap) return MakeArrayView(WorkshopStory);
+    if (MapName == WorkshopMap) return WorkshopStory;
+    if (MapName == LegacyWorkshopMap) return LegacyWorkshopStory;
     if (MapName == EditingRoomMap) return MakeArrayView(EditingRoomStory);
     if (MapName == VaultMap) return MakeArrayView(VaultStory);
     return {};

@@ -2,6 +2,7 @@
 
 #include "ColorSignalPuzzle.h"
 #include "Camera/PlayerCameraManager.h"
+#include "CoreGlobals.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutInteractionData.h"
 #include "DirectorCutStoryData.h"
@@ -179,6 +180,27 @@ void UDirectorCutPlayHUD::ClearSubtitle()
     SubtitleRemaining = 0.f;
 }
 
+bool UDirectorCutPlayHUD::ShowProductionNote(const FText& Korean, const FText& English, FSimpleDelegate OnDismissed)
+{
+    if (!Overlay) BuildOverlay();
+    if (!Overlay || !OnDismissed.IsBound() || ProductionNoteDismissed.IsBound()) return false;
+
+    OpenWallNote.Reset();
+    WallNoteKorean = Korean;
+    WallNoteEnglish = English;
+    ProductionNoteDismissed = MoveTemp(OnDismissed);
+    ProductionNoteOpenedFrame = GFrameCounter;
+    bPromptVisible = false;
+    bGuideVisible = false;
+    ClearSubtitle();
+    return true;
+}
+
+bool UDirectorCutPlayHUD::IsShowingNote() const
+{
+    return OpenWallNote.IsValid() || ProductionNoteDismissed.IsBound();
+}
+
 ADirectorCutWallNote* UDirectorCutPlayHUD::UpdateWallNote(const FVector& Position, bool bCanRead, bool bInteract)
 {
     if (const ADirectorCutWallNote* Note = OpenWallNote.Get())
@@ -227,6 +249,16 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
 
     const auto* Director = Cast<ADirectorCutPlayerController>(Controller);
     bMenuOpen = Director ? Director->IsGraphicsMenuOpen() : IsDirectorCutWorkshopMenuOpen(MapName, *GetWorld());
+    if (ProductionNoteDismissed.IsBound())
+    {
+        if (!bMenuOpen && GFrameCounter != ProductionNoteOpenedFrame && Controller->WasInputKeyJustPressed(EKeys::E))
+        {
+            FSimpleDelegate OnDismissed = MoveTemp(ProductionNoteDismissed);
+            ProductionNoteDismissed.Unbind();
+            OnDismissed.ExecuteIfBound();
+        }
+        return;
+    }
     const bool bRgbActive = ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive;
     if (IsValid(SubtitleVoice))
     {
@@ -473,7 +505,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
             .HAlign(HAlign_Center).VAlign(VAlign_Center)
             .Visibility_Lambda([this]
             {
-                return OpenWallNote.IsValid() && !bMenuOpen ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+                return IsShowingNote() && !bMenuOpen ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
             })
             [
                 SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .85f); })
@@ -494,7 +526,12 @@ void UDirectorCutPlayHUD::BuildOverlay()
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 9.f, 0.f, 0.f)
                                 [Line(WallNoteEnglish, 17, Ink, false, ETextJustify::Left, 500.f)]
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 17.f, 0.f, 0.f)
-                                [Line(TAttribute<FText>(LOCTEXT("CloseWallNote", "E   닫기 / Close")), 14, Ink, true)]
+                                [Line(TAttribute<FText>::CreateLambda([this]
+                                {
+                                    return ProductionNoteDismissed.IsBound()
+                                        ? LOCTEXT("CloseAndContinueNote", "E   닫고 이동 / Close and continue")
+                                        : LOCTEXT("CloseWallNote", "E   닫기 / Close");
+                                }), 14, Ink, true)]
                             ]
                         ]
                     ]
@@ -510,7 +547,11 @@ void UDirectorCutPlayHUD::BuildOverlay()
     Overlay->AddSlot().HAlign(HAlign_Fill).VAlign(VAlign_Top).Padding(70, 55, 70, 0)
     [
         SNew(SScaleBox).Stretch(EStretch::ScaleToFit).StretchDirection(EStretchDirection::DownOnly)
-        .Visibility_Lambda([this] { return !bMenuOpen && !OpenWallNote.IsValid() && SubtitleRemaining > 0.f ? EVisibility::HitTestInvisible : EVisibility::Collapsed; })
+        .Visibility_Lambda([this]
+        {
+            return !bMenuOpen && !IsShowingNote() && SubtitleRemaining > 0.f
+                ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+        })
         [
             SNew(SBox).MinDesiredWidth(1350)
             [

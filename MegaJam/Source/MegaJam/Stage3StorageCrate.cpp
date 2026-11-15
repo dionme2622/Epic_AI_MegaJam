@@ -22,7 +22,6 @@
 namespace
 {
     constexpr float LidRevealDelay = .75f;
-    constexpr float TransferNoticeDuration = 2.5f;
     constexpr float FadeDuration = 1.5f;
     constexpr float BlackHoldDuration = .1f;
 }
@@ -144,9 +143,14 @@ void AStage3StorageCrate::BeginTransition(APlayerController& Controller)
 
 void AStage3StorageCrate::ShowTransferNotice()
 {
-    // The transfer record is now presented by the in-world paper note.
-    // Keep the reading interval without displaying or voicing the old HUD notice.
-    GetWorldTimerManager().SetTimer(TransitionTimer, this, &AStage3StorageCrate::FadeOut, TransferNoticeDuration);
+    if (auto* HUD = GetWorld()->GetSubsystem<UDirectorCutPlayHUD>(); HUD && HUD->ShowProductionNote(
+        LOCTEXT("LegsTransferredNoteKo", "상자는 비어 있습니다. 드래곤의 원래 다리는 최종 보관소로 옮겼습니다."),
+        LOCTEXT("LegsTransferredNoteEn", "The crate is empty. The dragon's original legs have been moved to the final vault."),
+        FSimpleDelegate::CreateUObject(this, &AStage3StorageCrate::FadeOut)))
+    {
+        return;
+    }
+    FadeOut();
 }
 
 void AStage3StorageCrate::FadeOut()
