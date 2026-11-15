@@ -1,5 +1,6 @@
 #include "ColorSignalPuzzle.h"
 #include "DirectorCutGraphics.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "Stage4RgbPanel.h"
 #include "Stage2ShadowPrototype.h"
 #include "Camera/CameraComponent.h"
@@ -84,7 +85,11 @@ void AColorSignalPuzzle::EnterPuzzle()
     if (!PC || !Pawn || bActive || bSolved || FVector::Dist2D(Pawn->GetActorLocation(),GetActorLocation())>InteractDistance) return;
     PreviousView=PC->GetViewTarget();bActive=true;PC->SetIgnoreMoveInput(true);
     if (ACharacter* C=Cast<ACharacter>(Pawn)) C->GetCharacterMovement()->StopMovementImmediately();
-    if (bUseRgbCalibration) PC->SetViewTargetWithBlend(this, .22f);
+    if (bUseRgbCalibration)
+    {
+        PC->SetViewTargetWithBlend(this, .22f);
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::ControlTick, GetActorLocation());
+    }
     else PC->SetViewTarget(this);
     if (GEngine && GEngine->GameViewport)
     {
@@ -136,7 +141,15 @@ void AColorSignalPuzzle::UpdateDialVisuals()
 void AColorSignalPuzzle::ResetDials()
 {
     if (bSolved) return;
-    if (bUseRgbCalibration) DialValues.Init(0, RgbChannelCount);
+    if (bUseRgbCalibration)
+    {
+        const bool bWasAdjusted = DialValues.ContainsByPredicate([](int32 Value) { return Value != 0; });
+        DialValues.Init(0, RgbChannelCount);
+        if (bActive && bWasAdjusted)
+        {
+            DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::ControlTick, GetActorLocation());
+        }
+    }
     else DialValues = {0, 1, 0, 2};
     bWrong = false;
     MessageTime = 0.f;
@@ -150,7 +163,14 @@ void AColorSignalPuzzle::RotateDial(int32 Index)
         if (!bActive || bSolved || !DialValues.IsValidIndex(Index)) return;
         DialValues[Index] = (DialValues[Index] + 1) % (RgbMaxLevel + 1);
         UpdateDialVisuals();
-        if (AreDialsAligned()) Submit();
+        if (AreDialsAligned())
+        {
+            Submit();
+        }
+        else
+        {
+            DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::RgbDial, GetActorLocation());
+        }
         return;
     }
     if(!bActive||bSolved||Index<0||Index>=4||DialValues.Num()!=4)return;
@@ -175,6 +195,7 @@ void AColorSignalPuzzle::Submit()
         bSolved = true;
         bCompleting = true;
         FinishTime = 2.5f;
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::RgbLock, GetActorLocation());
         return;
     }
     if(AreDialsAligned())

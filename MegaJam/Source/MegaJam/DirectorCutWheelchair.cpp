@@ -1,6 +1,7 @@
 #include "DirectorCutWheelchair.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutTest.h"
 #include "Engine/StaticMesh.h"
 #include "GameFramework/PlayerController.h"
@@ -59,6 +60,7 @@ void ADirectorCutWheelchair::Tick(float DeltaSeconds)
     auto* Dragon = Controller ? Cast<ADirectorCutDragon>(Controller->GetPawn()) : nullptr;
     if (Dragon && Controller->WasInputKeyJustPressed(EKeys::E) && CanEquip(*Dragon) && Dragon->MountCart())
     {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::ChairEquip, GetActorLocation());
         bEquipped = true;
         SetActorHiddenInGame(true);
         SetActorTickEnabled(false);

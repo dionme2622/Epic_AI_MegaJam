@@ -1,12 +1,14 @@
 #include "DirectorCutTest.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutDragonAnimInstance.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutWheelchair.h"
 
 #include "Animation/AnimSequence.h"
 #include "Animation/AnimSingleNodeInstance.h"
 #include "Engine/World.h"
 #include "Camera/CameraComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/PoseableMeshComponent.h"
@@ -29,6 +31,7 @@ namespace
     constexpr float LandingPlayRate = 2.1f;
     constexpr float LandingDuration = .13f;
     constexpr double JumpBufferDuration = .13;
+    constexpr float MinGroundAudioSpeed = 12.f;
     // Centroids of the cut surfaces in the two authored meshes' reference poses.
     const FVector DragonWaist(4.91, .01, 41.);
     const FVector KnightWaist(-.01, -.80, 40.5);
@@ -122,6 +125,11 @@ ADirectorCutDragon::ADirectorCutDragon()
     CartBody->SetRelativeLocation(FVector(0.f, 0.f, -MeshHeightOffset));
     CartBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
+    WheelchairRollAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("WheelchairRollAudio"));
+    WheelchairRollAudio->SetupAttachment(CartBody);
+    WheelchairRollAudio->bAutoActivate = false;
+    WheelchairRollAudio->bAutoDestroy = false;
+
     for (int32 Index = 0; Index < UE_ARRAY_COUNT(DirectorCutCart::WheelCenters); ++Index)
     {
         auto* Wheel = CreateDefaultSubobject<UStaticMeshComponent>(*FString::Printf(TEXT("RideCartWheel%d"), Index + 1));
@@ -150,6 +158,7 @@ void ADirectorCutDragon::BeginPlay()
         CameraFieldOfView = 53.f;
     }
     SpawnPoint = GetActorLocation();
+    PreviousLocomotionX = SpawnPoint.X;
     UpdateSideCamera(SpawnPoint.X);
     auto* Game = GetGameInstance();
     auto* Travel = Game ? Game->GetSubsystem<UDirectorCutWheelchairTravel>() : nullptr;
@@ -241,6 +250,7 @@ bool ADirectorCutDragon::EquipHeroLegs()
 
     bHeroLegsEquipped = true;
     bRideCart = false;
+    HeroSupportingFoot = INDEX_NONE;
     StopJumping();
     BufferedJumpUntil = -1.0;
     CartBody->SetVisibility(false, true);
@@ -275,6 +285,7 @@ void ADirectorCutDragon::RestoreOriginalLegs()
     if (!bHeroLegsEquipped || !StandingDragonMesh) return;
 
     bHeroLegsEquipped = false;
+    HeroSupportingFoot = INDEX_NONE;
     HeroLegsMesh->SetVisibility(false);
     GetMesh()->SetSkeletalMesh(StandingDragonMesh);
     GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight()));
@@ -439,6 +450,9 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
         }
     }
 
+    const FVector Position = GetActorLocation();
+    const float GroundSpeed = MeasureGroundSpeed(DeltaSeconds, Position);
+    bool bPlayHeroSteps = false;
     if (bRideCart)
     {
         UpdateCart(DeltaSeconds);
@@ -471,22 +485,105 @@ void ADirectorCutDragon::Tick(float DeltaSeconds)
                     GroundMotionTime = 0.f;
                 }
                 const float PlayRate = bMoving ? Speed / GetCharacterMovement()->MaxWalkSpeed : 1.f;
-                GroundMotionTime = FMath::Fmod(GroundMotionTime + DeltaSeconds * PlayRate, GroundMotion->GetPlayLength());
+                const float StartTime = GroundMotionTime;
+                const float EndTime = StartTime + DeltaSeconds * PlayRate;
+                GroundMotionTime = FMath::Fmod(EndTime, GroundMotion->GetPlayLength());
                 PlayMotion(GroundMotion, GroundMotionTime, .095f);
+                if (bMoving && CurrentMotion == GroundMotion && GroundSpeed >= MinGroundAudioSpeed)
+                {
+                    bPlayHeroSteps = bHeroLegsEquipped;
+                    if (!bHeroLegsEquipped)
+                    {
+                        PlayAnimatedSteps(StartTime, EndTime, GroundMotion->GetPlayLength());
+                    }
+                }
             }
         }
     }
 
     if (bHeroLegsEquipped)
     {
-        UpdateHeroLegsPose(DeltaSeconds);
+        UpdateHeroLegsPose(DeltaSeconds, bPlayHeroSteps);
     }
-    const FVector Position = GetActorLocation();
+    UpdateWheelchairAudio(DeltaSeconds, bRideCart ? GroundSpeed : 0.f);
     TheatreCameraBlend = FMath::FInterpTo(TheatreCameraBlend, TheatreCameraTarget, DeltaSeconds, 3.5f);
     const float TargetX = FMath::Lerp(static_cast<float>(Position.X) + (bContinueCartFromCastle ? 175.f : 0.f),
         TheatreCameraFocusX, TheatreCameraBlend);
     const float DesiredX = FMath::FInterpTo(SideCamera->GetComponentLocation().X, TargetX, DeltaSeconds, 6.f);
     UpdateSideCamera(DesiredX);
+}
+
+float ADirectorCutDragon::MeasureGroundSpeed(float DeltaSeconds, const FVector& Position)
+{
+    const double Distance = FMath::Abs(Position.X - PreviousLocomotionX);
+    PreviousLocomotionX = Position.X;
+
+    const auto* Movement = GetCharacterMovement();
+    const bool bGrounded = Movement->IsMovingOnGround();
+    const bool bStayedGrounded = bLocomotionWasGrounded && bGrounded;
+    bLocomotionWasGrounded = bGrounded;
+
+    const auto* MovementController = GetController();
+    const auto* Player = Cast<ADirectorCutPlayerController>(MovementController);
+    const double Speed = FMath::Abs(Movement->Velocity.X);
+    const double ExpectedTravel = Speed * DeltaSeconds;
+    // Ignore platform carry, respawns, and the first frame on either side of a jump.
+    if (!IsLocallyControlled() || !MovementController || MovementController->IsMoveInputIgnored()
+        || (Player && Player->IsGraphicsMenuOpen()) || !bStayedGrounded
+        || DeltaSeconds <= UE_SMALL_NUMBER || Speed < MinGroundAudioSpeed || Distance > ExpectedTravel + 24.0)
+    {
+        return 0.f;
+    }
+    return static_cast<float>(FMath::Min(Distance / DeltaSeconds, Speed));
+}
+
+void ADirectorCutDragon::PlayAnimatedSteps(float StartTime, float EndTime, float LoopDuration) const
+{
+    using DirectorCutPuzzleAudio::ECue;
+    const bool bStanding = StandingDragonMesh && GetMesh()->GetSkeletalMeshAsset() == StandingDragonMesh.Get();
+    // In the authored crawl clip the hands reach their lowest pose at 12% and 62%.
+    // In the full dragon run the two foot plants are at the seam and halfway through.
+    constexpr float CrawlPawContact = .12f;
+    const float FirstContact = bStanding ? 0.f : CrawlPawContact;
+    const float StartPhase = StartTime / LoopDuration;
+    const float EndPhase = EndTime / LoopDuration;
+    const double HalfHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+    const FVector Floor = GetActorLocation() - FVector(0.0, 0.0, HalfHeight);
+    for (const float Contact : {FirstContact, FirstContact + .5f})
+    {
+        const float NextContact = Contact > StartPhase ? Contact : Contact + 1.f;
+        if (NextContact <= EndPhase)
+        {
+            DirectorCutPuzzleAudio::Play(this, bStanding ? ECue::DragonStep : ECue::CrawlStep, Floor);
+        }
+    }
+}
+
+void ADirectorCutDragon::UpdateWheelchairAudio(float DeltaSeconds, float GroundSpeed)
+{
+    const float MaxSpeed = FMath::Max(GetCharacterMovement()->MaxWalkSpeed, MinGroundAudioSpeed);
+    const float SpeedRatio = FMath::Clamp(GroundSpeed / MaxSpeed, 0.f, 1.f);
+    const bool bRolling = GroundSpeed >= MinGroundAudioSpeed;
+    const float TargetGain = bRolling ? FMath::Lerp(.18f, .92f, SpeedRatio) : 0.f;
+    WheelchairAudioGain = FMath::FInterpTo(WheelchairAudioGain, TargetGain, DeltaSeconds, 20.f);
+    if (WheelchairAudioGain < .015f && !bRolling)
+    {
+        WheelchairAudioGain = 0.f;
+        if (WheelchairRollAudio->IsPlaying())
+        {
+            WheelchairRollAudio->Stop();
+        }
+        return;
+    }
+    WheelchairRollAudio->SetVolumeMultiplier(WheelchairAudioGain);
+    if (bRolling)
+    {
+        WheelchairRollAudio->SetPitchMultiplier(FMath::Lerp(.72f, 1.12f, SpeedRatio));
+        if (!WheelchairRollAudio->IsPlaying())
+        {
+            DirectorCutPuzzleAudio::PlayLoop(*WheelchairRollAudio, DirectorCutPuzzleAudio::ECue::ChairRoll);
+        }
+    }
 }
 
 void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
@@ -531,7 +628,7 @@ void ADirectorCutDragon::UpdateCart(float DeltaSeconds)
     PlayMotion(Motion, CartMotionTime, .18f);
 }
 
-void ADirectorCutDragon::UpdateHeroLegsPose(float DeltaSeconds)
+void ADirectorCutDragon::UpdateHeroLegsPose(float DeltaSeconds, bool bPlaySteps)
 {
     const auto* LowerAsset = Cast<USkeletalMesh>(HeroLegsMesh->GetSkinnedAsset());
     if (!LowerAsset) return;
@@ -551,12 +648,15 @@ void ADirectorCutDragon::UpdateHeroLegsPose(float DeltaSeconds)
         {TEXT("LeftUpLeg"), TEXT("LeftLeg"), TEXT("LeftFoot")},
         {TEXT("RightUpLeg"), TEXT("RightLeg"), TEXT("RightFoot")}
     };
-    double LowestSole = TNumericLimits<double>::Max();
+    double SoleHeights[2] = {TNumericLimits<double>::Max(), TNumericLimits<double>::Max()};
+    float BootLift[2] = {};
     for (int32 Leg = 0; Leg < 2; ++Leg)
     {
         const float Side = Leg == 0 ? 1.f : -1.f;
         const float Stride = Side * FMath::Cos(Cycle);
         const float Swing = FMath::Max(0.f, Side * FMath::Sin(Cycle));
+        BootLift[Leg] = Swing;
+        bHeroBootHasSwung[Leg] = bPlaySteps && (bHeroBootHasSwung[Leg] || BootLift[Leg] > .1f);
         const FVector Stance(-4.f * Side, 4.f, 0.f);
         FVector Target = Stance + FVector(31.f * Stride, 49.f * Swing, -18.f * Swing) * Speed;
         if (bAirborne)
@@ -592,16 +692,39 @@ void ADirectorCutDragon::UpdateHeroLegsPose(float DeltaSeconds)
             for (const double Offset : {-6., 12.})
             {
                 const FVector Point = PosedFoot.TransformPosition(RestFoot.InverseTransformPosition({Ankle.X, Ankle.Y + Offset, 0.}));
-                LowestSole = FMath::Min(LowestSole, Point.Z);
+                SoleHeights[Leg] = FMath::Min(SoleHeights[Leg], Point.Z);
             }
         }
     }
     HeroLegsMesh->RefreshBoneTransforms();
 
     const float Contact = bAirborne ? FMath::SmoothStep(.86f, 1.f, AirPhase) : 1.f;
+    const int32 SupportingFoot = SoleHeights[0] <= SoleHeights[1] ? 0 : 1;
+    const double LowestSole = SoleHeights[SupportingFoot];
     const double SoleOffset = LowestSole == TNumericLimits<double>::Max()
         ? 0. : LowestSole * EquippedLegScale.Z + HeroLegsMesh->GetRelativeLocation().Z;
     GetMesh()->SetRelativeLocation(FVector(0., 0., -GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight() - SoleOffset * Contact));
+    if (!bPlaySteps || SoleHeights[1 - SupportingFoot] == TNumericLimits<double>::Max())
+    {
+        HeroSupportingFoot = INDEX_NONE;
+    }
+    else if (HeroSupportingFoot == INDEX_NONE)
+    {
+        HeroSupportingFoot = SupportingFoot;
+    }
+    else if (HeroSupportingFoot != SupportingFoot && SoleHeights[HeroSupportingFoot] - LowestSole > .7
+        && BootLift[SupportingFoot] <= .1f)
+    {
+        // Require a swing before accepting the new support to ignore stance changes at startup.
+        HeroSupportingFoot = SupportingFoot;
+        if (bHeroBootHasSwung[SupportingFoot])
+        {
+            bHeroBootHasSwung[SupportingFoot] = false;
+            const double HalfHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+            DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::HeroStep,
+                GetActorLocation() - FVector(0., 0., HalfHeight));
+        }
+    }
 }
 
 void ADirectorCutDragon::UpdateSideCamera(float FollowX)

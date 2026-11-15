@@ -5,6 +5,7 @@
 #include "DirectorCutWorkshopGate.generated.h"
 
 class FBoolProperty;
+class FNumericProperty;
 class ADirectorCutDragon;
 class UAudioComponent;
 class USoundBase;
@@ -22,6 +23,8 @@ protected:
     virtual void BeginPlay() override;
 
 private:
+    void UpdateLiftAudio();
+
     UPROPERTY(EditInstanceOnly, Category="Workshop Gate")
     TObjectPtr<AActor> WorkshopDirector;
 
@@ -50,10 +53,16 @@ private:
     TObjectPtr<UAudioComponent> GateAudio;
 
     const FBoolProperty* WheelSolvedProperty = nullptr;
+    const FBoolProperty* LiftActiveProperty = nullptr;
+    const FNumericProperty* LiftAlphaProperty = nullptr;
+    TWeakObjectPtr<AActor> LiftCollider;
     TWeakObjectPtr<ADirectorCutDragon> FramedDragon;
     FVector ClosedGatePosition = FVector::ZeroVector;
     double PreviousWheelX = 0.;
     float OpeningElapsed = 0.f;
     int32 PreviousWheelDirection = 0;
+    bool bWheelWasSecured = false;
+    bool bLiftWasActive = false;
     bool bOpeningStarted = false;
+    bool bGateOpened = false;
 };

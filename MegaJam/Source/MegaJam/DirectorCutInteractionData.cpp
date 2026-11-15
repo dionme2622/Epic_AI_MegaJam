@@ -109,13 +109,14 @@ namespace
             return true;
         }
 
+        const double LiftX = bStage2 ? 7500. : 8700.;
         const double LiftHeight = ReadBlueprintNumber(Director, TEXT("LiftAlpha"));
-        const bool bOnLift = Player.X > 8585. && Player.X < 8800.
+        const bool bOnLift = Player.X > LiftX - 115. && Player.X < LiftX + 100.
             && Player.Z > LiftHeight + 90. && Player.Z < LiftHeight + 150.;
         if (!bOnLift) return false;
 
         const bool bLow = ReadBlueprintFlag(Director, TEXT("IsLow"));
-        const FVector Anchor(8700., -30., LiftHeight + 210.);
+        const FVector Anchor(LiftX, -30., LiftHeight + 210.);
         if (bLow && bStage2) return false;
         if (bLow)
         {
@@ -268,7 +269,7 @@ bool GetDirectorCutInteractionPrompt(FName MapName, APlayerController& Controlle
     }
     if (MapName == TEXT("Stage1") || MapName == TEXT("Stage2"))
     {
-        if (MapName == TEXT("Stage2") && Pawn->GetActorLocation().X >= 9000.)
+        if (MapName == TEXT("Stage2"))
         {
             const auto* Dragon = Cast<ADirectorCutDragon>(Pawn);
             const auto* Legs = FindFirst<ADirectorCutHeroLegs>(*World);

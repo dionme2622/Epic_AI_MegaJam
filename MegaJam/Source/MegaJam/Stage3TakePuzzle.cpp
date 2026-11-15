@@ -7,6 +7,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "DirectorCutGraphics.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/SkeletalMesh.h"
 #include "Engine/World.h"
@@ -24,6 +25,7 @@
 
 namespace
 {
+    using DirectorCutPuzzleAudio::ECue;
     constexpr float SampleInterval = 1.f / 30.f;
     constexpr float PlateHeightTolerance = 28.f;
 }
@@ -254,6 +256,7 @@ void AStage3TakePuzzle::StartRecording(ACharacter& Character)
     Frames.Reserve(FMath::CeilToInt(MaxRecordingSeconds / SampleInterval) + 2);
     Phase = EStage3TakePhase::Recording;
     SampleFrame(Character, false);
+    DirectorCutPuzzleAudio::Play(this, ECue::TakeRecord, GetActorTransform().TransformPosition(CameraMark));
     SetHint(LOCTEXT("Recording", "TAKE 1 RECORDING    •    R  Reset"));
 }
 
@@ -289,6 +292,7 @@ void AStage3TakePuzzle::StartPlayback(ACharacter& Character)
     RewindPlayer(Character);
     ShowReplayFrame();
     SetGhostVisible(true);
+    DirectorCutPuzzleAudio::Play(this, ECue::TakeReplay, GetActorTransform().TransformPosition(CameraMark));
     SetHint(LOCTEXT("Playback", "TAKE 2 PLAYING    •    R  Reset"));
 }
 
@@ -321,6 +325,7 @@ void AStage3TakePuzzle::UpdatePlayback(float DeltaSeconds, bool bPlayerOnRight)
     {
         bCompleted = true;
         Phase = EStage3TakePhase::Solved;
+        DirectorCutPuzzleAudio::Play(this, ECue::TakeLock, GetActorTransform().TransformPosition(RightMark));
         if (IsValid(ExitDoor))
         {
             ExitDoor->OpenDoor();
@@ -390,6 +395,14 @@ void AStage3TakePuzzle::SetGhostVisible(bool bVisible)
 
 void AStage3TakePuzzle::SetPlates(bool bLeft, bool bRight)
 {
+    if (bLeft && !bLeftPressed)
+    {
+        DirectorCutPuzzleAudio::Play(this, ECue::ControlTick, GetActorTransform().TransformPosition(LeftMark));
+    }
+    if (bRight && !bRightPressed)
+    {
+        DirectorCutPuzzleAudio::Play(this, ECue::ControlTick, GetActorTransform().TransformPosition(RightMark));
+    }
     bLeftPressed = bLeft;
     bRightPressed = bRight;
     if (IsValid(LeftLamp))

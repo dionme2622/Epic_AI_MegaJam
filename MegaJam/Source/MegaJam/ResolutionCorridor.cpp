@@ -1,4 +1,5 @@
 #include "ResolutionCorridor.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutTest.h"
 #include "Stage2ShadowPrototype.h"
 #include "Components/StaticMeshComponent.h"
@@ -23,6 +24,7 @@
 
 namespace
 {
+    using DirectorCutPuzzleAudio::ECue;
     const FName PixelTag(TEXT("ResolutionCorridorPixelation"));
     constexpr int32 BridgeClipCount = 2;
     constexpr int32 MaxBridgeNotch = 2;
@@ -420,6 +422,8 @@ void AResolutionCorridor::SetBridgeConsoleOpen(bool bOpen)
         BridgeInputController = Controller;
         Controller->SetIgnoreMoveInput(true);
         if (ACharacter* Character = Cast<ACharacter>(Player.Get())) Character->GetCharacterMovement()->StopMovementImmediately();
+        DirectorCutPuzzleAudio::Play(this, ECue::ControlTick,
+            IsValid(BridgeConsole) ? BridgeConsole->GetActorLocation() : GetActorLocation());
     }
     else
     {
@@ -478,8 +482,14 @@ void AResolutionCorridor::TickProjectedBridge(float DeltaSeconds)
     }
     if (bCanReadInput && bBridgeConsoleOpen)
     {
+        const int32 PreviousClip = ActiveBridgeClip;
         if (Controller->WasInputKeyJustPressed(EKeys::One)) ActiveBridgeClip = 0;
         if (Controller->WasInputKeyJustPressed(EKeys::Two)) ActiveBridgeClip = 1;
+        const FVector Desk = IsValid(BridgeConsole) ? BridgeConsole->GetActorLocation() : GetActorLocation();
+        if (ActiveBridgeClip != PreviousClip)
+        {
+            DirectorCutPuzzleAudio::Play(this, ECue::ControlTick, Desk);
+        }
         const int32 Direction = static_cast<int32>(Controller->WasInputKeyJustPressed(EKeys::Up))
             - static_cast<int32>(Controller->WasInputKeyJustPressed(EKeys::Down));
         if (Direction != 0)
@@ -487,7 +497,11 @@ void AResolutionCorridor::TickProjectedBridge(float DeltaSeconds)
             int32& Notch = BridgeNotches[ActiveBridgeClip];
             const int32 Previous = Notch;
             Notch = FMath::Clamp(Notch + Direction, -MaxBridgeNotch, MaxBridgeNotch);
-            bBridgeAdjusted |= Notch != Previous;
+            if (Notch != Previous)
+            {
+                bBridgeAdjusted = true;
+                DirectorCutPuzzleAudio::Play(this, ECue::FilmNotch, Desk);
+            }
         }
     }
 
@@ -513,6 +527,8 @@ void AResolutionCorridor::TickProjectedBridge(float DeltaSeconds)
     if (bBridgeAdjusted && bBothAligned)
     {
         bCompleted = true;
+        DirectorCutPuzzleAudio::Play(this, ECue::FilmLock,
+            IsValid(BridgeConsole) ? BridgeConsole->GetActorLocation() : GetActorLocation());
         for (AActor* Platform : BridgePlatforms) if (IsValid(Platform)) Platform->SetActorEnableCollision(true);
         SetBridgeConsoleOpen(false);
         if (IsValid(ExitDoor)) ExitDoor->OpenDoor();
