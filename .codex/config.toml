@@ -2,3 +2,6 @@ notify = ['C:\Program Files\WindowsApps\OpenAI.Codex_26.1106.6628.0_x64__2p2nqsd
 
 [mcp_servers.unreal-mcp]
 url = "http://127.0.0.1:18765/mcp"
+
+[mcp_servers.unreal-mcp.tools.call_tool]
+approval_mode = "approve"
