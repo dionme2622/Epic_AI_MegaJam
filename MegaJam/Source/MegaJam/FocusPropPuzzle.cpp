@@ -1,5 +1,6 @@
 #include "FocusPropPuzzle.h"
 #include "DirectorCutGraphics.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "Stage2ShadowPrototype.h"
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
@@ -17,6 +18,8 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Images/SImage.h"
 #include "Styling/CoreStyle.h"
+
+using DirectorCutPuzzleAudio::ECue;
 
 AFocusPropPuzzle::AFocusPropPuzzle()
 {
@@ -71,6 +74,7 @@ void AFocusPropPuzzle::EnterPuzzle()
     if (ACharacter* C = Cast<ACharacter>(Pawn)) C->GetCharacterMovement()->StopMovementImmediately();
     PC->SetViewTarget(this);
     SelectNear(true);
+    DirectorCutPuzzleAudio::Play(this, ECue::ControlTick, GetActorLocation());
     if (GEngine && GEngine->GameViewport)
     {
         const bool bCampaign = UGameplayStatics::GetCurrentLevelName(this, true) == TEXT("Stage3_");
@@ -145,12 +149,18 @@ void AFocusPropPuzzle::Tick(float DeltaSeconds)
         if (Director->IsGraphicsMenuOpen()) return;
     if (PC->WasInputKeyJustPressed(EKeys::E)) { if (bActive) LeavePuzzle(); else EnterPuzzle(); return; }
     if (!bActive) return;
+    const bool bWasNearSelected = bNearSelected;
     if (PC->WasInputKeyJustPressed(EKeys::Q)) SelectNear(!bNearSelected);
     if (PC->WasInputKeyJustPressed(EKeys::One)) SelectNear(true);
     if (PC->WasInputKeyJustPressed(EKeys::Two)) SelectNear(false);
     if (PC->WasInputKeyJustPressed(EKeys::R))
     {
         NearPiece->SetRelativeLocation(InitialNearPosition); FarPiece->SetRelativeLocation(InitialFarPosition); SelectNear(true);
+        DirectorCutPuzzleAudio::Play(this, ECue::ControlTick, GetActorLocation());
+    }
+    else if (bWasNearSelected != bNearSelected)
+    {
+        DirectorCutPuzzleAudio::Play(this, ECue::ControlTick, GetActorLocation());
     }
     PuzzleCamera->PostProcessSettings.DepthOfFieldFocalDistance = FMath::FInterpTo(PuzzleCamera->PostProcessSettings.DepthOfFieldFocalDistance, DesiredFocusDistance, DeltaSeconds, FocusTransitionSpeed);
     const float Axis = (PC->IsInputKeyDown(EKeys::D) || PC->IsInputKeyDown(EKeys::Right) ? 1.f : 0.f) - (PC->IsInputKeyDown(EKeys::A) || PC->IsInputKeyDown(EKeys::Left) ? 1.f : 0.f);
@@ -158,11 +168,22 @@ void AFocusPropPuzzle::Tick(float DeltaSeconds)
     {
         auto* Piece = bNearSelected ? NearPiece.Get() : FarPiece.Get();
         const float Precision = PC->IsInputKeyDown(EKeys::LeftShift) || PC->IsInputKeyDown(EKeys::RightShift) ? .3f : 1.f;
-        FVector P = Piece->GetRelativeLocation(); P.X = FMath::Clamp(P.X + Axis * PieceSpeed * Precision * DeltaSeconds, 150.f, 850.f); Piece->SetRelativeLocation(P);
+        FVector Position = Piece->GetRelativeLocation();
+        const double PreviousX = Position.X;
+        Position.X = FMath::Clamp(Position.X + Axis * PieceSpeed * Precision * DeltaSeconds, 150.f, 850.f);
+        Piece->SetRelativeLocation(Position);
+        const bool bStartedSlide = Axis > 0.f
+            ? PC->WasInputKeyJustPressed(EKeys::D) || PC->WasInputKeyJustPressed(EKeys::Right)
+            : PC->WasInputKeyJustPressed(EKeys::A) || PC->WasInputKeyJustPressed(EKeys::Left);
+        if (bStartedSlide && Position.X != PreviousX)
+        {
+            DirectorCutPuzzleAudio::Play(this, ECue::FocusMove, Piece->GetComponentLocation());
+        }
     }
     if (PC->WasInputKeyJustPressed(EKeys::Enter) && IsAligned())
     {
         bSolved = true; bCompleting = true; FinishTime = FMath::Max(CompletionDelay, 0.f);
+        DirectorCutPuzzleAudio::Play(this, ECue::FocusLock, NearPiece->GetComponentLocation());
         // Show the complete key in focus before returning to the level camera.
         auto& PP = PuzzleCamera->PostProcessSettings;
         PP.bOverride_DepthOfFieldEnabled = true; PP.DepthOfFieldEnabled = false;

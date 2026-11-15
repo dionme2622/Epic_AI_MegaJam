@@ -6,6 +6,7 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "DirectorCutGraphics.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutTest.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -121,6 +122,9 @@ void AStage4ShadowStandIn::Tick(float DeltaSeconds)
 
     // The projected center of the body is the pressure point. Its coordinates
     // use the same source and receiver plane as the moving silhouette.
+    const bool bWasCallSwitch = bCallSwitch;
+    const bool bWasLowSwitch = bLowSwitch;
+    const bool bWasHighSwitch = bHighSwitch;
     bCallSwitch = bShadows && bWest && In(Mark.X, 158., 525.) && In(Mark.Z, -45., 130.);
     bLowSwitch = bShadows && !bWest && In(Mark.X, 1190., 1370.) && In(Mark.Z, -150., -35.);
     bHighSwitch = bShadows && !bWest && In(Mark.X, 1320., 1575.) && In(Mark.Z, -33., 80.);
@@ -179,6 +183,25 @@ void AStage4ShadowStandIn::Tick(float DeltaSeconds)
     {
         return;
     }
+
+    SwitchSoundCooldown = FMath::Max(0.f, SwitchSoundCooldown - DeltaSeconds);
+    if (Bridge && bRaisedBridge && !FMath::IsNearlyEqual(PreviousZ, BridgeRaised)
+        && FMath::IsNearlyEqual(BridgeZ, BridgeRaised))
+    {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::BridgeLock, Bridge->GetComponentLocation());
+    }
+    else if (Ferry && FerryX != PreviousX
+        && (FMath::IsNearlyEqual(PreviousX, FerryNear) || FMath::IsNearlyEqual(PreviousX, FerryFar)))
+    {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::FerryMotor, Ferry->GetComponentLocation());
+    }
+    else if (SwitchSoundCooldown <= 0.f && ((bCallSwitch && !bWasCallSwitch)
+        || (bLowSwitch && !bWasLowSwitch) || (bHighSwitch && !bWasHighSwitch)))
+    {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::StandSwitch, GetActorTransform().TransformPosition(Mark));
+        SwitchSoundCooldown = .33f;
+    }
+
     if (P.Z < -180.)
     {
         Respawn(*Dragon);

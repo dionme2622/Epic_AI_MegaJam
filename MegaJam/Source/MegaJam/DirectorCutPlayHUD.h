@@ -28,9 +28,11 @@ public:
 
     float ShowSubtitle(const FText& Korean, const FText& English, float Duration);
     void ClearSubtitle();
+    bool ShowProductionNote(const FText& Korean, const FText& English, FSimpleDelegate OnDismissed);
 
 private:
     void BuildOverlay();
+    bool IsShowingNote() const;
     ADirectorCutWallNote* UpdateWallNote(const FVector& Position, bool bCanRead, bool bInteract);
 
     TSharedPtr<SOverlay> Overlay;
@@ -41,6 +43,8 @@ private:
     TWeakObjectPtr<AFocusPropPuzzle> FocusPuzzle;
     TArray<TWeakObjectPtr<ADirectorCutWallNote>> WallNotes;
     TWeakObjectPtr<ADirectorCutWallNote> OpenWallNote;
+    FSimpleDelegate ProductionNoteDismissed;
+    uint64 ProductionNoteOpenedFrame = 0;
     FName MapName;
     TSet<int32> PlayedStoryCues;
     FText SubtitleSpeaker;
@@ -60,6 +64,7 @@ private:
     float RecoveryElapsed = 0.f;
     bool bPromptVisible = false;
     bool bMenuOpen = false;
+    bool bIsCampaignStage1 = false;
     bool bGuideVisible = false;
 
     bool bEndingShown = false;

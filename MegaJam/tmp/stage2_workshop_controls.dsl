@@ -88,7 +88,7 @@
     (for _array_element_2 _outactors_2
       (Transformation|SetActorLocation _array_element_2 (Math|Vector|MakeVector 1860.0 -164.0 497.0) false true)))
   (if (and (and (not (Variables|Default|GetMenuOpen)) (not (Variables|Default|GetLiftActive))) (Game|Player|WasInputKeyJustPressed _returnvalue "E"))
-    (if (and (> playerX 8585.0) (< playerX 8800.0))
+    (if (and (> playerX 7385.0) (< playerX 7600.0))
       (if (and (and (> (.z _returnvalue_2) (+ (Variables|Default|GetLiftAlpha) 90.0)) (< (.z _returnvalue_2) (+ (Variables|Default|GetLiftAlpha) 150.0))) (not _islow_1))
         (Variables|Default|SetLiftDescending (> (Variables|Default|GetLiftAlpha) 115.0))
         (Variables|Default|SetLiftActive true)
@@ -115,7 +115,7 @@
       (Variables|Default|SetLiftSolved true))
     (bind _outactors_3 (Actor|GetAllActorsWithTag "LiftVisual"))
     (for _array_element_3 _outactors_3
-      (Transformation|SetActorLocation _array_element_3 (Math|Vector|MakeVector 8700.0 0.0 (+ 15.0 _liftalpha))))
+      (Transformation|SetActorLocation _array_element_3 (Math|Vector|MakeVector 7500.0 0.0 (+ 15.0 _liftalpha))))
     (bind _outactors_4 (Actor|GetAllActorsWithTag "LiftCollider"))
     (for _array_element_4 _outactors_4
-      (Transformation|SetActorLocation _array_element_4 (Math|Vector|MakeVector 8700.0 0.0 (+ 22.0 _liftalpha))))))
+      (Transformation|SetActorLocation _array_element_4 (Math|Vector|MakeVector 7500.0 0.0 (+ 22.0 _liftalpha))))))

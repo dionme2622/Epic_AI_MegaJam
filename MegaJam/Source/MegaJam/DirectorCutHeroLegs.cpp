@@ -3,6 +3,7 @@
 #include "Components/SceneComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutTest.h"
 #include "Engine/SkeletalMesh.h"
 #include "Engine/StaticMesh.h"
@@ -84,6 +85,7 @@ void ADirectorCutHeroLegs::Tick(float DeltaSeconds)
     auto* Dragon = Controller ? Cast<ADirectorCutDragon>(Controller->GetPawn()) : nullptr;
     if (Dragon && Controller->WasInputKeyJustPressed(EKeys::E) && CanEquip(*Dragon) && Dragon->EquipHeroLegs())
     {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::HeroLegs, GetActorLocation());
         bEquipped = true;
         Legs->SetVisibility(false);
         SetActorTickEnabled(false);

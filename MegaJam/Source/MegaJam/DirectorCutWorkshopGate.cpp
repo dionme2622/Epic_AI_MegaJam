@@ -3,6 +3,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/SceneComponent.h"
 #include "DirectorCutGraphics.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutTest.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundAttenuation.h"
@@ -13,6 +14,7 @@ namespace
 {
     constexpr double WorkshopOpenRise = 350.;
     constexpr float WorkshopOpeningDuration = 1.75f;
+    constexpr double WorkshopLiftTop = 230.;
 
     void PlayWorkshopSound(UAudioComponent& Audio, USoundBase* Sound, float Volume, float Pitch)
     {
@@ -47,7 +49,10 @@ void ADirectorCutWorkshopGate::BeginPlay()
     Super::BeginPlay();
     if (IsValid(WorkshopDirector))
     {
-        WheelSolvedProperty = FindFProperty<FBoolProperty>(WorkshopDirector->GetClass(), TEXT("WheelSolved"));
+        const UClass* DirectorClass = WorkshopDirector->GetClass();
+        WheelSolvedProperty = FindFProperty<FBoolProperty>(DirectorClass, TEXT("WheelSolved"));
+        LiftActiveProperty = FindFProperty<FBoolProperty>(DirectorClass, TEXT("LiftActive"));
+        LiftAlphaProperty = FindFProperty<FNumericProperty>(DirectorClass, TEXT("LiftAlpha"));
     }
     if (!WheelSolvedProperty || !IsValid(Wheel) || !IsValid(GateVisual) || !IsValid(GateBarrier))
     {
@@ -60,6 +65,46 @@ void ADirectorCutWorkshopGate::BeginPlay()
     GateBarrier->SetActorHiddenInGame(true);
     GateBarrier->SetActorEnableCollision(true);
     GateAudio->SetWorldLocation(ClosedGatePosition);
+
+    if (LiftActiveProperty && LiftAlphaProperty && LiftAlphaProperty->IsFloatingPoint())
+    {
+        TArray<AActor*> LiftActors;
+        UGameplayStatics::GetAllActorsWithTag(this, TEXT("LiftCollider"), LiftActors);
+        if (LiftActors.Num() == 1)
+        {
+            LiftCollider = LiftActors[0];
+            bLiftWasActive = LiftActiveProperty->GetPropertyValue_InContainer(WorkshopDirector.Get());
+        }
+    }
+}
+
+void ADirectorCutWorkshopGate::UpdateLiftAudio()
+{
+    const AActor* Lift = LiftCollider.Get();
+    if (!Lift)
+    {
+        return;
+    }
+
+    const bool bActive = LiftActiveProperty->GetPropertyValue_InContainer(WorkshopDirector.Get());
+    if (bLiftWasActive == bActive)
+    {
+        return;
+    }
+    bLiftWasActive = bActive;
+
+    if (bActive)
+    {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::LiftStart, Lift->GetActorLocation());
+        return;
+    }
+
+    const double Height = LiftAlphaProperty->GetFloatingPointPropertyValue(
+        LiftAlphaProperty->ContainerPtrToValuePtr<void>(WorkshopDirector.Get()));
+    if (FMath::IsNearlyZero(Height) || FMath::IsNearlyEqual(Height, WorkshopLiftTop))
+    {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::LiftLock, Lift->GetActorLocation());
+    }
 }
 
 void ADirectorCutWorkshopGate::Tick(float DeltaSeconds)
@@ -71,6 +116,12 @@ void ADirectorCutWorkshopGate::Tick(float DeltaSeconds)
         return;
     }
 
+    UpdateLiftAudio();
+    if (bGateOpened)
+    {
+        return;
+    }
+
     const FVector WheelPosition = Wheel->GetActorLocation();
     const double WheelStep = WheelPosition.X - PreviousWheelX;
     const int32 WheelDirection = FMath::IsNearlyZero(WheelStep, .01) ? 0 : (WheelStep > 0. ? 1 : -1);
@@ -78,6 +129,12 @@ void ADirectorCutWorkshopGate::Tick(float DeltaSeconds)
     WheelAudio->SetWorldLocation(WheelPosition);
 
     const bool bSecured = WheelSolvedProperty->GetPropertyValue_InContainer(WorkshopDirector.Get());
+    if (bSecured && !bWheelWasSecured)
+    {
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::WheelLatch, WheelPosition);
+    }
+    bWheelWasSecured = bSecured;
+
     if (!bSecured && WheelDirection != 0 && WheelDirection != PreviousWheelDirection)
     {
         PlayWorkshopSound(*WheelAudio, WheelRoll, .70f, 1.35f);
@@ -109,12 +166,16 @@ void ADirectorCutWorkshopGate::Tick(float DeltaSeconds)
 
     if (OpeningElapsed >= WorkshopOpeningDuration)
     {
+        bGateOpened = true;
         GateBarrier->SetActorEnableCollision(false);
         PlayWorkshopSound(*GateAudio, GateLatch, .82f, 1.f);
         if (auto* Dragon = FramedDragon.Get())
         {
             Dragon->SetTheatreCameraFraming(0.f, 0.f);
         }
-        SetActorTickEnabled(false);
+        if (!LiftCollider.IsValid())
+        {
+            SetActorTickEnabled(false);
+        }
     }
 }
