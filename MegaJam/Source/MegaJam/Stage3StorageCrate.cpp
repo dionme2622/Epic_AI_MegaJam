@@ -6,6 +6,7 @@
 #include "Components/TextRenderComponent.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutPlayHUD.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
 #include "GameFramework/Character.h"
@@ -117,6 +118,7 @@ void AStage3StorageCrate::Tick(float DeltaSeconds)
     if (bCanInteract && Controller && Controller->WasInputKeyJustPressed(EKeys::E) && !bOpened)
     {
         bOpened = true;
+        DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::ArchiveCrate, GetActorLocation());
         if (DestinationLevel.IsNull())
         {
             Label->SetText(LOCTEXT("EmptyCrate", "EMPTY - TRANSFERRED TO FINAL VAULT"));

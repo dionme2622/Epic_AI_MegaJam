@@ -8,6 +8,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutInteractionData.h"
+#include "DirectorCutPuzzleAudio.h"
 #include "DirectorCutTest.h"
 #include "Engine/GameViewportClient.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -483,7 +484,12 @@ void AStage4ShadowTheatre::HandleControls(ADirectorCutDragon& Dragon, int32 Stat
     const bool bRight = Controller->WasInputKeyJustPressed(EKeys::R);
     if (bLeft || bRight)
     {
-        Retake.Angle = bRight ? 1 : 0;
+        const int32 Angle = bRight ? 1 : 0;
+        if (Retake.Angle != Angle)
+        {
+            Retake.Angle = Angle;
+            DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::LampAim, Dragon.GetActorLocation());
+        }
         CutFlash = 0.f;
         InputHintTime = 0.f;
         return;
@@ -509,7 +515,7 @@ void AStage4ShadowTheatre::HandleControls(ADirectorCutDragon& Dragon, int32 Stat
     Committed = Retake.Cue;
     CutFlash = 1.1f;
     InputHintTime = 0.f;
-    if (RailCue)
+    if (!DirectorCutPuzzleAudio::Play(this, DirectorCutPuzzleAudio::ECue::RetakeLock, Dragon.GetActorLocation()) && RailCue)
     {
         UGameplayStatics::PlaySoundAtLocation(this, RailCue, Dragon.GetActorLocation(), .8f, 1.05f);
     }

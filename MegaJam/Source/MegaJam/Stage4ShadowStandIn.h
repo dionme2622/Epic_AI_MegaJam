@@ -62,6 +62,7 @@ private:
 
     float FerryX = 816.f;
     float BridgeZ = -176.f;
+    float SwitchSoundCooldown = 0.f;
     bool bFerryReturning = false;
     bool bFerryCarrying = false;
     bool bLastShadows = true;

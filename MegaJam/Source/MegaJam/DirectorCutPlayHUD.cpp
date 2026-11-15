@@ -437,7 +437,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 10.f, 0.f, 14.f)
                                 [SNew(SBox).HeightOverride(1.f)[SNew(SBorder).BorderImage(Brush).BorderBackgroundColor(HudBrass)]]
                                 + SVerticalBox::Slot().AutoHeight()
-                                [Line(WallNoteKorean, 23, Ink, true, ETextJustify::Left, 500.f)]
+                                [Line(WallNoteKorean, 21, Ink, true, ETextJustify::Left, 500.f)]
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 9.f, 0.f, 0.f)
                                 [Line(WallNoteEnglish, 17, Ink, false, ETextJustify::Left, 500.f)]
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 17.f, 0.f, 0.f)
