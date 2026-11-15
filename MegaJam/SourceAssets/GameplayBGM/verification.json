@@ -1,0 +1,38 @@
+[
+  {
+    "map": "/Game/DirectorCut/Stage/Stage4",
+    "sound": "/Game/DirectorCut/Audio/S_Gameplay_ProcessingPower.S_Gameplay_ProcessingPower",
+    "looping": true,
+    "auto_activate": true,
+    "spatial": false,
+    "volume": 0.22,
+    "duration": 126.09306335449219
+  },
+  {
+    "map": "/Game/DirectorCut/Stage/Stage3_",
+    "sound": "/Game/DirectorCut/Audio/S_Gameplay_ProcessingPower.S_Gameplay_ProcessingPower",
+    "looping": true,
+    "auto_activate": true,
+    "spatial": false,
+    "volume": 0.22,
+    "duration": 126.09306335449219
+  },
+  {
+    "map": "/Game/DirectorCut/Stage/Stage2",
+    "sound": "/Game/DirectorCut/Audio/S_Gameplay_ProcessingPower.S_Gameplay_ProcessingPower",
+    "looping": true,
+    "auto_activate": true,
+    "spatial": false,
+    "volume": 0.22,
+    "duration": 126.09306335449219
+  },
+  {
+    "map": "/Game/DirectorCut/Stage/Stage1",
+    "sound": "/Game/DirectorCut/Audio/S_Gameplay_ProcessingPower.S_Gameplay_ProcessingPower",
+    "looping": true,
+    "auto_activate": true,
+    "spatial": false,
+    "volume": 0.22,
+    "duration": 126.09306335449219
+  }
+]
