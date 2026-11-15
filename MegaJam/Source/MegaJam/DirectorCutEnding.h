@@ -9,6 +9,8 @@
 class ALevelSequenceActor;
 class APlayerController;
 class SWidget;
+class SBox;
+class SVerticalBox;
 class UTexture2D;
 class UAnimSequence;
 
@@ -40,6 +42,7 @@ class ADirectorCutEnding : public AActor
 
 public:
     ADirectorCutEnding();
+    virtual void Tick(float DeltaSeconds) override;
 
     /** Rebuild the deliberately unfinished, stiff-legged walk from the existing dragon rig. */
     UFUNCTION(BlueprintCallable, Category="Director Cut|Ending|Editor")
@@ -170,4 +173,7 @@ private:
     TSharedPtr<SWidget> ChoicePanel;
     TArray<FSlateBrush> ImageBrushes;
     FTransform InitialUpperTransform;
+    double EndingCardStartedAt = -1.;
+    TSharedPtr<SVerticalBox> EndingCardTitle;
+    TSharedPtr<SBox> EndingCardPhoto;
 };

@@ -87,7 +87,7 @@ namespace
 
 ADirectorCutEnding::ADirectorCutEnding()
 {
-    PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = true;
     HeroSubtitle = LOCTEXT("HeroLine", "준비됐어? 이제 제대로 마지막 전투를 찍을 수 있겠네.");
     DragonSubtitle = LOCTEXT("DragonLine", "잠깐. 나는 어떤 모습으로 나갈지 아직 안 정했어.");
 }
@@ -398,6 +398,10 @@ void ADirectorCutEnding::FinishBranchScene()
 {
     if (EndingState != EDirectorCutEndingState::Revealing && EndingState != EDirectorCutEndingState::OriginalLegsScene && EndingState != EDirectorCutEndingState::CartScene && EndingState != EDirectorCutEndingState::HeroLegsScene) return;
     EndingState = EDirectorCutEndingState::ReadyForContinuation;
+    if (SelectedLowerBody >= 0 && SelectedLowerBody < 3)
+    {
+        EndingCardStartedAt = GetWorld()->GetTimeSeconds();
+    }
     if (APlayerController* Controller = LocalController.Get(); Controller && EndingCamera)
     {
         Controller->SetViewTarget(EndingCamera);
@@ -564,7 +568,101 @@ void ADirectorCutEnding::CreateOverlay()
                 ]
             ]
         ];
+    // A photograph of the selected lower body, printed on warm paper.
+    // Every branch reveals its card above the sequence's held black fade.
+    auto CardAge = [WeakThis]() -> float
+    {
+        return WeakThis.IsValid() && WeakThis->EndingCardStartedAt >= 0.
+            ? float(WeakThis->GetWorld()->GetTimeSeconds() - WeakThis->EndingCardStartedAt) : -1.f;
+    };
+    StaticCastSharedPtr<SOverlay>(Overlay)->AddSlot()
+    [
+        SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+        .BorderBackgroundColor(FLinearColor::Black).Padding(0)
+        .Visibility_Lambda([WeakThis, CardAge]
+        {
+            return WeakThis.IsValid() && WeakThis->SelectedLowerBody >= 0 && WeakThis->SelectedLowerBody < 3 && CardAge() >= 0.f
+                ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+        })
+        [
+            SNew(SScaleBox).Stretch(EStretch::ScaleToFit)
+            [
+                SNew(SBox).WidthOverride(1920).HeightOverride(1080)
+                [
+                    SNew(SOverlay)
+                    + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(0, 85, 0, 0)
+                    [
+                        SAssignNew(EndingCardTitle, SVerticalBox).RenderOpacity(0.f)
+                        + SVerticalBox::Slot().AutoHeight()
+                        [EndingText(LOCTEXT("PrintTitle", "나의 감독판"), 54, FLinearColor(.94f, .93f, .88f))]
+                        + SVerticalBox::Slot().AutoHeight().Padding(0, 15, 0, 0)
+                        [EndingText(LOCTEXT("PrintTitleEn", "MY DIRECTOR'S CUT"), 15, FLinearColor(.55f, .53f, .47f))]
+                    ]
+                    + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Center).Padding(0, 120, 0, 0)
+                    [
+                        SAssignNew(EndingCardPhoto, SBox).WidthOverride(692).HeightOverride(632)
+                        .RenderTransformPivot(FVector2D(.5f, .5f))
+                        .RenderOpacity(0.f)
+                        .RenderTransform_Lambda([CardAge]
+                        {
+                            const float T = FMath::Clamp((CardAge() - .65f) / .48f, 0.f, 1.f);
+                            const float Ease = 1.f - FMath::Pow(1.f - T, 3.f);
+                            return FSlateRenderTransform(Concatenate(
+                                FQuat2D(FMath::DegreesToRadians(FMath::Lerp(-7.f, -4.f, Ease))),
+                                FVector2D(0.f, FMath::Lerp(-36.f, 0.f, Ease))));
+                        })
+                        [
+                            SNew(SOverlay)
+                            + SOverlay::Slot().Padding(10, 13, -10, -13)
+                            [SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+                                .BorderBackgroundColor(FLinearColor(.015f, .015f, .015f, 1.f))]
+                            + SOverlay::Slot()
+                            [
+                                SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+                                .BorderBackgroundColor(FLinearColor(.92f, .90f, .84f)).Padding(22, 22, 22, 12)
+                                [
+                                    SNew(SVerticalBox)
+                                    + SVerticalBox::Slot().AutoHeight()
+                                    [SNew(SBox).WidthOverride(648).HeightOverride(522)
+                                        [SNew(SImage).Image_Lambda([this]
+                                        {
+                                            return &ImageBrushes[FMath::Clamp(SelectedLowerBody, 0, 2)];
+                                        })]]
+                                    + SVerticalBox::Slot().FillHeight(1.f).VAlign(VAlign_Center)
+                                    [SNew(STextBlock).Text_Lambda([WeakThis]
+                                        {
+                                            if (!WeakThis.IsValid()) return FText::GetEmpty();
+                                            if (WeakThis->SelectedLowerBody == 1)
+                                                return LOCTEXT("CartPrintCaption", "멈출 수 없는 감독판  /  NO BRAKES, JUST TAKES");
+                                            if (WeakThis->SelectedLowerBody == 2)
+                                                return LOCTEXT("HeroPrintCaption", "빌려온 당당함  /  BORROWED CONFIDENCE");
+                                            return LOCTEXT("OriginalPrintCaption", "원래의 나로  /  BACK TO MYSELF");
+                                        })
+                                        .Font(FCoreStyle::GetDefaultFontStyle("Regular", 19))
+                                        .Justification(ETextJustify::Center)
+                                        .ColorAndOpacity(FLinearColor(.12f, .13f, .12f))]
+                                ]
+                            ]
+                            + SOverlay::Slot().HAlign(HAlign_Center).VAlign(VAlign_Top).Padding(0, -14, 0, 0)
+                            [SNew(SBox).WidthOverride(138).HeightOverride(36)
+                                [SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
+                                    .BorderBackgroundColor(FLinearColor(.66f, .59f, .40f, .76f))]]
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ];
     Viewport->AddViewportWidgetContent(Overlay.ToSharedRef(), 1000);
+}
+
+void ADirectorCutEnding::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    if (EndingCardStartedAt < 0.) return;
+    const float Age = float(GetWorld()->GetTimeSeconds() - EndingCardStartedAt);
+    if (EndingCardPhoto) EndingCardPhoto->SetRenderOpacity(FMath::Clamp((Age - .65f) / .22f, 0.f, 1.f));
+    if (EndingCardTitle) EndingCardTitle->SetRenderOpacity(FMath::Clamp((Age - 1.65f) / .65f, 0.f, 1.f));
 }
 
 void ADirectorCutEnding::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -594,6 +692,8 @@ void ADirectorCutEnding::EndPlay(const EEndPlayReason::Type EndPlayReason)
         if (UGameViewportClient* Viewport = GetWorld()->GetGameViewport()) Viewport->RemoveViewportWidgetContent(Overlay.ToSharedRef());
         Overlay.Reset();
         ChoicePanel.Reset();
+        EndingCardPhoto.Reset();
+        EndingCardTitle.Reset();
     }
     if (APlayerController* Controller = LocalController.Get())
     {
