@@ -1,9 +1,11 @@
 #include "DirectorCutPlayHUD.h"
 
 #include "ColorSignalPuzzle.h"
+#include "CoreGlobals.h"
 #include "DirectorCutGraphics.h"
 #include "DirectorCutInteractionData.h"
 #include "DirectorCutStoryData.h"
+#include "DirectorCutTest.h"
 #include "DirectorCutWallNote.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/UserInterfaceSettings.h"
@@ -37,6 +39,20 @@ namespace
     const FLinearColor Ink(.065f, .036f, .019f);
     const FLinearColor Parchment(.76f, .60f, .37f);
     constexpr int32 MaxGuideControls = 6;
+
+    FDirectorCutPuzzleGuide Stage1Controls(bool bRidingCart)
+    {
+        return {
+            LOCTEXT("Stage1ControlsKo", "조작 방법"), LOCTEXT("Stage1ControlsEn", "Controls"),
+            {
+                {TEXT("A / D"), LOCTEXT("Stage1MoveKo", "이동"), LOCTEXT("Stage1MoveEn", "Move")},
+                {TEXT("Space"),
+                    bRidingCart ? LOCTEXT("Stage1JumpLockedKo", "점프 불가") : LOCTEXT("Stage1JumpKo", "점프"),
+                    bRidingCart ? LOCTEXT("Stage1JumpLockedEn", "No jump") : LOCTEXT("Stage1JumpEn", "Jump")},
+                {TEXT("E"), LOCTEXT("Stage1InteractKo", "상호작용"), LOCTEXT("Stage1InteractEn", "Interact")}
+            }
+        };
+    }
 
     float ReadableScale(const UGameViewportClient& Viewport, float Minimum)
     {
@@ -87,7 +103,9 @@ void UDirectorCutPlayHUD::OnWorldBeginPlay(UWorld& World)
     if (!World.IsGameWorld() || World.GetNetMode() == NM_DedicatedServer) return;
 
     MapName = FName(*UGameplayStatics::GetCurrentLevelName(&World, true));
-    if (MapName == TEXT("Stage1") && World.GetOutermost()->GetName().Contains(TEXT("/DirectorCut/Stage/")))
+    bIsCampaignStage1 = MapName == TEXT("Stage1")
+        && World.GetOutermost()->GetName().StartsWith(TEXT("/Game/DirectorCut/Stage/"));
+    if (bIsCampaignStage1)
     {
         MapName = TEXT("L_Stage1");
     }
@@ -150,6 +168,27 @@ void UDirectorCutPlayHUD::ClearSubtitle()
     SubtitleRemaining = 0.f;
 }
 
+bool UDirectorCutPlayHUD::ShowProductionNote(const FText& Korean, const FText& English, FSimpleDelegate OnDismissed)
+{
+    if (!Overlay) BuildOverlay();
+    if (!Overlay || !OnDismissed.IsBound() || ProductionNoteDismissed.IsBound()) return false;
+
+    OpenWallNote.Reset();
+    WallNoteKorean = Korean;
+    WallNoteEnglish = English;
+    ProductionNoteDismissed = MoveTemp(OnDismissed);
+    ProductionNoteOpenedFrame = GFrameCounter;
+    bPromptVisible = false;
+    bGuideVisible = false;
+    ClearSubtitle();
+    return true;
+}
+
+bool UDirectorCutPlayHUD::IsShowingNote() const
+{
+    return OpenWallNote.IsValid() || ProductionNoteDismissed.IsBound();
+}
+
 ADirectorCutWallNote* UDirectorCutPlayHUD::UpdateWallNote(const FVector& Position, bool bCanRead, bool bInteract)
 {
     if (const ADirectorCutWallNote* Note = OpenWallNote.Get())
@@ -198,6 +237,16 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
 
     const auto* Director = Cast<ADirectorCutPlayerController>(Controller);
     bMenuOpen = Director ? Director->IsGraphicsMenuOpen() : IsDirectorCutWorkshopMenuOpen(MapName, *GetWorld());
+    if (ProductionNoteDismissed.IsBound())
+    {
+        if (!bMenuOpen && GFrameCounter != ProductionNoteOpenedFrame && Controller->WasInputKeyJustPressed(EKeys::E))
+        {
+            FSimpleDelegate OnDismissed = MoveTemp(ProductionNoteDismissed);
+            ProductionNoteDismissed.Unbind();
+            OnDismissed.ExecuteIfBound();
+        }
+        return;
+    }
     const bool bRgbActive = ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive;
     if (!bMenuOpen && !bRgbActive && !OpenWallNote.IsValid())
     {
@@ -227,7 +276,15 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
         QueryRemaining = .10f;
         if (!bMenuOpen)
         {
-            Guide = GetDirectorCutPuzzleGuide(MapName, *Controller);
+            if (bIsCampaignStage1)
+            {
+                const auto* Dragon = Cast<ADirectorCutDragon>(Pawn);
+                Guide = Stage1Controls(Dragon && Dragon->IsRidingCart());
+            }
+            else
+            {
+                Guide = GetDirectorCutPuzzleGuide(MapName, *Controller);
+            }
         }
         if (SubtitleRemaining <= 0.f && !bMenuOpen && !bRgbActive && !bFocusActive
             && !OpenWallNote.IsValid() && !bEndingShown && GetWorld()->GetTimeSeconds() >= 1.6f)
@@ -247,9 +304,11 @@ void UDirectorCutPlayHUD::Tick(float DeltaTime)
         }
     }
 
-    bGuideVisible = !bMenuOpen && !bEndingShown && !Guide.TitleKorean.IsEmpty() && !bRgbActive;
-    const bool bCanRead = !bMenuOpen && !bRgbActive && !bFocusActive && !bGuideVisible && !bEndingShown
-        && ActionPrompt.Key.IsEmpty() && !Controller->IsMoveInputIgnored() && Controller->GetViewTarget() == Pawn;
+    const bool bControlsAvailable = !Controller->IsMoveInputIgnored() && Controller->GetViewTarget() == Pawn;
+    bGuideVisible = !bMenuOpen && !bEndingShown && !Guide.TitleKorean.IsEmpty() && !bRgbActive
+        && (!bIsCampaignStage1 || bControlsAvailable);
+    const bool bCanRead = !bMenuOpen && !bRgbActive && !bFocusActive && !bEndingShown
+        && (!bGuideVisible || bIsCampaignStage1) && ActionPrompt.Key.IsEmpty() && bControlsAvailable;
     const ADirectorCutWallNote* Note = UpdateWallNote(Pawn->GetActorLocation(), bCanRead, bInteract);
     bPromptVisible = false;
     if (bMenuOpen || OpenWallNote.IsValid()) return;
@@ -351,13 +410,15 @@ void UDirectorCutPlayHUD::BuildOverlay()
     };
     const auto MakeGuideCard = [this, Viewport, Brush, &MakeGuideControls](bool bFocusLayout)
     {
-        const float CardWidth = bFocusLayout ? 590.f : 360.f;
+        const float CardWidth = bFocusLayout ? 590.f : bIsCampaignStage1 ? 510.f : 360.f;
+        const int32 ColumnCount = (bFocusLayout || bIsCampaignStage1) ? 3 : 2;
         return SNew(SScaleBox).Stretch(EStretch::ScaleToFit).StretchDirection(EStretchDirection::DownOnly)
                 .HAlign(HAlign_Left).VAlign(VAlign_Top)
                 .Visibility_Lambda([this, bFocusLayout]
                 {
                     const bool bAdjustingFocus = FocusPuzzle.IsValid() && FocusPuzzle->bActive;
-                    return bGuideVisible && bAdjustingFocus == bFocusLayout ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+                    return bGuideVisible && bAdjustingFocus == bFocusLayout && !IsShowingNote()
+                        ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
                 })
                 [
                     SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .84f); })
@@ -371,7 +432,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
                                     SNew(SVerticalBox)
                                     + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleKorean, 20, HudGold, true)]
                                     + SVerticalBox::Slot().AutoHeight()[Line(Guide.TitleEnglish, 12, SoftIvory, true)]
-                                    + SVerticalBox::Slot().AutoHeight()[MakeGuideControls(bFocusLayout ? 3 : 2)]
+                                    + SVerticalBox::Slot().AutoHeight()[MakeGuideControls(ColumnCount)]
                                 ]
                             ]
                         ]
@@ -384,7 +445,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
         [
             SNew(SConstraintCanvas)
             + SConstraintCanvas::Slot()
-            .Anchors(FAnchors(0.f, 0.f, .45f, .56f)).Offset(FMargin(18.f, 18.f, 0.f, 0.f))
+            .Anchors(FAnchors(0.f, 0.f, bIsCampaignStage1 ? .64f : .45f, .56f)).Offset(FMargin(18.f, 18.f, 0.f, 0.f))
             [MakeGuideCard(false)]
             + SConstraintCanvas::Slot()
             .Anchors(FAnchors(0.f, 0.f, .64f, .34f)).Offset(FMargin(18.f, 18.f, 0.f, 0.f))
@@ -420,7 +481,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
             .HAlign(HAlign_Center).VAlign(VAlign_Center)
             .Visibility_Lambda([this]
             {
-                return OpenWallNote.IsValid() && !bMenuOpen ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+                return IsShowingNote() && !bMenuOpen ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
             })
             [
                 SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .85f); })
@@ -441,7 +502,12 @@ void UDirectorCutPlayHUD::BuildOverlay()
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 9.f, 0.f, 0.f)
                                 [Line(WallNoteEnglish, 17, Ink, false, ETextJustify::Left, 500.f)]
                                 + SVerticalBox::Slot().AutoHeight().Padding(0.f, 17.f, 0.f, 0.f)
-                                [Line(TAttribute<FText>(LOCTEXT("CloseWallNote", "E   닫기 / Close")), 14, Ink, true)]
+                                [Line(TAttribute<FText>::CreateLambda([this]
+                                {
+                                    return ProductionNoteDismissed.IsBound()
+                                        ? LOCTEXT("CloseAndContinueNote", "E   닫고 이동 / Close and continue")
+                                        : LOCTEXT("CloseWallNote", "E   닫기 / Close");
+                                }), 14, Ink, true)]
                             ]
                         ]
                     ]
@@ -453,7 +519,7 @@ void UDirectorCutPlayHUD::BuildOverlay()
             SNew(SDPIScaler).DPIScale_Lambda([Viewport] { return ReadableScale(*Viewport, .79f); })
             .Visibility_Lambda([this]
             {
-                return !bMenuOpen && !OpenWallNote.IsValid() && SubtitleRemaining > 0.f
+                return !bMenuOpen && !IsShowingNote() && SubtitleRemaining > 0.f
                     && !(ColorConsole.IsValid() && ColorConsole->bUseRgbCalibration && ColorConsole->bActive)
                     ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
             })

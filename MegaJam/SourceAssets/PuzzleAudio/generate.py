@@ -54,19 +54,50 @@ class Cue:
         for index, pitch in enumerate(pitches):
             self.ring(start + index * .057, .37, pitch, gain / (1. + index * .10), (1., 2.005, 3.99), 0., 2.8)
 
-    def save(self):
+    def save(self, *, loop=False):
         peak = max(map(abs, self.samples))
-        assert peak > .01 and self.samples[0] == 0., self.name
+        assert peak > .01, self.name
         scale = 32767 * self.peak / peak
-        fade = round(.012 * RATE)
-        end = len(self.samples) - 1
-        pcm = array.array('h', (round(v * scale * min(1., (end - n) / fade))
-                                for n, v in enumerate(self.samples)))
+        if loop:
+            pcm = array.array('h', (round(v * scale) for v in self.samples))
+        else:
+            assert self.samples[0] == 0., self.name
+            fade = round(.012 * RATE)
+            end = len(self.samples) - 1
+            pcm = array.array('h', (round(v * scale * min(1., (end - n) / fade))
+                                    for n, v in enumerate(self.samples)))
         if sys.byteorder == 'big':
             pcm.byteswap()
         with wave.open(str(OUTPUT / f'SFX_Puzzle_{self.name}.wav'), 'wb') as out:
             out.setparams((1, 2, RATE, 0, 'NONE', 'not compressed'))
             out.writeframes(pcm.tobytes())
+
+
+def render_chair_roll():
+    c = Cue('ChairRoll', 2.5, .17)
+    count = len(c.samples)
+    noise = [c.rng.uniform(-1., 1.) for _ in c.samples]
+    grit = body = rumble = 0.
+    # Prime the filters using the end of the same noise before writing the loop.
+    for n in range(-round(.18 * RATE), count):
+        sample = noise[n]
+        grit += .16 * (sample - grit)
+        body += .040 * (sample - body)
+        rumble += .006 * (sample - rumble)
+        if n < 0:
+            continue
+
+        phase = math.tau * n / count
+        tread = .5 + .5 * math.cos(9. * phase + .51 * math.sin(2. * phase))
+        axle_load = .5 + .5 * math.cos(5. * phase + .74 * math.sin(3. * phase))
+        bearing = math.sin(263. * phase + 1.2 * math.sin(8. * phase))
+        stone_friction = (.78 + .22 * tread) * (.48 * (grit - body) + .89 * (body - rumble))
+        c.samples[n] = stone_friction + .27 * rumble + .018 * axle_load ** 3 * bearing
+
+    # Start at a quiet crossing so the initial playback also starts cleanly.
+    start = min(range(1, RATE // 12), key=lambda n: abs(c.samples[n - 1]) + abs(c.samples[n]))
+    c.samples = c.samples[start:] + c.samples[:start]
+    c.save(loop=True)
 
 
 def render():
@@ -188,6 +219,27 @@ def render():
     c.scrape(0, .46, .44, .09, 1.52, 16.)
     c.ring(.21, .46, 74, .53, (1., 1.91, 2.61), -.22)
     c.ring(.302, .41, 349.23, .16, (1., 2.01, 3.5))
+    c.save()
+
+    c = Cue('CrawlStep', .205, .155)
+    c.ring(0, .14, 86, .40, (1., 1.73, 2.67), -.28)
+    c.scrape(.009, .18, .54, .105, 1.5)
+    c.ticks([.046], 326, .095)
+    c.save()
+
+    render_chair_roll()
+
+    c = Cue('HeroStep', .218, .194)
+    c.ring(0, .158, 109, .26, (1., 1.89, 2.71), -.32)
+    c.ticks([.01, .046], 438, .19)
+    c.ring(.053, .14, 391, .18, (1., 1.61, 3.91), -.16)
+    c.scrape(0, .088, .27, .27, 2.2)
+    c.save()
+
+    c = Cue('DragonStep', .232, .206)
+    c.ring(0, .211, 76, .56, (1., 1.60, 2.48), -.33, 4.5)
+    c.scrape(.007, .15, .48, .14, 2.2)
+    c.ticks([.036, .056], 313, .105)
     c.save()
 
 

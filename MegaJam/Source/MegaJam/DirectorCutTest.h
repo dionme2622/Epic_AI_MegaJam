@@ -7,6 +7,7 @@
 #include "DirectorCutTest.generated.h"
 
 class UAnimSequence;
+class UAudioComponent;
 class UCameraComponent;
 class UPoseableMeshComponent;
 class UStaticMeshComponent;
@@ -49,7 +50,10 @@ private:
     void UpdateAirPose(float DeltaSeconds);
     void UpdateSideCamera(float FollowX);
     void UpdateCart(float DeltaSeconds);
-    void UpdateHeroLegsPose(float DeltaSeconds);
+    void UpdateHeroLegsPose(float DeltaSeconds, bool bPlaySteps = false);
+    float MeasureGroundSpeed(float DeltaSeconds, const FVector& Position);
+    void PlayAnimatedSteps(float StartTime, float EndTime, float LoopDuration) const;
+    void UpdateWheelchairAudio(float DeltaSeconds, float GroundSpeed);
 
     UPROPERTY(EditInstanceOnly, Category="Ride Cart")
     bool bRideCart = false;
@@ -83,6 +87,9 @@ private:
 
     UPROPERTY(VisibleAnywhere, Category="Ride Cart")
     TObjectPtr<UStaticMeshComponent> CartBody;
+
+    UPROPERTY(VisibleAnywhere, Category="Ride Cart")
+    TObjectPtr<UAudioComponent> WheelchairRollAudio;
 
     UPROPERTY()
     TArray<TObjectPtr<UStaticMeshComponent>> CartWheels;
@@ -137,6 +144,11 @@ private:
     TObjectPtr<UAnimSequence> CurrentMotion;
 
     FVector SpawnPoint;
+    double PreviousLocomotionX = 0.0;
+    bool bLocomotionWasGrounded = false;
+    float WheelchairAudioGain = 0.f;
+    int32 HeroSupportingFoot = INDEX_NONE;
+    bool bHeroBootHasSwung[2] = {};
     float CameraZ = 0.f;
     double BufferedJumpUntil = -1.0;
     float LandingElapsed = 1.f;

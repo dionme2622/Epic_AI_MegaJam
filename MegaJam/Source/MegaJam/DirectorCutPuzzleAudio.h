@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 
+class UAudioComponent;
+
 namespace DirectorCutPuzzleAudio
 {
     enum class ECue : uint8
@@ -27,8 +29,13 @@ namespace DirectorCutPuzzleAudio
         StandSwitch,
         FerryMotor,
         BridgeLock,
+        CrawlStep,
+        ChairRoll,
+        HeroStep,
+        DragonStep,
         Count
     };
 
     bool Play(const UObject* Context, ECue Cue, const FVector& Location);
+    void PlayLoop(UAudioComponent& Component, ECue Cue);
 }

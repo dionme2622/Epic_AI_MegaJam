@@ -23,7 +23,6 @@
 namespace
 {
     constexpr float LidRevealDelay = .75f;
-    constexpr float TransferNoticeDuration = 2.5f;
     constexpr float FadeDuration = 1.5f;
     constexpr float BlackHoldDuration = .1f;
 }
@@ -146,12 +145,14 @@ void AStage3StorageCrate::BeginTransition(APlayerController& Controller)
 
 void AStage3StorageCrate::ShowTransferNotice()
 {
-    if (auto* HUD = GetWorld()->GetSubsystem<UDirectorCutPlayHUD>())
+    if (auto* HUD = GetWorld()->GetSubsystem<UDirectorCutPlayHUD>(); HUD && HUD->ShowProductionNote(
+        LOCTEXT("LegsTransferredNoteKo", "상자는 비어 있습니다. 드래곤의 원래 다리는 최종 보관소로 옮겼습니다."),
+        LOCTEXT("LegsTransferredNoteEn", "The crate is empty. The dragon's original legs have been moved to the final vault."),
+        FSimpleDelegate::CreateUObject(this, &AStage3StorageCrate::FadeOut)))
     {
-        HUD->ShowSubtitle(LOCTEXT("LegsTransferredKo", "보관 기록: 원래 다리는 최종 보관소로 옮겼습니다."),
-            LOCTEXT("LegsTransferredEn", "Storage log: The real legs were moved to the final vault."), TransferNoticeDuration);
+        return;
     }
-    GetWorldTimerManager().SetTimer(TransitionTimer, this, &AStage3StorageCrate::FadeOut, TransferNoticeDuration);
+    FadeOut();
 }
 
 void AStage3StorageCrate::FadeOut()
